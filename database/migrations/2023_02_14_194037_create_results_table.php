@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->string('match_id')->unique();               // EA unique identifier
-            $table->unsignedInteger('home_team_id');
-            $table->unsignedTinyInteger('away_team_id');
+            $table->unsignedMediumInteger('home_team_id');
+            $table->unsignedMediumInteger('away_team_id');
             $table->unsignedTinyInteger('home_team_goals');
             $table->unsignedTinyInteger('away_team_goals');
             $table->unsignedTinyInteger('home_team_player_count')->default(0);
