@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('proclubs:matches')->everyFifteenMinutes()->description('Get latest matches data');
     }
 
     /**

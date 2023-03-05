@@ -8,6 +8,7 @@ use App\Models\Result;
 use App\Models\User;
 use App\Services\ProClubsApiService;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class GetMatchesCommand extends Command
@@ -29,7 +30,7 @@ class GetMatchesCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): int
+    public function handle(Request $request): int
     {
         try {
             ray()->measure();

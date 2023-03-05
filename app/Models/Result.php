@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Result extends Model
 {
@@ -20,10 +19,13 @@ class Result extends Model
 
     protected static function booted()
     {
-//        static::addGlobalScope('home_team', function (Builder $builder) {
-//            $builder->where('home_team_id', auth()->user()->club_id)
-//            ->orWhere('away_team_id', auth()->user()->club_id);
-//        });
+        // we don't want this happening via the command line scripts
+        if (\Auth::check()) {
+            static::addGlobalScope('home_team', function (Builder $builder) {
+                $builder->where('home_team_id', auth()->user()->club_id)
+                    ->orWhere('away_team_id', auth()->user()->club_id);
+            });
+        }
     }
 
     public static function getAll()
@@ -37,7 +39,7 @@ class Result extends Model
         try {
             $collection = collect(json_decode($data));
 
-            foreach ($collection as $key => $value) {
+            foreach ($collection as $value) {
                 $results[] = [
                     'matchId' => $value->matchId,
                     'timestamp' => $value->timestamp,
@@ -61,11 +63,6 @@ class Result extends Model
         $data = [];
 
         foreach ($clubs as $clubId => $club) {
-            // try to insert club (if this doesn't already exist)
-            // if ($clubId == $params->clubIds) {
-            //     Club::insertUniqueClub($params, $club);
-            // }
-
             $data[] = [
                 'id' => $clubId,
                 'name' => $club->details->name ?? 'TEAM DISBANDED',

@@ -15,14 +15,14 @@ class ResultController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(): mixed
     {
-        $clubId = 310718;
+        $clubId = 52003;
+        $user = auth()->user()->toArray();
 
-        $user = auth()->user()->toArray();dump($user);
-
-        $result = Result::first();dump($result);
-        dd(ProClubsApiService::matchStats(Platforms::getPlatform($user['platform']), $clubId, MatchTypes::LEAGUE));
+        $results = Result::getAll();dump($results);
+        return $results;
+//        return (ProClubsApiService::matchStats(Platforms::getPlatform($user['platform']), $clubId, MatchTypes::LEAGUE));
     }
 
     /**

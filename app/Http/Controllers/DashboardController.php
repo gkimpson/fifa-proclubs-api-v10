@@ -10,7 +10,7 @@ class DashboardController extends Controller
     public function index(): View
     {
         $data = [
-            'results' => Result::getAll()->paginate(4),
+            'results' => Result::getAll()->paginate(20),
         ];
 
         return view('dashboard.index', $data);
