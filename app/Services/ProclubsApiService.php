@@ -134,19 +134,23 @@ class ProClubsApiService
         $career = json_decode(self::careerStats($platform, $clubId));
         $members = json_decode(self::memberStats($platform, $clubId));
 
+        if (empty($career) || empty($members)) {
+            return false;
+        }
+
         return [
             'career' => self::filterPlayer($career->members, $playerName),
             'members' => self::filterPlayer($members->members, $playerName),
         ];
     }
 
-    private static function filterPlayer($players, $playerName): object|bool
+    private static function filterPlayer(array $players, string $playerName): object|bool
     {
-        $target_persons = array_filter($players, function($person) use ($playerName) {
-            return $person->name === $playerName;
+        $targetPlayer = array_filter($players, function($player) use ($playerName) {
+            return $player->name === $playerName;
         });
 
-        $foundPlayer = reset($target_persons);
+        $foundPlayer = reset($targetPlayer);
         return $foundPlayer;
     }
 }
