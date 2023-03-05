@@ -16,6 +16,30 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Platform -->
+        <div class="mt-4">
+            <x-input-label for="platform" :value="__('Platform')" />
+            <select class="form-control m-bot15" name="platform">
+                @if (count($platforms) > 0)
+                    @foreach ($platforms as $key => $platform)
+                        <option value="{{ $key }}" @selected(old('platform') == $platform)>
+                            {{ $platform }}
+                        </option>
+                    @endForeach
+                @else
+                    No Platforms Found
+                @endif
+            </select>
+            <x-input-error :messages="$errors->get('platform')" class="mt-2" />
+        </div>
+
+        <!-- Club ID -->
+        <div class="mt-4">
+            <x-input-label for="club_id" :value="__('Club ID')" />
+            <x-text-input id="club_id" class="block mt-1 w-full" type="text" name="club_id" :value="old('club_id')" maxlength="6" max="999999" required />
+            <x-input-error :messages="$errors->get('club_id')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
