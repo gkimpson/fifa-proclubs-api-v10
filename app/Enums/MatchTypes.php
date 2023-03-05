@@ -15,4 +15,11 @@ enum MatchTypes
             self::CUP => 'gameType13',
         };
     }
+
+    public static function all(): array
+    {
+        return collect(self::cases())->map(function($matchType){
+            return $matchType->name();
+        })->all();
+    }
 }
