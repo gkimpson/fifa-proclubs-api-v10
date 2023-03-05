@@ -20,7 +20,7 @@ class ProClubsApiService
     public static function doExternalApiCall(string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false): string
     {
         try {
-            $url = self::API_URL.$endpoint.http_build_query($params);
+            $url = self::API_URL.$endpoint . '?' .http_build_query($params);
             $curl = curl_init();
 
             curl_setopt_array($curl, [
@@ -69,28 +69,53 @@ class ProClubsApiService
 
     }
 
-    public function clubsInfo(?string $platform, ?int $clubId): string
+    public static function clubsInfo(Platforms $platform, int $clubId): string
     {
-
+        return self::doExternalApiCall('clubs/info', [
+            'platform' => $platform->name(),
+            'clubIds' => $clubId
+        ]);
     }
 
     public static function matchStats(Platforms $platform, int $clubId, MatchTypes $matchType): string
     {
-        return self::doExternalApiCall('clubs/matches?', [
+        return self::doExternalApiCall('clubs/matches', [
             'matchType' => $matchType->name(),
             'platform' => $platform->name(),
             'clubIds' => $clubId
         ]);
     }
 
-    public static function careerStats(?string $platform, ?int $clubId): string
+    public static function memberStats(Platforms $platform, int $clubId): string
     {
-
+        return self::doExternalApiCall('members/stats', [
+            'platform' => $platform->name(),
+            'clubId' => $clubId
+        ]);
     }
 
-    public static function memberstats(?string $platform, ?int $clubId): string
+    public static function careerStats(Platforms $platform, int $clubId): string
     {
+        return self::doExternalApiCall('members/career/stats', [
+            'platform' => $platform->name(),
+            'clubId' => $clubId
+        ]);
+    }
 
+    public static function seasonStats(Platforms $platform, int $clubId): string
+    {
+        return self::doExternalApiCall('clubs/seasonalStats', [
+            'platform' => $platform->name(),
+            'clubIds' => $clubId
+        ]);
+    }
+
+    public static function settings(Platforms $platform, string $clubName): string
+    {
+        return self::doExternalApiCall('settings', [
+            'platform' => $platform->name(),
+            'clubName' => $clubName
+        ]);
     }
 
     public static function formatMembersData(array $membersData): \Illuminate\Support\Collection
@@ -98,19 +123,12 @@ class ProClubsApiService
 
     }
 
-    public static function seasonStats(?string $platform, ?int $clubId): string
+    public static function search(Platforms $platform, string $clubName): string
     {
-
-    }
-
-    public static function settings(): string
-    {
-
-    }
-
-    public static function search(?string $platform, ?string $clubName): array
-    {
-
+        return self::doExternalApiCall('clubs/search', [
+            'platform' => $platform->name(),
+            'clubName' => $clubName
+        ]);
     }
 
     public static function leaderboard(?string $platform, ?string $type): string

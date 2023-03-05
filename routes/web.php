@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClubController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResultController;
@@ -32,11 +33,18 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/results', [ResultController::class, 'index'])->name('results.index');
-//matchStats
 
-Route::resource('search', SearchController::class);
+//Route::resource('search', SearchController::class);
 
 Route::prefix('search')->group(function () {
-    Route::get('/platform/{platform}/club/{club}', [SearchController::class, 'show']);
+    Route::get('/platform/{platform}/club/{club}', [SearchController::class, 'index'])->name('search.index');
+});
+
+Route::prefix('club')->group(function () {
+    Route::get('/{clubId}/platform/{platform}', [ClubController::class, 'index'])->name('club.index');
+    Route::get('/{clubId}/members/platform/{platform}', [ClubController::class, 'members'])->name('club.members');
+    Route::get('/{clubId}/career/platform/{platform}', [ClubController::class, 'career'])->name('club.career');
+    Route::get('/{clubId}/season/platform/{platform}', [ClubController::class, 'season'])->name('club.season');
+    Route::get('/{clubName}/settings/platform/{platform}', [ClubController::class, 'settings'])->name('club.settings');
 });
 require __DIR__.'/auth.php';

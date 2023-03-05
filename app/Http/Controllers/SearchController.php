@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Platforms;
+use App\Services\ProClubsApiService;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -9,9 +11,9 @@ class SearchController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($platform, $clubName)
     {
-        //
+        return ProClubsApiService::search(Platforms::getPlatform($platform), $clubName);
     }
 
     /**
