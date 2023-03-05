@@ -19,13 +19,18 @@ class Result extends Model
 
     protected static function booted()
     {
-        // we don't want this happening via the command line scripts
-        if (\Auth::check()) {
-            static::addGlobalScope('home_team', function (Builder $builder) {
-                $builder->where('home_team_id', auth()->user()->club_id)
-                    ->orWhere('away_team_id', auth()->user()->club_id);
-            });
+        if (\Auth::check() && auth()->user()->club_id) {
+            self::getByTeamId();
         }
+    }
+
+    public static function getByTeamId()
+    {
+        // we don't want this happening via the command line scripts
+        static::addGlobalScope('home_team', function (Builder $builder) {
+            $builder->where('home_team_id', auth()->user()->club_id)
+                ->orWhere('away_team_id', auth()->user()->club_id);
+        });
     }
 
     public static function getAll()

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 
 class ProClubsApiService
@@ -126,5 +127,26 @@ class ProClubsApiService
         return self::doExternalApiCall($endpoint, [
             'platform' => $platform->name(),
         ]);
+    }
+
+    public static function playerStats(Platforms $platform, int $clubId, string $playerName)
+    {
+        $career = json_decode(self::careerStats($platform, $clubId));
+        $members = json_decode(self::memberStats($platform, $clubId));
+
+        return [
+            'career' => self::filterPlayer($career->members, $playerName),
+            'members' => self::filterPlayer($members->members, $playerName),
+        ];
+    }
+
+    private static function filterPlayer($players, $playerName): object|bool
+    {
+        $target_persons = array_filter($players, function($person) use ($playerName) {
+            return $person->name === $playerName;
+        });
+
+        $foundPlayer = reset($target_persons);
+        return $foundPlayer;
     }
 }

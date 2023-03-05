@@ -44,6 +44,7 @@ Route::prefix('club')->group(function () {
     Route::get('/{clubId}/matches/form/platform/{platform}', [ClubController::class, 'form'])->name('club.form');
     Route::get('/{clubId}/matches/rankings/platform/{platform}', [ClubController::class, 'rankings'])->name('club.rankings');
     Route::get('/{clubId}/matches/squad/platform/{platform}', [ClubController::class, 'squad'])->name('club.squad');
+    Route::get('/{clubId}/player/{player}/platform/{platform}', [ClubController::class, 'player'])->name('club.player');
     Route::get('/leaderboard/platform/{platform}/{leaderboardType}', [ClubController::class, 'leaderboard'])->name('club.leaderboard');
 });
 require __DIR__.'/auth.php';

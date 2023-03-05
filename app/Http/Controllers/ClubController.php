@@ -54,6 +54,11 @@ class ClubController extends Controller
         return ProClubsApiService::leaderboard(Platforms::getPlatform($platform), $leaderboardType);
     }
 
+    public function player(int $clubId, string $playerName, string $platform)
+    {
+        return ProClubsApiService::playerStats(Platforms::getPlatform($platform), $clubId, $playerName);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
