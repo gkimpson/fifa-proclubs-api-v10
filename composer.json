@@ -10,7 +10,9 @@
         "itsgoingd/clockwork": "^5.1",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
-        "laravel/tinker": "^2.8"
+        "laravel/tinker": "^2.8",
+        "spatie/laravel-collection-macros": "^7.12",
+        "spatie/laravel-ray": "^1.32"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
