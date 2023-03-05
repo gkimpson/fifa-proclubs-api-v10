@@ -136,14 +136,10 @@ class Result extends Model
         } elseif ($clubData['ties'] == 1) {
             $outcome = 'draw';
         }
+
         return $outcome;
     }
 
-    /**
-     * @param array $result
-     * @param string $platform
-     * @return array
-     */
     public static function generateInsertData(array $result, string $platform): array
     {
         $carbonDate = Carbon::now();
@@ -167,6 +163,7 @@ class Result extends Model
             ],
             'platform' => $platform,
         ];
+
         return $data;
     }
 

@@ -48,9 +48,11 @@ class GetMatchesCommand extends Command
                 $this->info("{$inserted} unique results into the database");
             }
             ray()->measure();
+
             return 0;
         } catch (\Exception $e) {
             log::error($e->getMessage());
+
             return 0;
         }
     }

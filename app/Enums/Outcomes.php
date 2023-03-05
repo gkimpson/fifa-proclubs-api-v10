@@ -10,8 +10,7 @@ enum Outcomes
 
     public function name(): string
     {
-        return match($this)
-        {
+        return match ($this) {
             self::HOMEWIN => 'homewin',
             self::AWAYWIN => 'awaywin',
             self::DRAW => 'draw',
@@ -20,7 +19,7 @@ enum Outcomes
 
     public static function all(): array
     {
-        return collect(self::cases())->map(function($outcomes){
+        return collect(self::cases())->map(function ($outcomes) {
             return $outcomes->name();
         })->all();
     }

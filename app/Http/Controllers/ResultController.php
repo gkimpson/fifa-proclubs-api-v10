@@ -20,7 +20,9 @@ class ResultController extends Controller
         $clubId = 52003;
         $user = auth()->user()->toArray();
 
-        $results = Result::getAll();dump($results);
+        $results = Result::getAll();
+        dump($results);
+
         return $results;
 //        return (ProClubsApiService::matchStats(Platforms::getPlatform($user['platform']), $clubId, MatchTypes::LEAGUE));
     }
@@ -30,7 +32,6 @@ class ResultController extends Controller
      */
     public function store(StoreResultRequest $request): Response
     {
-
     }
 
     /**

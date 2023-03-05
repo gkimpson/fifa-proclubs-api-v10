@@ -22,8 +22,9 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         $data = [
-            'platforms' => Platforms::generateDropdownValues()
+            'platforms' => Platforms::generateDropdownValues(),
         ];
+
         return view('auth.register', $data);
     }
 
@@ -39,7 +40,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'platform' => ['required', 'in:pc,ps4,ps5,xboxone, xbox-series-xs'],   // todo - generate from Platforms enum
-            'club_id' => ['required', 'integer', 'min_digits:5']
+            'club_id' => ['required', 'integer', 'min_digits:5'],
         ]);
 
         $user = User::create([
@@ -47,7 +48,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'platform' => $request->platform,
-            'club_id' => $request->club_id
+            'club_id' => $request->club_id,
         ]);
 
         event(new Registered($user));

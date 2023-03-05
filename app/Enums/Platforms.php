@@ -12,8 +12,7 @@ enum Platforms
 
     public function name(): string
     {
-        return match($this)
-        {
+        return match ($this) {
             self::PC => 'pc',
             self::PS4 => 'ps4',
             self::PS5 => 'ps5',
@@ -24,16 +23,17 @@ enum Platforms
 
     public static function all(): array
     {
-        return collect(self::cases())->map(function($platform){
+        return collect(self::cases())->map(function ($platform) {
             return $platform->name();
         })->all();
     }
 
     public static function generateDropdownValues(): array
     {
-        return collect(self::cases())->mapWithKeys(function($platform){
+        return collect(self::cases())->mapWithKeys(function ($platform) {
             $key = $platform->name();
             $value = \Str::replace('_', ' ', $platform->name);
+
             return [$key => $value];
         })->all();
     }
@@ -41,13 +41,11 @@ enum Platforms
     // todo: add validation for in: with request validation
     public static function generateValidationIn()
     {
-
     }
 
     public static function getPlatform(string $platform)
     {
-        return match($platform)
-        {
+        return match ($platform) {
             'pc' => self::PC,
             'ps4' => self::PS4,
             'ps5' => self::PS5,

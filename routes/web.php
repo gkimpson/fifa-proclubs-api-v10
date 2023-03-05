@@ -4,7 +4,6 @@ use App\Http\Controllers\ClubController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResultController;
-use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*

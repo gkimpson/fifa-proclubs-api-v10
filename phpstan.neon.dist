@@ -1,0 +1,30 @@
+
+#210215 phpstan.neon.dist - larastan config
+parameters:
+
+    paths:
+        - app
+
+    # The level 9 is the highest level
+    level: 9
+
+    ignoreErrors:
+        - '#Call to an undefined static method [a-zA-Z0-9\\_]#'
+        - '#Call to static method call\(\) on an unknown class Artisan#'
+        - '#Call to method measure\(\) on an unknown class Spatie#'
+        - '#Access to an undefined property Illuminate\\#'
+        - '#PHPDoc tag @mixin contains unknown class Eloquent.#'
+        - '#Unable to resolve the template type TKey in call to function collect#'
+        - '#Unable to resolve the template type TValue in call to function collect#'
+
+    # NB FutCardGeneratorService is incomplete & likely to get binned (not gonna waste time to fix this anymore for phpstan)
+    excludePaths:
+        - storage
+        - vendor
+        - app/Http/Middleware
+        - app/Http/Controllers/Auth
+        - app/Services/FutCardGeneratorService
+
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+

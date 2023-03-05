@@ -9,8 +9,7 @@ enum MatchTypes
 
     public function name(): string
     {
-        return match($this)
-        {
+        return match ($this) {
             self::LEAGUE => 'gameType9',
             self::CUP => 'gameType13',
         };
@@ -18,7 +17,7 @@ enum MatchTypes
 
     public static function all(): array
     {
-        return collect(self::cases())->map(function($matchType){
+        return collect(self::cases())->map(function ($matchType) {
             return $matchType->name();
         })->all();
     }

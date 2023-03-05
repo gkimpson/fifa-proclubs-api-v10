@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
 class ProClubsApiService
@@ -21,7 +20,7 @@ class ProClubsApiService
     public static function doExternalApiCall(string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false): string|array
     {
         try {
-            $url = self::API_URL.$endpoint . '?' .http_build_query($params);
+            $url = self::API_URL.$endpoint.'?'.http_build_query($params);
             $curl = curl_init();
 
             curl_setopt_array($curl, [
@@ -63,7 +62,7 @@ class ProClubsApiService
     {
         return self::doExternalApiCall('clubs/info', [
             'platform' => $platform->name(),
-            'clubIds' => $clubId
+            'clubIds' => $clubId,
         ]);
     }
 
@@ -72,7 +71,7 @@ class ProClubsApiService
         return self::doExternalApiCall('clubs/matches', [
             'matchType' => $matchType->name(),
             'platform' => $platform->name(),
-            'clubIds' => $clubId
+            'clubIds' => $clubId,
         ]);
     }
 
@@ -80,7 +79,7 @@ class ProClubsApiService
     {
         return self::doExternalApiCall('members/stats', [
             'platform' => $platform->name(),
-            'clubId' => $clubId
+            'clubId' => $clubId,
         ]);
     }
 
@@ -88,7 +87,7 @@ class ProClubsApiService
     {
         return self::doExternalApiCall('members/career/stats', [
             'platform' => $platform->name(),
-            'clubId' => $clubId
+            'clubId' => $clubId,
         ]);
     }
 
@@ -96,7 +95,7 @@ class ProClubsApiService
     {
         return self::doExternalApiCall('clubs/seasonalStats', [
             'platform' => $platform->name(),
-            'clubIds' => $clubId
+            'clubIds' => $clubId,
         ]);
     }
 
@@ -104,26 +103,26 @@ class ProClubsApiService
     {
         return self::doExternalApiCall('settings', [
             'platform' => $platform->name(),
-            'clubName' => $clubName
+            'clubName' => $clubName,
         ]);
     }
 
     public static function formatMembersData(array $membersData): \Illuminate\Support\Collection
     {
-
     }
 
     public static function search(Platforms $platform, string $clubName): string|array
     {
         return self::doExternalApiCall('clubs/search', [
             'platform' => $platform->name(),
-            'clubName' => $clubName
+            'clubName' => $clubName,
         ]);
     }
 
     public static function leaderboard(Platforms $platform, string $type): string|array
     {
         $endpoint = ($type === 'club') ? 'clubRankLeaderboard' : 'seasonRankLeaderboard';
+
         return self::doExternalApiCall($endpoint, [
             'platform' => $platform->name(),
         ]);

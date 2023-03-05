@@ -22,7 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'platform',
-        'club_id'
+        'club_id',
     ];
 
     /**
