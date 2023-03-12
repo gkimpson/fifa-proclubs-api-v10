@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 
 class ProClubsApiService
