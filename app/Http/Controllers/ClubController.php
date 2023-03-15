@@ -17,6 +17,9 @@ class ClubController extends Controller
 
     private function castRouteParams($request)
     {
+        /**
+         * TODO - probably a better way to do this...
+         */
         $this->clubId = (int) $request->route('clubId');
         $this->clubIds = (int) $request->route('clubIds');
         $this->platform = (string) $request->route('platform');
@@ -90,17 +93,26 @@ class ClubController extends Controller
     public function compare(ResultService $resultService)
     {
         $data = $resultService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2);
+        dump($data);
         return view('club.compare', $data);
     }
 
     public function ranking(ResultService $resultService)
     {
+        $data = [
+            'rankings' =>  $resultService->getRankingData($this->clubId, $this->platform),
+            'perMatchRankings' => $resultService->getCustomRankingData($this->clubId, $this->platform)
+        ];
+
         // squad data grouped by player (highest to lowest)
         // matches played, win rate, MOTMs, MOTM rate, goals, goals p/m, shot success rate %, assists, assist p/m,
         // goals + assists, goal and assists p/m, passes made, passes made p/m, total passes, pass success rate %,
         // tackles, tackles p/m, tackle success rate %, red cards, red card rate %, clean sheets, clean sheets rate %
         // GK stats, clean sheets, clean sheet rate, Overall rating, height,
-        $data = [];
-        return view('club.ranking', $data);
+
+        echo '<pre>';print_r($data);
+
+
+        return view('club.rankings', $data);
     }
 }

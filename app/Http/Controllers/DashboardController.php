@@ -10,10 +10,11 @@ class DashboardController extends Controller
     public function index(): View
     {
         $data = [
-            'results' => Result::getAll()->paginate(1),
+            'results' => Result::getAll()->paginate(10),
         ];
 
 //        dump($data['results'][0]->properties['clubs'][0]['name']);
+        dump($data['results'][0]);
         /**
          * @todo
          * 0 - Club name, Total Pts, Total Wins, Draws, Losses

@@ -20,11 +20,11 @@ class Result extends Model
     protected static function booted()
     {
         if (\Auth::check() && auth()->user()->club_id) {
-            self::getByTeamId();
+            self::getByClubId();
         }
     }
 
-    public static function getByTeamId()
+    private static function getByClubId()
     {
         // we don't want this happening via the command line scripts
         static::addGlobalScope('home_team', function (Builder $builder) {

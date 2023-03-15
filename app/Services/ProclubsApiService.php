@@ -145,11 +145,12 @@ class ProClubsApiService
 
     private static function filterPlayer(array $players, string $playerName): object|bool
     {
-        $targetPlayer = array_filter($players, function($player) use ($playerName) {
+        $targetPlayer = array_filter($players, function ($player) use ($playerName) {
             return $player->name === $playerName;
         });
 
         $foundPlayer = reset($targetPlayer);
+
         return $foundPlayer;
     }
 }
