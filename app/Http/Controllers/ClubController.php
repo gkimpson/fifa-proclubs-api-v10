@@ -104,13 +104,14 @@ class ClubController extends Controller
             'perMatchRankings' => $resultService->getCustomRankingData($this->clubId, $this->platform)
         ];
 
+        dump($data);
         // squad data grouped by player (highest to lowest)
         // matches played, win rate, MOTMs, MOTM rate, goals, goals p/m, shot success rate %, assists, assist p/m,
         // goals + assists, goal and assists p/m, passes made, passes made p/m, total passes, pass success rate %,
         // tackles, tackles p/m, tackle success rate %, red cards, red card rate %, clean sheets, clean sheets rate %
         // GK stats, clean sheets, clean sheet rate, Overall rating, height,
 
-        echo '<pre>';print_r($data);
+//        echo '<pre>';print_r($data);
 
 
         return view('club.rankings', $data);

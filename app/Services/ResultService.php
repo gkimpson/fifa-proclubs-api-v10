@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Enums\Platforms;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class ResultService
 {
@@ -14,6 +14,7 @@ class ResultService
 
     public function getSquadData(int $clubId, string $platform)
     {
+        sleep(10);
         return json_decode(ProClubsApiService::memberStats(Platforms::getPlatform($platform), $clubId));
     }
 
@@ -63,9 +64,26 @@ class ResultService
         ];
     }
 
+    /*
+     * TODO - setup another cache driver
+     */
+    private function processSquadDataCache($clubId, $platform)
+    {
+        $cacheName = 'squadData';
+        if (Cache::has($cacheName)) {
+            $members = Cache::get($cacheName);
+        } else {
+            $members = $this->getSquadData($clubId, $platform);
+            Cache::put($cacheName, $members, 30);
+        }
+
+        return $members;
+    }
+
     public function getRankingData(int $clubId, string $platform): array
     {
-        $members = $this->getSquadData($clubId, $platform);
+        $members = $this->processSquadDataCache($clubId, $platform);
+
         $data = array_map(function($rankingType) use ($members) {
             return [$rankingType => $this->sortingRankingData($rankingType, $members)];
         }, $this->rankingTypes());
@@ -75,7 +93,7 @@ class ResultService
 
     public function getCustomRankingData(int $clubId, string $platform): array
     {
-        $members = $this->getSquadData($clubId, $platform);
+        $members = $this->processSquadDataCache($clubId, $platform);
         $data = array_map(function($rankingType) use ($members) {
             return [$rankingType => $this->sortingCustomRankingData($rankingType, $members)];
         }, $this->rankingTypes());
