@@ -10,16 +10,14 @@ use Illuminate\Http\Request;
 
 class ClubController extends Controller
 {
+    public $clubId;
+    public $clubIds;
+    public $platform;
+    public $player1;
+    public $player2;
+
     public function __construct(Request $request)
     {
-        $this->castRouteParams($request);
-    }
-
-    private function castRouteParams($request)
-    {
-        /**
-         * TODO - probably a better way to do this...
-         */
         $this->clubId = (int) $request->route('clubId');
         $this->clubIds = (int) $request->route('clubIds');
         $this->platform = (string) $request->route('platform');
