@@ -78,7 +78,7 @@ class ClubController extends Controller
     public function squad(ResultService $resultService)
     {
         $data = [
-            'squad' => $resultService->getCachedSquadData($this->clubId, $this->platform),
+            'squad' => $resultService->getCachedData($this->clubId, $this->platform, 'squad'),
         ];
 
 //        Accept the parameters from routes or other inputs
