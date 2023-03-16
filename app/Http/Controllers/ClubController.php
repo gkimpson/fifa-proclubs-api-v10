@@ -78,7 +78,7 @@ class ClubController extends Controller
     public function squad(ResultService $resultService)
     {
         $data = [
-            'squad' => $resultService->getSquadData($this->clubId, $this->platform),
+            'squad' => $resultService->getCachedSquadData($this->clubId, $this->platform),
         ];
 
 //        Accept the parameters from routes or other inputs
@@ -103,15 +103,6 @@ class ClubController extends Controller
         ];
 
         dump($data);
-        // squad data grouped by player (highest to lowest)
-        // matches played, win rate, MOTMs, MOTM rate, goals, goals p/m, shot success rate %, assists, assist p/m,
-        // goals + assists, goal and assists p/m, passes made, passes made p/m, total passes, pass success rate %,
-        // tackles, tackles p/m, tackle success rate %, red cards, red card rate %, clean sheets, clean sheets rate %
-        // GK stats, clean sheets, clean sheet rate, Overall rating, height,
-
-//        echo '<pre>';print_r($data);
-
-
         return view('club.rankings', $data);
     }
 }
