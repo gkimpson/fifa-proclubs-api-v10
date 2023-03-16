@@ -27,6 +27,29 @@ class ResultService
         return json_decode($this->apiService::careerStats(Platforms::getPlatform($platform), $clubId));
     }
 
+    /**
+     * Retrieve cached data or fetch and cache new data using the specified cache name and expiration time.
+     *
+     * @param string $cacheName name of the cache key to use.
+     * @param mixed $clubId unique identifier for the club
+     * @param string $platform platform/console
+     * @param callable $dataGetter function that retrieves data for the specified club and platform.
+     *
+     * @return mixed The cached data or new data retrieved by the dataGetter function.
+     */
+    private function processCache(string $cacheName, int $clubId, string $platform, array $dataGetter)
+    {
+        return Cache::remember($cacheName, self::CACHE_TTL, function () use ($clubId, $platform, $dataGetter) {
+            return $dataGetter($clubId, $platform);
+        });
+    }
+
+    public function getCachedData(int $clubId, string $platform, string $cacheName): object
+    {
+        $method = 'get' . ucfirst($cacheName) . 'Data';
+        return $this->processCache($cacheName, $clubId, $platform, [$this, $method]);
+    }
+
     public function getPlayerComparisonData(int $clubId, string $platform, string $player1, string $player2): array
     {
         if ($player1 === $player2) {
@@ -65,29 +88,6 @@ class ResultService
             'career' => $this->filterPlayerData($careerData, $player),
             'members' => $this->filterPlayerData($membersData, $player),
         ];
-    }
-
-    /**
-     * Retrieve cached data or fetch and cache new data using the specified cache name and expiration time.
-     *
-     * @param string $cacheName name of the cache key to use.
-     * @param mixed $clubId unique identifier for the club
-     * @param string $platform platform/console
-     * @param callable $dataGetter function that retrieves data for the specified club and platform.
-     *
-     * @return mixed The cached data or new data retrieved by the dataGetter function.
-     */
-    private function processCache($cacheName, $clubId, $platform, $dataGetter)
-    {
-        return Cache::remember($cacheName, self::CACHE_TTL, function () use ($clubId, $platform, $dataGetter) {
-            return $dataGetter($clubId, $platform);
-        });
-    }
-
-    public function getCachedData(int $clubId, string $platform, string $dataType): object
-    {
-        $method = 'get' . ucfirst($dataType) . 'Data';
-        return $this->processCache($dataType, $clubId, $platform, [$this, $method]);
     }
 
     public function getRankingData(int $clubId, string $platform): array

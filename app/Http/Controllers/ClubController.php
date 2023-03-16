@@ -25,52 +25,52 @@ class ClubController extends Controller
         $this->player2 = (string) $request->route('player2') ?? '';
     }
 
-    public function index($clubId, $platform)
+    public function index(int $clubId, string $platform)
     {
         return ProClubsApiService::clubsInfo(Platforms::getPlatform($platform), $clubId);
     }
 
-    public function members($clubId, $platform)
+    public function members(int $clubId, string $platform)
     {
         return ProClubsApiService::memberStats(Platforms::getPlatform($platform), $clubId);
     }
 
-    public function career($clubId, $platform)
+    public function career(int $clubId, string $platform)
     {
         return ProClubsApiService::careerStats(Platforms::getPlatform($platform), $clubId);
     }
 
-    public function season($clubId, $platform)
+    public function season(int $clubId, string $platform)
     {
         return ProClubsApiService::seasonStats(Platforms::getPlatform($platform), $clubId);
     }
 
-    public function settings($clubName, $platform)
+    public function settings(string $clubName, string $platform)
     {
         return ProClubsApiService::settings(Platforms::getPlatform($platform), $clubName);
     }
 
-    public function search($clubName, $platform)
+    public function search(string $clubName, string $platform)
     {
         return ProClubsApiService::search(Platforms::getPlatform($platform), $clubName);
     }
 
-    public function league($clubId, $platform)
+    public function league(int $clubId, string $platform, ResultService $resultService)
     {
         return ProClubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
     }
 
-    public function leaderboard($platform, $leaderboardType)
+    public function leaderboard(string $platform, string $leaderboardType)
     {
         return ProClubsApiService::leaderboard(Platforms::getPlatform($platform), $leaderboardType);
     }
 
-    public function cup($clubId, $platform)
+    public function cup(int $clubId, string $platform)
     {
         return ProClubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
     }
 
-    public function player($clubId, $platform, $playerName)
+    public function player(int $clubId, string $platform, string $playerName)
     {
         return ProClubsApiService::playerStats(Platforms::getPlatform($platform), $clubId, $playerName);
     }

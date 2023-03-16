@@ -41,34 +41,30 @@ class Result extends Model
     public static function formatJsonData(string $data): array
     {
         $results = [];
+
         try {
             $collection = collect(json_decode($data));
 
-            foreach ($collection as $value) {
-                $results[] = [
+            $results = $collection->map(function ($value) {
+                return [
                     'matchId' => $value->matchId,
                     'timestamp' => $value->timestamp,
                     'clubs' => self::getClubsData($value->clubs),
                     'players' => self::getPlayerData($value->players),
                     'aggregate' => $value->aggregate,
                 ];
-            }
-
-            return $results;
+            })->all();
         } catch (\Exception $e) {
-            // do some logging...
-            // dd($e->getMessage());
-            return $results;
+
         }
+
+        return $results;
     }
 
     private static function getClubsData(object $clubs): array
     {
-        $clubs = collect($clubs);
-        $data = [];
-
-        foreach ($clubs as $clubId => $club) {
-            $data[] = [
+        return collect($clubs)->map(function ($club, $clubId) {
+            return [
                 'id' => $clubId,
                 'name' => $club->details->name ?? 'TEAM DISBANDED',
                 'goals' => $club->goals,
@@ -82,51 +78,46 @@ class Result extends Model
                 'result' => $club->result,
                 'teamId' => $club->details->teamId ?? null,
             ];
-        }
-
-        return $data;
+        })->values()->toArray();
     }
 
     private static function getPlayerData(object $players): array
     {
-        $players = collect($players);
-        $data = [];
-
-        foreach ($players as $clubId => $clubPlayer) {
-            // loop through each player(s) for each club
-            foreach ($players[$clubId] as $clubPlayer) {
-                $data[$clubId][] = [
-                    'assists' => $clubPlayer->assists,
-                    'cleansheetsany' => $clubPlayer->cleansheetsany,
-                    'cleansheetsdef' => $clubPlayer->cleansheetsdef,
-                    'cleansheetsgk' => $clubPlayer->cleansheetsgk,
-                    'goals' => $clubPlayer->goals,
-                    'goalsconceded' => $clubPlayer->goalsconceded,
-                    'losses' => $clubPlayer->losses,
-                    'mom' => $clubPlayer->mom,
-                    'passattempts' => $clubPlayer->passattempts,
-                    'passesmade' => $clubPlayer->passesmade,
-                    'pos' => $clubPlayer->pos,
-                    'realtimegame' => $clubPlayer->realtimegame,
-                    'realtimeidle' => $clubPlayer->realtimeidle,
-                    'redcards' => $clubPlayer->redcards,
-                    'saves' => $clubPlayer->saves,
-                    'SCORE' => $clubPlayer->SCORE,
-                    'shots' => $clubPlayer->shots,
-                    'tackleattempts' => $clubPlayer->tackleattempts,
-                    'tacklesmade' => $clubPlayer->tacklesmade,
-                    'vproattr' => self::getProAttributes($clubPlayer->vproattr),
-                    'vprohackreason' => $clubPlayer->vprohackreason,
-                    'wins' => $clubPlayer->wins,
-                    'playername' => $clubPlayer->playername,
-                    'properties' => $clubPlayer,
+        $data = collect($players)->map(function ($clubPlayers) {
+            return collect($clubPlayers)->map(function ($player) {
+                return [
+                    'assists' => $player->assists,
+                    'cleansheetsany' => $player->cleansheetsany,
+                    'cleansheetsdef' => $player->cleansheetsdef,
+                    'cleansheetsgk' => $player->cleansheetsgk,
+                    'goals' => $player->goals,
+                    'goalsconceded' => $player->goalsconceded,
+                    'losses' => $player->losses,
+                    'mom' => $player->mom,
+                    'passattempts' => $player->passattempts,
+                    'passesmade' => $player->passesmade,
+                    'pos' => $player->pos,
+                    'realtimegame' => $player->realtimegame,
+                    'realtimeidle' => $player->realtimeidle,
+                    'redcards' => $player->redcards,
+                    'saves' => $player->saves,
+                    'SCORE' => $player->SCORE,
+                    'shots' => $player->shots,
+                    'tackleattempts' => $player->tackleattempts,
+                    'tacklesmade' => $player->tacklesmade,
+                    'vproattr' => self::getProAttributes($player->vproattr),
+                    'vprohackreason' => $player->vprohackreason,
+                    'wins' => $player->wins,
+                    'playername' => $player->playername,
+                    'properties' => $player,
                 ];
-            }
-        }
+            })->toArray();
+        })->toArray();
 
         return $data;
     }
 
+    // TODO: generate FUT style card with attributes
     private static function getProAttributes(string $attributes): string
     {
         return $attributes;
@@ -134,22 +125,14 @@ class Result extends Model
 
     private static function getMatchOutcome(array $clubData): string
     {
-        if ($clubData['wins'] == 1) {
-            $outcome = 'homewin';
-        } elseif ($clubData['losses'] == 1) {
-            $outcome = 'awaywin';
-        } elseif ($clubData['ties'] == 1) {
-            $outcome = 'draw';
-        }
-
-        return $outcome;
+        return ($clubData['wins'] == 1) ? 'homewin' : (($clubData['losses'] == 1) ? 'awaywin' : (($clubData['ties'] == 1) ? 'draw' : ''));
     }
 
     public static function generateInsertData(array $result, string $platform): array
     {
         $carbonDate = Carbon::now();
         $carbonDate->timestamp($result['timestamp']);
-        $clubs = collect($result['clubs'])->values();
+        $clubs = array_values($result['clubs']);
 
         $data = [
             'match_id' => $result['matchId'],
