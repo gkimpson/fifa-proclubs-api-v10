@@ -10,19 +10,19 @@ use Illuminate\Http\Request;
 
 class ClubController extends Controller
 {
-    public $clubId;
-    public $clubIds;
-    public $platform;
-    public $player1;
-    public $player2;
+    public int $clubId;
+    public int $clubIds;
+    public string $platform;
+    public string $player1;
+    public string $player2;
 
     public function __construct(Request $request)
     {
-        $this->clubId = (int) $request->route('clubId');
-        $this->clubIds = (int) $request->route('clubIds');
-        $this->platform = (string) $request->route('platform');
-        $this->player1 = (string) $request->route('player1');
-        $this->player2 = (string) $request->route('player2');
+        $this->clubId = (int) $request->route('clubId') ?? 0;
+        $this->clubIds = (int) $request->route('clubIds') ?? 0;
+        $this->platform = (string) $request->route('platform') ?? '';
+        $this->player1 = (string) $request->route('player1') ?? '';
+        $this->player2 = (string) $request->route('player2') ?? '';
     }
 
     public function index($clubId, $platform)
