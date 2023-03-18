@@ -7,6 +7,7 @@ use App\Enums\Platforms;
 use App\Models\Result;
 use App\Models\User;
 use App\Services\ProClubsApiService;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -34,7 +35,7 @@ class GetMatchesCommand extends Command
     {
         try {
             ray()->measure();
-            $this->info('Running...'.$this->description);
+            $this->info('Running...' . $this->description);
             $properties = User::pluck('platform', 'club_id')->unique();
 
             foreach ($properties as $clubId => $platform) {
@@ -50,7 +51,7 @@ class GetMatchesCommand extends Command
             ray()->measure();
 
             return 0;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log::error($e->getMessage());
 
             return 0;

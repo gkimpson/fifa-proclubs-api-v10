@@ -8,6 +8,13 @@ enum Outcomes
     case AWAYWIN;
     case DRAW;
 
+    public static function all(): array
+    {
+        return collect(self::cases())->map(function ($outcomes) {
+            return $outcomes->name();
+        })->all();
+    }
+
     public function name(): string
     {
         return match ($this) {
@@ -15,12 +22,5 @@ enum Outcomes
             self::AWAYWIN => 'awaywin',
             self::DRAW => 'draw',
         };
-    }
-
-    public static function all(): array
-    {
-        return collect(self::cases())->map(function ($outcomes) {
-            return $outcomes->name();
-        })->all();
     }
 }
