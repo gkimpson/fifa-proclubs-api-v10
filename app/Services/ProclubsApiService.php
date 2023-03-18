@@ -108,10 +108,6 @@ class ProclubsApiService
         ]);
     }
 
-    public static function formatMembersData(array $membersData): \Illuminate\Support\Collection
-    {
-    }
-
     public static function search(Platforms $platform, string $clubName): string|array
     {
         return self::doExternalApiCall('clubs/search', [
