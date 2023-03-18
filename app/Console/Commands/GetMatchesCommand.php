@@ -48,6 +48,7 @@ class GetMatchesCommand extends Command
                 $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
                 $results = array_merge(Result::formatJsonData($leagueResults), Result::formatJsonData($cupResults));
 
+                $this->info(json_encode($results));
                 $count = count($results);
                 $this->info("{$count} matches found");
 
