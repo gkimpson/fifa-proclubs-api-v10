@@ -34,7 +34,7 @@ class GetMatchesCommand extends Command
     public function handle(Request $request): int
     {
         try {
-            ray()->measure();
+//            ray()->measure();
             $this->info('Running...' . $this->description);
 
             // Get distinct club_id & platform properties
@@ -56,8 +56,7 @@ class GetMatchesCommand extends Command
                 $inserted = Result::insertMatches($results, $platform);
                 $this->info("{$inserted} unique results into the database");
             }
-            ray()->measure();
-
+//            ray()->measure();
             return 0;
         } catch (Exception $e) {
             log::error($e->getMessage());

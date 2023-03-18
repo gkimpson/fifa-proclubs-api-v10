@@ -33,7 +33,7 @@ class RegistrationTest extends TestCase
             'password' => 'password',
             'password_confirmation' => 'password',
             'club_id' => 555555,
-            'platform' => 'ps5'
+            'platform' => 'ps5',
         ]);
 
         $this->assertAuthenticated();

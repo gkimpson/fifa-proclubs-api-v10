@@ -24,7 +24,7 @@ class EmailVerificationTest extends TestCase
         $user = User::factory()->create([
             'email_verified_at' => null,
             'platform' => 'ps5',
-            'club_id' => 555555
+            'club_id' => 555555,
         ]);
 
         $response = $this->actingAs($user)->get('/verify-email');

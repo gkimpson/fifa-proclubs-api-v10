@@ -85,7 +85,6 @@ class Result extends Model
                     Result::create($data);
                     $inserted++;
                 } catch (Exception $e) {
-                    dump($e->getMessage());
                 }
             }
         }

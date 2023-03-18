@@ -14,14 +14,9 @@ class ResultController extends Controller
      */
     public function index(): mixed
     {
-        $clubId = 52003;
-        $user = auth()->user()->toArray();
+        $data = Result::getAll();
 
-        $results = Result::getAll();
-        dump($results);
-
-        return $results;
-//        return (ProClubsApiService::matchStats(Platforms::getPlatform($user['platform']), $clubId, MatchTypes::LEAGUE));
+        return $data;
     }
 
     /**
