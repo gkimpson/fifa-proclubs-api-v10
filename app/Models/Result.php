@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Enums\Outcomes;
+use Auth;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,22 +19,6 @@ class Result extends Model
     protected $casts = [
         'properties' => 'json',
     ];
-
-    protected static function booted()
-    {
-        if (\Auth::check() && auth()->user()->club_id) {
-            self::getByClubId();
-        }
-    }
-
-    private static function getByClubId()
-    {
-        // we don't want this happening via the command line scripts
-        static::addGlobalScope('home_team', function (Builder $builder) {
-            $builder->where('home_team_id', auth()->user()->club_id)
-                ->orWhere('away_team_id', auth()->user()->club_id);
-        });
-    }
 
     public static function getAll()
     {
@@ -55,11 +41,73 @@ class Result extends Model
                     'aggregate' => $value->aggregate,
                 ];
             })->all();
-        } catch (\Exception $e) {
-
+        } catch (Exception $e) {
         }
 
         return $results;
+    }
+
+    public static function generateInsertData(array $result, string $platform): array
+    {
+        $carbonDate = Carbon::now();
+        $carbonDate->timestamp($result['timestamp']);
+        $clubs = array_values($result['clubs']);
+
+        $data = [
+            'match_id' => $result['matchId'],
+            'home_team_id' => $clubs[0]['id'],
+            'away_team_id' => $clubs[1]['id'],
+            'home_team_goals' => $clubs[0]['goals'],
+            'away_team_goals' => $clubs[1]['goals'],
+            'home_team_player_count' => count($result['players'][$clubs[0]['id']]),
+            'away_team_player_count' => count($result['players'][$clubs[1]['id']]),
+            'outcome' => self::getMatchOutcome($clubs[0]),
+            'match_date' => $carbonDate->format('Y-m-d H:i:s'),
+            'properties' => [
+                'clubs' => $result['clubs'],
+                'players' => $result['players'],
+                'aggregate' => $result['aggregate'], // aggregate is used for consistency as EA use the same naming convention - this is basically 'team stats' for that match
+            ],
+            'platform' => $platform,
+        ];
+
+        return $data;
+    }
+
+    public static function insertMatches(array $results, string $platform): int
+    {
+        $inserted = 0;
+
+        foreach ($results as $result) {
+            if (Result::where('match_id', '=', $result['matchId'])->doesntExist()) {
+                $data = self::generateInsertData($result, $platform);
+
+                try {
+                    Result::create($data);
+                    $inserted++;
+                } catch (Exception $e) {
+                    dump($e->getMessage());
+                }
+            }
+        }
+
+        return $inserted;
+    }
+
+    protected static function booted()
+    {
+        if (Auth::check() && auth()->user()->club_id) {
+            self::getByClubId();
+        }
+    }
+
+    private static function getByClubId()
+    {
+        // we don't want this happening via the command line scripts
+        static::addGlobalScope('home_team', function (Builder $builder) {
+            $builder->where('home_team_id', auth()->user()->club_id)
+                ->orWhere('away_team_id', auth()->user()->club_id);
+        });
     }
 
     private static function getClubsData(object $clubs): array
@@ -129,52 +177,5 @@ class Result extends Model
         return  ($clubData['wins'] == 1) ? Outcomes::HOMEWIN :
                 (($clubData['losses'] == 1) ? Outcomes::AWAYWIN :
                 (($clubData['ties'] == 1) ? Outcomes::DRAW : ''));
-    }
-
-    public static function generateInsertData(array $result, string $platform): array
-    {
-        $carbonDate = Carbon::now();
-        $carbonDate->timestamp($result['timestamp']);
-        $clubs = array_values($result['clubs']);
-
-        $data = [
-            'match_id' => $result['matchId'],
-            'home_team_id' => $clubs[0]['id'],
-            'away_team_id' => $clubs[1]['id'],
-            'home_team_goals' => $clubs[0]['goals'],
-            'away_team_goals' => $clubs[1]['goals'],
-            'home_team_player_count' => count($result['players'][$clubs[0]['id']]),
-            'away_team_player_count' => count($result['players'][$clubs[1]['id']]),
-            'outcome' => self::getMatchOutcome($clubs[0]),
-            'match_date' => $carbonDate->format('Y-m-d H:i:s'),
-            'properties' => [
-                'clubs' => $result['clubs'],
-                'players' => $result['players'],
-                'aggregate' => $result['aggregate'], // aggregate is used for consistency as EA use the same naming convention - this is basically 'team stats' for that match
-            ],
-            'platform' => $platform,
-        ];
-
-        return $data;
-    }
-
-    public static function insertMatches(array $results, string $platform): int
-    {
-        $inserted = 0;
-
-        foreach ($results as $result) {
-            if (Result::where('match_id', '=', $result['matchId'])->doesntExist()) {
-                $data = self::generateInsertData($result, $platform);
-
-                try {
-                    Result::create($data);
-                    $inserted++;
-                } catch (\Exception $e) {
-                    dump($e->getMessage());
-                }
-            }
-        }
-
-        return $inserted;
     }
 }

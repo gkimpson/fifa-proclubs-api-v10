@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
+use Exception;
 use Illuminate\Support\Facades\App;
 
 class ProClubsApiService
@@ -20,7 +21,7 @@ class ProClubsApiService
     public static function doExternalApiCall(string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false): string|array
     {
         try {
-            $url = self::API_URL.$endpoint.'?'.http_build_query($params);
+            $url = self::API_URL . $endpoint . '?' . http_build_query($params);
             $curl = curl_init();
 
             curl_setopt_array($curl, [
@@ -41,7 +42,7 @@ class ProClubsApiService
             ]);
 
             if (curl_exec($curl) === false || curl_errno($curl)) {
-                echo (App::environment(['local', 'staging'])) ? 'Curl error: '.curl_error($curl) : 'An unexpected error has occurred - try again later';
+                echo (App::environment(['local', 'staging'])) ? 'Curl error: ' . curl_error($curl) : 'An unexpected error has occurred - try again later';
             } else {
                 if ($isCLI) {
                     echo "Operation completed without any errors\n";
@@ -52,7 +53,7 @@ class ProClubsApiService
             curl_close($curl);
 
             return ($jsonDecoded) ? json_decode($response) : $response;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // do some logging...
             return 'error';
         }
