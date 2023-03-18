@@ -38,7 +38,6 @@ Route::prefix('club/{clubId}/platform/{platform}')->group(function () {
     Route::get('league', [ClubController::class, 'league'])->name('club.league');
     Route::get('members', [ClubController::class, 'members'])->name('club.members');
     Route::get('players/{player}', [ClubController::class, 'player'])->name('club.players');
-    Route::get('rankings', [ClubController::class, 'rankings'])->name('club.rankings');
     Route::get('search', [ClubController::class, 'search'])->name('club.search');
     Route::get('season', [ClubController::class, 'season'])->name('club.season');
     Route::get('settings', [ClubController::class, 'settings'])->name('club.settings');

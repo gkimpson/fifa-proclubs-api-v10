@@ -91,8 +91,6 @@ class ClubController extends Controller
     public function compare(ResultService $resultService)
     {
         $data = $resultService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2);
-        dump($data);
-
         return view('club.compare', $data);
     }
 
@@ -113,8 +111,4 @@ class ClubController extends Controller
 
     }
 
-    public function rankings(ResultService $resultService)
-    {
-
-    }
 }

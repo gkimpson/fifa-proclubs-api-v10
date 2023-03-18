@@ -36,15 +36,22 @@ class GetMatchesCommand extends Command
         try {
             ray()->measure();
             $this->info('Running...' . $this->description);
-            $properties = User::pluck('platform', 'club_id')->unique();
+
+            // Get distinct club_id & platform properties
+            $properties = User::distinct()->pluck('platform', 'club_id');
 
             foreach ($properties as $clubId => $platform) {
                 $this->info("Collecting matches data for - Platform: {$platform} | ClubId: {$clubId}");
+
+                // Get league and cup results, then combine them
                 $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
                 $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
                 $results = array_merge(Result::formatJsonData($leagueResults), Result::formatJsonData($cupResults));
+
                 $count = count($results);
                 $this->info("{$count} matches found");
+
+                // Insert results
                 $inserted = Result::insertMatches($results, $platform);
                 $this->info("{$inserted} unique results into the database");
             }
