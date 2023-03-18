@@ -7,7 +7,7 @@ use App\Enums\Platforms;
 use Exception;
 use Illuminate\Support\Facades\App;
 
-class ProClubsApiService
+class ProclubsApiService
 {
     const API_URL = 'https://proclubs.ea.com/api/fifa/';
 

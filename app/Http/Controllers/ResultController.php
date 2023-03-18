@@ -7,7 +7,7 @@ use App\Enums\Platforms;
 use App\Http\Requests\StoreResultRequest;
 use App\Http\Requests\UpdateResultRequest;
 use App\Models\Result;
-use App\Services\ProClubsApiService;
+use App\Services\ProclubsApiService;
 use Illuminate\Http\Response;
 
 class ResultController extends Controller

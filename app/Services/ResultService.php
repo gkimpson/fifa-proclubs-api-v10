@@ -9,9 +9,9 @@ class ResultService
 {
     private const CACHE_TTL = 15;
 
-    private ProClubsApiService $apiService;
+    private ProclubsApiService $apiService;
 
-    public function __construct(ProClubsApiService $apiService)
+    public function __construct(ProclubsApiService $apiService)
     {
         $this->apiService = $apiService;
         $this->rankingTypes = $this->getRankingTypes();

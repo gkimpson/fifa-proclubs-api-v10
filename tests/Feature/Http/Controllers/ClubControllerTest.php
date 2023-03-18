@@ -8,8 +8,10 @@ class ClubControllerTest extends TestCase
 {
     /**
      * A basic feature test example.
+     *
+     * @test
      */
-    public function test_example(): void
+    public function example(): void
     {
         $response = $this->get('/');
 

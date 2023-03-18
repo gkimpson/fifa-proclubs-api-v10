@@ -6,7 +6,7 @@ use App\Enums\MatchTypes;
 use App\Enums\Platforms;
 use App\Models\Result;
 use App\Models\User;
-use App\Services\ProClubsApiService;
+use App\Services\ProclubsApiService;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
@@ -40,8 +40,8 @@ class GetMatchesCommand extends Command
 
             foreach ($properties as $clubId => $platform) {
                 $this->info("Collecting matches data for - Platform: {$platform} | ClubId: {$clubId}");
-                $leagueResults = ProClubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
-                $cupResults = ProClubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
+                $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
+                $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
                 $results = array_merge(Result::formatJsonData($leagueResults), Result::formatJsonData($cupResults));
                 $count = count($results);
                 $this->info("{$count} matches found");

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\Outcomes;
-use Auth;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -96,7 +95,7 @@ class Result extends Model
 
     protected static function booted()
     {
-        if (Auth::check() && auth()->user()->club_id) {
+        if (auth()->check() && auth()->user()->club_id) {
             self::getByClubId();
         }
     }
@@ -174,8 +173,15 @@ class Result extends Model
 
     private static function getMatchOutcome(array $clubData): string
     {
-        return  ($clubData['wins'] == 1) ? Outcomes::HOMEWIN :
-                (($clubData['losses'] == 1) ? Outcomes::AWAYWIN :
-                (($clubData['ties'] == 1) ? Outcomes::DRAW : ''));
+        switch (true) {
+            case $clubData['wins'] == 1:
+                return Outcomes::HOMEWIN->name();
+            case $clubData['losses'] == 1:
+                return Outcomes::AWAYWIN->name();
+            case $clubData['ties'] == 1:
+                return Outcomes::DRAW->name();
+            default:
+                throw new Exception('Invalid club data provided.');
+        }
     }
 }

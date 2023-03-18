@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
-use App\Services\ProClubsApiService;
+use App\Services\ProclubsApiService;
 use App\Services\ResultService;
 use Illuminate\Http\Request;
 
@@ -27,52 +27,52 @@ class ClubController extends Controller
 
     public function index(int $clubId, string $platform)
     {
-        return ProClubsApiService::clubsInfo(Platforms::getPlatform($platform), $clubId);
+        return ProclubsApiService::clubsInfo(Platforms::getPlatform($platform), $clubId);
     }
 
     public function members(int $clubId, string $platform)
     {
-        return ProClubsApiService::memberStats(Platforms::getPlatform($platform), $clubId);
+        return ProclubsApiService::memberStats(Platforms::getPlatform($platform), $clubId);
     }
 
     public function career(int $clubId, string $platform)
     {
-        return ProClubsApiService::careerStats(Platforms::getPlatform($platform), $clubId);
+        return ProclubsApiService::careerStats(Platforms::getPlatform($platform), $clubId);
     }
 
     public function season(int $clubId, string $platform)
     {
-        return ProClubsApiService::seasonStats(Platforms::getPlatform($platform), $clubId);
+        return ProclubsApiService::seasonStats(Platforms::getPlatform($platform), $clubId);
     }
 
     public function settings(string $clubName, string $platform)
     {
-        return ProClubsApiService::settings(Platforms::getPlatform($platform), $clubName);
+        return ProclubsApiService::settings(Platforms::getPlatform($platform), $clubName);
     }
 
     public function search(string $clubName, string $platform)
     {
-        return ProClubsApiService::search(Platforms::getPlatform($platform), $clubName);
+        return ProclubsApiService::search(Platforms::getPlatform($platform), $clubName);
     }
 
     public function league(int $clubId, string $platform, ResultService $resultService)
     {
-        return ProClubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
+        return ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
     }
 
     public function leaderboard(string $platform, string $leaderboardType)
     {
-        return ProClubsApiService::leaderboard(Platforms::getPlatform($platform), $leaderboardType);
+        return ProclubsApiService::leaderboard(Platforms::getPlatform($platform), $leaderboardType);
     }
 
     public function cup(int $clubId, string $platform)
     {
-        return ProClubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
+        return ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
     }
 
     public function player(int $clubId, string $platform, string $playerName)
     {
-        return ProClubsApiService::playerStats(Platforms::getPlatform($platform), $clubId, $playerName);
+        return ProclubsApiService::playerStats(Platforms::getPlatform($platform), $clubId, $playerName);
     }
 
     public function squad(ResultService $resultService)
@@ -92,17 +92,29 @@ class ClubController extends Controller
     {
         $data = $resultService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2);
         dump($data);
+
         return view('club.compare', $data);
     }
 
     public function ranking(ResultService $resultService)
     {
         $data = [
-            'rankings' =>  $resultService->getRankingData($this->clubId, $this->platform),
-            'perMatchRankings' => $resultService->getCustomRankingData($this->clubId, $this->platform)
+            'rankings' => $resultService->getRankingData($this->clubId, $this->platform),
+            'perMatchRankings' => $resultService->getCustomRankingData($this->clubId, $this->platform),
         ];
 
         dump($data);
+
         return view('club.rankings', $data);
+    }
+
+    public function form(ResultService $resultService)
+    {
+
+    }
+
+    public function rankings(ResultService $resultService)
+    {
+
     }
 }

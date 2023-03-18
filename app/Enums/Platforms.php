@@ -3,7 +3,7 @@
 namespace App\Enums;
 
 use Exception;
-use Str;
+use Illuminate\Support\Str;
 
 enum Platforms
 {
