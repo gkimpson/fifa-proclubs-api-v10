@@ -25,6 +25,8 @@ class PasswordUpdateTest extends TestCase
                 'current_password' => 'password',
                 'password' => 'new-password',
                 'password_confirmation' => 'new-password',
+                'platform' => 'ps5',
+                'club_id' => 555555,
             ]);
 
         $response
