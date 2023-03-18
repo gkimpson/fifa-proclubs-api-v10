@@ -126,7 +126,9 @@ class Result extends Model
 
     private static function getMatchOutcome(array $clubData): string
     {
-        return ($clubData['wins'] == 1) ? Outcomes::HOMEWIN : (($clubData['losses'] == 1) ? Outcomes::AWAYWIN : (($clubData['ties'] == 1) ? Outcomes::DRAW : ''));
+        return  ($clubData['wins'] == 1) ? Outcomes::HOMEWIN :
+                (($clubData['losses'] == 1) ? Outcomes::AWAYWIN :
+                (($clubData['ties'] == 1) ? Outcomes::DRAW : ''));
     }
 
     public static function generateInsertData(array $result, string $platform): array
