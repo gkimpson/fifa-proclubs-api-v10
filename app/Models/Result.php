@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Outcomes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -125,7 +126,7 @@ class Result extends Model
 
     private static function getMatchOutcome(array $clubData): string
     {
-        return ($clubData['wins'] == 1) ? 'homewin' : (($clubData['losses'] == 1) ? 'awaywin' : (($clubData['ties'] == 1) ? 'draw' : ''));
+        return ($clubData['wins'] == 1) ? Outcomes::HOMEWIN : (($clubData['losses'] == 1) ? Outcomes::AWAYWIN : (($clubData['ties'] == 1) ? Outcomes::DRAW : ''));
     }
 
     public static function generateInsertData(array $result, string $platform): array
