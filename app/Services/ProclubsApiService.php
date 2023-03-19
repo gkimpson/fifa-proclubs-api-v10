@@ -60,6 +60,7 @@ class ProclubsApiService
 
             if (curl_exec($curl) === false || curl_errno($curl)) {
                 echo (App::environment(['local', 'staging'])) ? 'Curl error: ' . curl_error($curl) : 'An unexpected error has occurred - try again later';
+                Log::error('Curl request failed with last error: ' . curl_error($curl));
             } else {
                 if ($isCLI) {
                     echo "Operation completed without any errors\n";
