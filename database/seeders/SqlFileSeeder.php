@@ -9,10 +9,8 @@ class SqlFileSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $path = public_path('sql/customdata.sql');
         $sql = file_get_contents($path);
