@@ -6,6 +6,8 @@ use App\Enums\MatchTypes;
 use App\Enums\Platforms;
 use Exception;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ProclubsApiService
 {
@@ -18,26 +20,41 @@ class ProclubsApiService
     {
     }
 
-    public static function doExternalApiCall(string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false): string|array
+    public static function doExternalApiCall(string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false): string
     {
         try {
             $url = self::API_URL . $endpoint . '?' . http_build_query($params);
             $curl = curl_init();
 
+            // KEEP THIS BLOCK JUST IN CASE IT NEEDS TO BE USED AGAIN
+//            curl_setopt_array($curl, [
+//                CURLOPT_URL => $url,
+//                CURLOPT_RETURNTRANSFER => true,
+//                CURLOPT_ENCODING => '',
+//                // CURLOPT_MAXREDIRS => 5,
+//                CURLOPT_TIMEOUT => 10,
+//                CURLOPT_FOLLOWLOCATION => true,
+//                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
+//                // CURLOPT_CUSTOMREQUEST => 'GET',
+//                // CURLOPT_VERBOSE => false,
+//                CURLOPT_FAILONERROR => true,
+//                CURLOPT_HTTPHEADER => [
+//                    'accept-language: en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7',
+//                    'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
+//                ],
+//            ]);
+
+            // TODO - use the Laravel way for this, keeping the block above because we all know EA like to mess about like they did before and locked out the ProClub Avengers!
             curl_setopt_array($curl, [
                 CURLOPT_URL => $url,
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                // CURLOPT_MAXREDIRS => 5,
-                CURLOPT_TIMEOUT => 10,
-                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_TIMEOUT => 5,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
-                // CURLOPT_CUSTOMREQUEST => 'GET',
-                // CURLOPT_VERBOSE => false,
-                CURLOPT_FAILONERROR => true,
                 CURLOPT_HTTPHEADER => [
                     'accept-language: en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7',
                     'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
+                    'Content-Type: application/json',
+                    'accept: application/json',
                 ],
             ]);
 
@@ -55,7 +72,9 @@ class ProclubsApiService
             return ($jsonDecoded) ? json_decode($response) : $response;
         } catch (Exception $e) {
             // do some logging...
-            return 'error';
+            Log::error('API request failed with exception: ' . $e->getMessage());
+
+            return 0;
         }
     }
 

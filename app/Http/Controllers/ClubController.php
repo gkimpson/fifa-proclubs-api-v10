@@ -11,9 +11,13 @@ use Illuminate\Http\Request;
 class ClubController extends Controller
 {
     public int $clubId;
+
     public int $clubIds;
+
     public string $platform;
+
     public string $player1;
+
     public string $player2;
 
     public function __construct(Request $request)
