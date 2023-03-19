@@ -30,11 +30,6 @@ enum Platforms
         })->all();
     }
 
-    // todo: add validation for in: with request validation
-    public static function generateValidationIn()
-    {
-    }
-
     public static function getPlatform(string $platform)
     {
         return match ($platform) {
