@@ -29,82 +29,86 @@ class ClubController extends Controller
         $this->player2 = (string) $request->route('player2') ?? '';
     }
 
-    public function index(int $clubId, string $platform)
+    public function index(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
-        return ProclubsApiService::clubsInfo(Platforms::getPlatform($platform), $clubId);
+        $data = json_decode(ProclubsApiService::clubsInfo(Platforms::getPlatform($platform), $clubId));
+        return response()->json($data);
     }
 
-    public function members(int $clubId, string $platform)
+    public function members(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
-        return ProclubsApiService::memberStats(Platforms::getPlatform($platform), $clubId);
+        $data = json_decode(ProclubsApiService::memberStats(Platforms::getPlatform($platform), $clubId));
+        return response()->json($data);
     }
 
-    public function career(int $clubId, string $platform)
+    public function career(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
-        return ProclubsApiService::careerStats(Platforms::getPlatform($platform), $clubId);
+        $data = json_decode(ProclubsApiService::careerStats(Platforms::getPlatform($platform), $clubId));
+        return response()->json($data);
     }
 
-    public function season(int $clubId, string $platform)
+    public function season(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
-        return ProclubsApiService::seasonStats(Platforms::getPlatform($platform), $clubId);
+        $data = json_decode(ProclubsApiService::seasonStats(Platforms::getPlatform($platform), $clubId));
+        return response()->json($data);
     }
 
-    public function settings(string $clubName, string $platform)
+    public function settings(string $clubName, string $platform): \Illuminate\Http\JsonResponse
     {
-        return ProclubsApiService::settings(Platforms::getPlatform($platform), $clubName);
+        $data = json_decode(ProclubsApiService::settings(Platforms::getPlatform($platform), $clubName));
+        return response()->json($data);
     }
 
-    public function search(string $clubName, string $platform)
+    public function search(string $clubName, string $platform): \Illuminate\Http\JsonResponse
     {
-        return ProclubsApiService::search(Platforms::getPlatform($platform), $clubName);
+        $data = json_decode(ProclubsApiService::search(Platforms::getPlatform($platform), $clubName));
+        return response()->json($data);
     }
 
-    public function league(int $clubId, string $platform, ResultService $resultService)
+    public function league(int $clubId, string $platform, ResultService $resultService): \Illuminate\Http\JsonResponse
     {
-        return ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
+        $data = json_decode(ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE));
+        return response()->json($data);
     }
 
-    public function leaderboard(string $platform, string $leaderboardType)
+    public function leaderboard(string $platform, string $leaderboardType): \Illuminate\Http\JsonResponse
     {
-        return ProclubsApiService::leaderboard(Platforms::getPlatform($platform), $leaderboardType);
+        $data = json_decode(ProclubsApiService::leaderboard(Platforms::getPlatform($platform), $leaderboardType));
+        return response()->json($data);
     }
 
-    public function cup(int $clubId, string $platform)
+    public function cup(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
-        return ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
+        $data = json_decode(ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP));
+        return response()->json($data);
     }
 
-    public function player(int $clubId, string $platform, string $playerName)
+    public function player(int $clubId, string $platform, string $playerName): \Illuminate\Http\JsonResponse
     {
-        return ProclubsApiService::playerStats(Platforms::getPlatform($platform), $clubId, $playerName);
+        $data = ProclubsApiService::playerStats(Platforms::getPlatform($platform), $clubId, $playerName);
+        return response()->json($data);
     }
 
-    public function squad(ResultService $resultService)
+    public function squad(ResultService $resultService): \Illuminate\Http\JsonResponse
     {
-        $data = [
-            'squad' => $resultService->getCachedData($this->clubId, $this->platform, 'squad'),
-        ];
-
-        return $data;
-//        return view('club.squad', $data);
+        $data = $resultService->getCachedData($this->clubId, $this->platform, 'squad');
+        return response()->json($data);
     }
 
-    public function compare(ResultService $resultService)
+    public function compare(ResultService $resultService): \Illuminate\Http\JsonResponse
     {
         $data = $resultService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2);
-
-        return $data;
+        return response()->json($data);
     }
 
-    public function ranking(ResultService $resultService)
+    public function ranking(ResultService $resultService): \Illuminate\Http\JsonResponse
     {
         $data = [
             'rankings' => $resultService->getRankingData($this->clubId, $this->platform),
-            'perMatchRankings' => $resultService->getCustomRankingData($this->clubId, $this->platform),
+            'perMatchRankings' => $resultService->getCustomRankingData($this->clubId, $this->platform)
         ];
 
-        return $data;
-//        return view('club.rankings', $data);
+        return response()->json($data);
     }
 
     public function form(ResultService $resultService)

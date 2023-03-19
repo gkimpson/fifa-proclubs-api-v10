@@ -1,0 +1,3 @@
+clubs.index
+
+{{ $club }}

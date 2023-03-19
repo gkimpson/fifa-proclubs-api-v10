@@ -8,7 +8,7 @@ use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(): ResultResource
     {
         $results = Result::get()->paginate(10);
         return new ResultResource($results);

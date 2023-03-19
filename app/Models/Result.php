@@ -99,7 +99,7 @@ class Result extends Model
         }
     }
 
-    private static function getByClubId()
+    private static function getByClubId(): void
     {
         // we don't want this happening via the command line scripts
         static::addGlobalScope('home_team', function (Builder $builder) {
