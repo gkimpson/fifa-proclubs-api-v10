@@ -165,6 +165,8 @@ class ClubTest extends TestCase
         $response = $this->actingAs($this->user)->get($uri);
 
         $response->assertOk();
+        $response->assertJsonCount(2, 'player1');
+        $response->assertJsonCount(2, 'player2');
     }
 
     /**
