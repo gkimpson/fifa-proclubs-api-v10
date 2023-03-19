@@ -81,18 +81,15 @@ class ClubController extends Controller
             'squad' => $resultService->getCachedData($this->clubId, $this->platform, 'squad'),
         ];
 
-//        Accept the parameters from routes or other inputs
-//        Call some logic classes/methods, passing those parameters
-//        Return the result: view, redirect, JSON return, etc.
-
-        return view('club.squad', $data);
+        return $data;
+//        return view('club.squad', $data);
     }
 
     public function compare(ResultService $resultService)
     {
         $data = $resultService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2);
 
-        return view('club.compare', $data);
+        return $data;
     }
 
     public function ranking(ResultService $resultService)
@@ -102,10 +99,14 @@ class ClubController extends Controller
             'perMatchRankings' => $resultService->getCustomRankingData($this->clubId, $this->platform),
         ];
 
-        return view('club.rankings', $data);
+        return $data;
+//        return view('club.rankings', $data);
     }
 
     public function form(ResultService $resultService)
     {
+//        Accept the parameters from routes or other inputs
+//        Call some logic classes/methods, passing those parameters
+//        Return the result: view, redirect, JSON return, etc.
     }
 }
