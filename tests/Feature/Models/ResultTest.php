@@ -5,49 +5,65 @@ namespace Tests\Feature;
 use App\Models\Result;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use TypeError;
 
 class ResultTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testSingleResultCanBeAdded()
+    /**
+     * @test
+     */
+    public function singleResultCanBeAdded()
     {
         Result::factory()->create();
         $this->assertDatabaseCount('results', 1);
     }
 
-    public function testMultipleResultsCanBeAdded()
+    /**
+     * @test
+     */
+    public function multipleResultsCanBeAdded()
     {
         $num_rows_to_insert = 10;
         Result::factory($num_rows_to_insert)->create();
         $this->assertDatabaseCount('results', $num_rows_to_insert);
     }
 
-    public function testModelExistsInTheDatabase()
+    /**
+     * @test
+     */
+    public function modelExistsInTheDatabase()
     {
         $result = Result::factory()->create();
         $this->assertModelExists($result);
     }
 
-    public function testResultCanBeAddedAndVerifiedInDatabase()
+    /**
+     * @test
+     */
+    public function resultCanBeAddedAndVerifiedInDatabase()
     {
         Result::factory()->create([
             'match_id' => 1234567890123,
             'home_team_id' => $this->clubId,
-            'platform' => $this->platform
+            'platform' => $this->platform,
         ]);
 
         $this->assertDatabaseCount('results', 1);
         $this->assertDatabaseHas('results', [
             'match_id' => 1234567890123,
             'home_team_id' => $this->clubId,
-            'platform' => $this->platform
+            'platform' => $this->platform,
         ]);
     }
 
-    public function testErrorExceptionReturnedIfMatchIdValueIncorrect()
+    /**
+     * @test
+     */
+    public function errorExceptionReturnedIfMatchIdValueIncorrect()
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeError::class);
         Result::factory()->create([
             'match_id' => [],
         ]);
@@ -77,5 +93,4 @@ class ResultTest extends TestCase
 //            ]
 //        ];
 //    }
-
 }
