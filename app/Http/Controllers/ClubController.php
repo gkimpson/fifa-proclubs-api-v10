@@ -6,6 +6,7 @@ use App\Enums\MatchTypes;
 use App\Enums\Platforms;
 use App\Services\ProclubsApiService;
 use App\Services\ResultService;
+use Exception;
 use Illuminate\Http\Request;
 
 class ClubController extends Controller
@@ -29,6 +30,9 @@ class ClubController extends Controller
         $this->player2 = (string) $request->route('player2') ?? '';
     }
 
+    /**
+     * @throws Exception
+     */
     public function index(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
         $data = json_decode(ProclubsApiService::clubsInfo(Platforms::getPlatform($platform), $clubId));
@@ -36,6 +40,9 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
+    /**
+     * @throws Exception
+     */
     public function members(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
         $data = json_decode(ProclubsApiService::memberStats(Platforms::getPlatform($platform), $clubId));
@@ -43,6 +50,9 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
+    /**
+     * @throws Exception
+     */
     public function career(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
         $data = json_decode(ProclubsApiService::careerStats(Platforms::getPlatform($platform), $clubId));
@@ -50,6 +60,9 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
+    /**
+     * @throws Exception
+     */
     public function season(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
         $data = json_decode(ProclubsApiService::seasonStats(Platforms::getPlatform($platform), $clubId));
@@ -57,6 +70,9 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
+    /**
+     * @throws Exception
+     */
     public function settings(string $clubName, string $platform): \Illuminate\Http\JsonResponse
     {
         $data = json_decode(ProclubsApiService::settings(Platforms::getPlatform($platform), $clubName));
@@ -64,6 +80,9 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
+    /**
+     * @throws Exception
+     */
     public function search(string $clubName, string $platform): \Illuminate\Http\JsonResponse
     {
         $data = json_decode(ProclubsApiService::search(Platforms::getPlatform($platform), $clubName));
@@ -71,6 +90,9 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
+    /**
+     * @throws Exception
+     */
     public function league(int $clubId, string $platform, ResultService $resultService): \Illuminate\Http\JsonResponse
     {
         $data = json_decode(ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE));
@@ -78,6 +100,9 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
+    /**
+     * @throws Exception
+     */
     public function leaderboard(string $platform, string $leaderboardType): \Illuminate\Http\JsonResponse
     {
         $data = json_decode(ProclubsApiService::leaderboard(Platforms::getPlatform($platform), $leaderboardType));
@@ -85,6 +110,9 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
+    /**
+     * @throws Exception
+     */
     public function cup(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
         $data = json_decode(ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP));
@@ -92,6 +120,9 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
+    /**
+     * @throws Exception
+     */
     public function player(int $clubId, string $platform, string $playerName): \Illuminate\Http\JsonResponse
     {
         $data = ProclubsApiService::playerStats(Platforms::getPlatform($platform), $clubId, $playerName);
@@ -123,10 +154,10 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
-    public function form(ResultService $resultService)
+    public function form(ResultService $resultService): \Illuminate\Http\JsonResponse
     {
-//        Accept the parameters from routes or other inputs
-//        Call some logic classes/methods, passing those parameters
-//        Return the result: view, redirect, JSON return, etc.
+        $data = [];
+
+        return response()->json($data);
     }
 }

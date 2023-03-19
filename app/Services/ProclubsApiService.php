@@ -79,15 +79,12 @@ class ProclubsApiService
         }
     }
 
-    public static function clubsInfo(Platforms $platform, int $clubId, bool $jsonDecoded = false)
+    public static function clubsInfo(Platforms $platform, int $clubId)
     {
-        return self::doExternalApiCall('clubs/info',
-            [
-                'platform' => $platform->name(),
-                'clubIds' => $clubId,
-            ],
-            $jsonDecoded
-        );
+        return self::doExternalApiCall('clubs/info', [
+            'platform' => $platform->name(),
+            'clubIds' => $clubId,
+        ]);
     }
 
     public static function matchStats(Platforms $platform, int $clubId, MatchTypes $matchType)
@@ -99,12 +96,12 @@ class ProclubsApiService
         ]);
     }
 
-    public static function memberStats(Platforms $platform, int $clubId, $jsonDecoded = false)
+    public static function memberStats(Platforms $platform, int $clubId)
     {
         return self::doExternalApiCall('members/stats', [
             'platform' => $platform->name(),
             'clubId' => $clubId,
-        ], $jsonDecoded);
+        ]);
     }
 
     public static function careerStats(Platforms $platform, int $clubId)
