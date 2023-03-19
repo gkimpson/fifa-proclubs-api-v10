@@ -6,6 +6,7 @@ use App\Enums\MatchTypes;
 use App\Enums\Platforms;
 use App\Services\ProclubsApiService;
 use App\Services\ResultService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ClubController extends Controller

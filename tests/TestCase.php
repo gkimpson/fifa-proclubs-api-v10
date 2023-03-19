@@ -26,5 +26,7 @@ abstract class TestCase extends BaseTestCase
     private function createUser(): User
     {
         return User::factory()->create();
+
+
     }
 }
