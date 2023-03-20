@@ -19,3 +19,4 @@ MySQL
 - run `php artisan db:seed`
 - run `php artisan proclubs:matches` to retrieve the last 5 matches for the user in the database
 - run `php artisan test` to run all the tests
+- there is a single user in the users table, the password is 'password' :)
