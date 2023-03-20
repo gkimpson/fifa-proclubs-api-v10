@@ -73,6 +73,7 @@ class ResultService
      */
     private function processCache(string $cacheName, int $clubId, string $platform, array $dataGetter)
     {
+        // TODO - cache need a composite key clubId-platform e.g '48353-ps5'
         return Cache::remember($cacheName, self::CACHE_TTL, function () use ($clubId, $platform, $dataGetter) {
             return $dataGetter($clubId, $platform);
         });

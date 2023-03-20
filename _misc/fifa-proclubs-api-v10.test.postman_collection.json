@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "88f0a6ca-35f9-4ebe-b530-800b7b3defee",
+		"name": "fifa-proclubs-api-v10.test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "579108"
+	},
+	"item": [
+		{
+			"name": "club",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - career",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/career",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"career"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - cup",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/cup",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"cup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - form",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/form",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"form"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - league",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/league",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"league"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - leaderboard/{type}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/platform/ps5/leaderboard/club",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"platform",
+						"ps5",
+						"leaderboard",
+						"club"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - members",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/members",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"members"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - players/{player}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/players/CarlosBlackson",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"players",
+						"CarlosBlackson"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - players/{player1}/{player2}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/squad/compare/zabius-uk/CarlosBlackson",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"squad",
+						"compare",
+						"zabius-uk",
+						"CarlosBlackson"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/search",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - season",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/season",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"season"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - settings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/settings",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"settings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - squad",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/squad",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"squad"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "club - squad/ranking",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fifa-proclubs-api-v10.test/club/52003/platform/ps5/squad/ranking",
+					"protocol": "https",
+					"host": [
+						"fifa-proclubs-api-v10",
+						"test"
+					],
+					"path": [
+						"club",
+						"52003",
+						"platform",
+						"ps5",
+						"squad",
+						"ranking"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
