@@ -28,8 +28,11 @@ class ClubTest extends TestCase
         $uri = $this->baseUri;
 
         $response = $this->actingAs($this->user)->get($uri);
+        $json = $response->getContent();
 
         $response->assertOk();
+        $this->assertStringContainsString('name', $json);
+        $this->assertStringContainsString('teamId', $json);
     }
 
     /**
@@ -40,8 +43,13 @@ class ClubTest extends TestCase
         $uri = $this->baseUri . '/career';
 
         $response = $this->actingAs($this->user)->get($uri);
+        $json = $response->getContent();
 
         $response->assertOk();
+        $this->assertStringContainsString('members', $json);
+        $this->assertStringContainsString('positionCount', $json);
+        $response->assertJsonCount(9, 'members');
+        $response->assertJsonCount(4, 'positionCount');
     }
 
     /**
@@ -77,7 +85,12 @@ class ClubTest extends TestCase
 
         $response = $this->actingAs($this->user)->get($uri);
 
+        $json = $response->getContent();
         $response->assertOk();
+
+        $this->assertStringContainsString('matchId', $json);
+        $this->assertStringContainsString('clubs', $json);
+        $this->assertStringContainsString('players', $json);
     }
 
     /**
@@ -89,7 +102,12 @@ class ClubTest extends TestCase
 
         $response = $this->actingAs($this->user)->get($uri);
 
+        $json = $response->getContent();
         $response->assertOk();
+
+        $this->assertStringContainsString('rank', $json);
+        $this->assertStringContainsString('seasons', $json);
+        $this->assertStringContainsString('titlesWon', $json);
     }
 
     /**
@@ -101,7 +119,12 @@ class ClubTest extends TestCase
 
         $response = $this->actingAs($this->user)->get($uri);
 
+        $json = $response->getContent();
         $response->assertOk();
+
+        $this->assertStringContainsString('members', $json);
+        $this->assertStringContainsString('gamesPlayed', $json);
+        $this->assertStringContainsString('assists', $json);
     }
 
     /**
@@ -114,7 +137,12 @@ class ClubTest extends TestCase
 
         $response = $this->actingAs($this->user)->get($uri);
 
+        $json = $response->getContent();
         $response->assertOk();
+
+        $this->assertStringContainsString('members', $json);
+        $this->assertStringContainsString('gamesPlayed', $json);
+        $this->assertStringContainsString('assists', $json);
     }
 
     /**
@@ -150,7 +178,12 @@ class ClubTest extends TestCase
 
         $response = $this->actingAs($this->user)->get($uri);
 
+        $json = $response->getContent();
         $response->assertOk();
+
+        $this->assertStringContainsString('members', $json);
+        $this->assertStringContainsString('gamesPlayed', $json);
+        $this->assertStringContainsString('assists', $json);
     }
 
     /**
@@ -203,7 +236,12 @@ class ClubTest extends TestCase
 
         $response = $this->actingAs($this->user)->get($uri);
 
+        $json = $response->getContent();
         $response->assertOk();
+
+        $this->assertStringContainsString('clubId', $json);
+        $this->assertStringContainsString('seasons', $json);
+        $this->assertStringContainsString('leaguesWon', $json);
     }
 
     /**
