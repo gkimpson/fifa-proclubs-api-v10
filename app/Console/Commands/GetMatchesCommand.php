@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Services\ProclubsApiService;
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class GetMatchesCommand extends Command
@@ -35,7 +34,7 @@ class GetMatchesCommand extends Command
     {
         try {
 //            ray()->measure();
-            $this->info('Running...' . $this->description);
+            $this->info('Running...'.$this->description);
 
             // Get distinct club_id & platform properties
             $properties = User::distinct()->pluck('platform', 'club_id');

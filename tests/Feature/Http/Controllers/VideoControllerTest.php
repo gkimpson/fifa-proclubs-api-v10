@@ -27,7 +27,6 @@ class VideoControllerTest extends TestCase
         $response->assertViewHas('videos');
     }
 
-
     /**
      * @test
      */

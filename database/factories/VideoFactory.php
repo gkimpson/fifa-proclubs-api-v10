@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Video;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VideoFactory extends Factory
 {

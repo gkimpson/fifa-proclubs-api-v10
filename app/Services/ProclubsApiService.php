@@ -22,7 +22,7 @@ class ProclubsApiService
     public static function doExternalApiCall(?string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false)
     {
         try {
-            $url = self::API_URL . $endpoint . '?' . http_build_query($params);
+            $url = self::API_URL.$endpoint.'?'.http_build_query($params);
             $curl = curl_init();
 
             // KEEP THIS BLOCK JUST IN CASE IT NEEDS TO BE USED AGAIN
@@ -58,8 +58,8 @@ class ProclubsApiService
             ]);
 
             if (curl_exec($curl) === false || curl_errno($curl)) {
-                echo App::environment(['local', 'staging']) ? 'Curl error: ' . curl_error($curl) : 'An unexpected error has occurred - try again later';
-                Log::error('Curl request failed with last error: ' . curl_error($curl));
+                echo App::environment(['local', 'staging']) ? 'Curl error: '.curl_error($curl) : 'An unexpected error has occurred - try again later';
+                Log::error('Curl request failed with last error: '.curl_error($curl));
             } else {
                 if ($isCLI) {
                     echo "Operation completed without any errors\n";
@@ -72,7 +72,7 @@ class ProclubsApiService
             return $jsonDecoded ? json_decode($response) : $response;
         } catch (Exception $e) {
             // do some logging...
-            Log::error('API request failed with exception: ' . $e->getMessage());
+            Log::error('API request failed with exception: '.$e->getMessage());
 
             return 0;
         }

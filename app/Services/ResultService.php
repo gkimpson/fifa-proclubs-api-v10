@@ -19,7 +19,7 @@ class ResultService
 
     public function getCachedData(int $clubId, string $platform, string $cacheName): object
     {
-        $method = 'get' . ucfirst($cacheName) . 'Data';
+        $method = 'get'.ucfirst($cacheName).'Data';
 
         return $this->processCache($cacheName, $clubId, $platform, [$this, $method]);
     }
@@ -69,7 +69,6 @@ class ResultService
      * @param  mixed  $clubId unique identifier for the club
      * @param  string  $platform platform/console
      * @param  callable  $dataGetter function that retrieves data for the specified club and platform.
-     *
      * @return mixed The cached data or new data retrieved by the dataGetter function.
      */
     private function processCache(string $cacheName, int $clubId, string $platform, array $dataGetter)

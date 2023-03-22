@@ -50,7 +50,7 @@ Route::prefix('club/{clubId}/platform/{platform}')->group(function () {
 
 Route::get('platform/{platform}/leaderboard/{leaderboardType}/', [ClubController::class, 'leaderboard'])->name('club.leaderboard');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 Route::resource('media', App\Http\Controllers\MediaController::class)->only('index', 'show');
 
