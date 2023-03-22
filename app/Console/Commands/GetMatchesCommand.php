@@ -34,7 +34,7 @@ class GetMatchesCommand extends Command
     {
         try {
 //            ray()->measure();
-            $this->info('Running...'.$this->description);
+            $this->info('Running...' . $this->description);
 
             // Get distinct club_id & platform properties
             $properties = User::distinct()->pluck('platform', 'club_id');
