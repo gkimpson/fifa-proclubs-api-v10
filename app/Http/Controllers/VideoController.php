@@ -10,14 +10,14 @@ class VideoController extends Controller
 {
     public function index(Request $request): View
     {
-        $data = Video::all();
+        $data['videos'] = Video::all();
 
         return view('video.index', $data);
     }
 
     public function show(Request $request, Video $video): View
     {
-        $data = $video;
+        $data['video'] = $video;
 
         return view('video.show', $data);
     }
