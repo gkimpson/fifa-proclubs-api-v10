@@ -14,9 +14,7 @@ class ResultController extends Controller
      */
     public function index(): mixed
     {
-        $data = Result::getAll();
-
-        return $data;
+        return Result::getAll();
     }
 
     /**
@@ -31,7 +29,6 @@ class ResultController extends Controller
      */
     public function show(Result $result): Response
     {
-        //
     }
 
     /**
@@ -39,7 +36,6 @@ class ResultController extends Controller
      */
     public function update(UpdateResultRequest $request, Result $result): Response
     {
-        //
     }
 
     /**
@@ -47,6 +43,5 @@ class ResultController extends Controller
      */
     public function destroy(Result $result): Response
     {
-        //
     }
 }

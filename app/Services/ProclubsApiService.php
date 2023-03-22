@@ -6,21 +6,20 @@ use App\Enums\MatchTypes;
 use App\Enums\Platforms;
 use Exception;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class ProclubsApiService
 {
-    const API_URL = 'https://proclubs.ea.com/api/fifa/';
+    public const API_URL = 'https://proclubs.ea.com/api/fifa/';
 
-    const REFERER = 'https://www.ea.com/';
+    public const REFERER = 'https://www.ea.com/';
 
     // TODO - add to an ENUM later
     public function __construct()
     {
     }
 
-    public static function doExternalApiCall(string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false)
+    public static function doExternalApiCall(?string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false)
     {
         try {
             $url = self::API_URL . $endpoint . '?' . http_build_query($params);
@@ -59,7 +58,7 @@ class ProclubsApiService
             ]);
 
             if (curl_exec($curl) === false || curl_errno($curl)) {
-                echo (App::environment(['local', 'staging'])) ? 'Curl error: ' . curl_error($curl) : 'An unexpected error has occurred - try again later';
+                echo App::environment(['local', 'staging']) ? 'Curl error: ' . curl_error($curl) : 'An unexpected error has occurred - try again later';
                 Log::error('Curl request failed with last error: ' . curl_error($curl));
             } else {
                 if ($isCLI) {
@@ -70,7 +69,7 @@ class ProclubsApiService
             $response = curl_exec($curl);
             curl_close($curl);
 
-            return ($jsonDecoded) ? json_decode($response) : $response;
+            return $jsonDecoded ? json_decode($response) : $response;
         } catch (Exception $e) {
             // do some logging...
             Log::error('API request failed with exception: ' . $e->getMessage());
@@ -138,7 +137,7 @@ class ProclubsApiService
 
     public static function leaderboard(Platforms $platform, string $type)
     {
-        $endpoint = ($type === 'club') ? 'clubRankLeaderboard' : 'seasonRankLeaderboard';
+        $endpoint = $type === 'club' ? 'clubRankLeaderboard' : 'seasonRankLeaderboard';
 
         return self::doExternalApiCall($endpoint, [
             'platform' => $platform->name(),
@@ -166,8 +165,6 @@ class ProclubsApiService
             return $player->name === $playerName;
         });
 
-        $foundPlayer = reset($targetPlayer);
-
-        return $foundPlayer;
+        return reset($targetPlayer);
     }
 }

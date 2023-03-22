@@ -52,8 +52,6 @@ Route::get('platform/{platform}/leaderboard/{leaderboardType}/', [ClubController
 
 require __DIR__ . '/auth.php';
 
-
 Route::resource('media', App\Http\Controllers\MediaController::class)->only('index', 'show');
-
 
 Route::resource('video', App\Http\Controllers\VideoController::class)->only('index', 'show');

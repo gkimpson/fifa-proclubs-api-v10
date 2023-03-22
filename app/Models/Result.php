@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $media
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Database\Factories\ResultFactory factory($count = null, $state = [])
  * @method static Builder|Result newModelQuery()
  * @method static Builder|Result newQuery()
@@ -46,6 +47,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Result wherePlatform($value)
  * @method static Builder|Result whereProperties($value)
  * @method static Builder|Result whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Result extends Model
@@ -91,7 +93,7 @@ class Result extends Model
         $carbonDate->timestamp($result['timestamp']);
         $clubs = array_values($result['clubs']);
 
-        $data = [
+        return [
             'match_id' => $result['matchId'],
             'home_team_id' => $clubs[0]['id'],
             'away_team_id' => $clubs[1]['id'],
@@ -108,8 +110,6 @@ class Result extends Model
             ],
             'platform' => $platform,
         ];
-
-        return $data;
     }
 
     public static function insertMatches(array $results, string $platform): int
@@ -169,7 +169,7 @@ class Result extends Model
 
     private static function getPlayerData(object $players): array
     {
-        $data = collect($players)->map(function ($clubPlayers) {
+        return collect($players)->map(function ($clubPlayers) {
             return collect($clubPlayers)->map(function ($player) {
                 return [
                     'assists' => $player->assists,
@@ -199,8 +199,6 @@ class Result extends Model
                 ];
             })->toArray();
         })->toArray();
-
-        return $data;
     }
 
     // TODO: generate FUT style card with attributes
@@ -212,11 +210,11 @@ class Result extends Model
     private static function getMatchOutcome(array $clubData): string
     {
         switch (true) {
-            case $clubData['wins'] == 1:
+            case $clubData['wins'] === 1:
                 return Outcomes::HOMEWIN->name();
-            case $clubData['losses'] == 1:
+            case $clubData['losses'] === 1:
                 return Outcomes::AWAYWIN->name();
-            case $clubData['ties'] == 1:
+            case $clubData['ties'] === 1:
                 return Outcomes::DRAW->name();
             default:
                 throw new Exception('Invalid club data provided.');

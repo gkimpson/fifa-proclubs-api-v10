@@ -69,6 +69,7 @@ class ResultService
      * @param  mixed  $clubId unique identifier for the club
      * @param  string  $platform platform/console
      * @param  callable  $dataGetter function that retrieves data for the specified club and platform.
+     *
      * @return mixed The cached data or new data retrieved by the dataGetter function.
      */
     private function processCache(string $cacheName, int $clubId, string $platform, array $dataGetter)
@@ -82,12 +83,10 @@ class ResultService
     private function filterPlayerData(object $players, string $matchedPlayer)
     {
         if (isset($players->members)) {
-            $targetPlayer = collect($players->members)
+            return collect($players->members)
                 ->first(function ($player) use ($matchedPlayer) {
                     return $player->name === $matchedPlayer;
                 });
-
-            return $targetPlayer;
         }
     }
 
