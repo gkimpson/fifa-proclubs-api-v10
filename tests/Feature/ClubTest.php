@@ -91,6 +91,34 @@ class ClubTest extends TestCase
         $this->assertStringContainsString('matchId', $json);
         $this->assertStringContainsString('clubs', $json);
         $this->assertStringContainsString('players', $json);
+        $response->assertJsonStructure([
+            [
+                'matchId',
+                'timestamp',
+                'timeAgo' => [
+                    'number',
+                    'unit',
+                ],
+                'clubs' => [
+                    '52003' => [
+                        'gameNumber',
+                        'goals',
+                        'goalsAgainst',
+                        'losses',
+                        'result',
+                        'score',
+                        'season_id',
+                        'TEAM',
+                        'ties',
+                        'winnerByDnf',
+                        'wins',
+                        'details' => [
+                            'name',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 
     /**
@@ -105,9 +133,52 @@ class ClubTest extends TestCase
         $json = $response->getContent();
         $response->assertOk();
 
-        $this->assertStringContainsString('rank', $json);
-        $this->assertStringContainsString('seasons', $json);
-        $this->assertStringContainsString('titlesWon', $json);
+        $response->assertJsonStructure([
+            [
+                'rank',
+                'seasons',
+                'titlesWon',
+                'leaguesWon',
+                'divsWon1',
+                'divsWon2',
+                'divsWon3',
+                'cupsWon6',
+                'cupsWon5',
+                'cupsWon4',
+                'cupsWon3',
+                'cupsWon2',
+                'cupsWon1',
+                'cupsWon0',
+                'totalCupsWon',
+                'cupsEntered',
+                'cupWinPercent',
+                'promotions',
+                'relegations',
+                'wins',
+                'ties',
+                'losses',
+                'maxDivision',
+                'goals',
+                'goalsAgainst',
+                'averageGoalsPerGame',
+                'averageGoalsAgainstPerGame',
+                'cleanSheets',
+                'starLevel',
+                'agreggateRecord',
+                'clubName',
+                'clubId',
+                'currentDivision',
+                'rankingPoints',
+                'clubInfo' => [
+                    'name',
+                    'clubId',
+                    'regionId',
+                    'teamId',
+                    'customKit' => [],
+                ],
+                'platform',
+            ],
+        ]);
     }
 
     /**
@@ -125,6 +196,15 @@ class ClubTest extends TestCase
         $this->assertStringContainsString('members', $json);
         $this->assertStringContainsString('gamesPlayed', $json);
         $this->assertStringContainsString('assists', $json);
+        $response->assertJsonStructure([
+            'members' => [],
+            'positionCount' => [
+                'midfielder' => [],
+                'goalkeeper' => [],
+                'forward' => [],
+                'defender' => [],
+            ],
+        ]);
     }
 
     /**
@@ -143,6 +223,42 @@ class ClubTest extends TestCase
         $this->assertStringContainsString('members', $json);
         $this->assertStringContainsString('gamesPlayed', $json);
         $this->assertStringContainsString('assists', $json);
+        $response->assertJsonStructure([
+            'career' => [
+                'name',
+                'proPos',
+                'gamesPlayed',
+                'goals',
+                'assists',
+                'manOfTheMatch',
+                'ratingAve',
+                'favoritePosition',
+            ],
+            'members' => [
+                'name',
+                'gamesPlayed',
+                'winRate',
+                'goals',
+                'assists',
+                'cleanSheetsDef',
+                'cleanSheetsGK',
+                'shotSuccessRate',
+                'passesMade',
+                'passSuccessRate',
+                'tacklesMade',
+                'tackleSuccessRate',
+                'proName',
+                'proPos',
+                'proPos',
+                'proHeight',
+                'proNationality',
+                'proOverall',
+                'manOfTheMatch',
+                'redCards',
+                'prevGoals',
+                'favoritePosition',
+            ],
+        ]);
     }
 
     /**
@@ -167,6 +283,15 @@ class ClubTest extends TestCase
         $response = $this->actingAs($this->user)->get($uri);
 
         $response->assertOk();
+        $response->assertJsonStructure([
+            '1' => [
+                'divisionName',
+                'divisionId',
+                'pointsForPromotion',
+                'pointsToHoldDivision',
+                'pointsToTitle',
+            ],
+        ]);
     }
 
     /**
@@ -184,6 +309,15 @@ class ClubTest extends TestCase
         $this->assertStringContainsString('members', $json);
         $this->assertStringContainsString('gamesPlayed', $json);
         $this->assertStringContainsString('assists', $json);
+        $response->assertJsonStructure([
+            'members' => [],
+            'positionCount' => [
+                'midfielder' => [],
+                'goalkeeper' => [],
+                'forward' => [],
+                'defender' => [],
+            ],
+        ]);
     }
 
     /**
@@ -198,6 +332,16 @@ class ClubTest extends TestCase
         $response = $this->actingAs($this->user)->get($uri);
 
         $response->assertOk();
+        $response->assertJsonStructure([
+            'player1' => [
+                'career' => [],
+                'members' => [],
+            ],
+            'player2' => [
+                'career' => [],
+                'members' => [],
+            ],
+        ]);
         $response->assertJsonCount(2, 'player1');
         $response->assertJsonCount(2, 'player2');
     }
