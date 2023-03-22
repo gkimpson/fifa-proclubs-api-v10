@@ -9,6 +9,45 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Result
+ *
+ * @property int $id
+ * @property string $match_id
+ * @property int $home_team_id
+ * @property int $away_team_id
+ * @property int $home_team_goals
+ * @property int $away_team_goals
+ * @property int $home_team_player_count
+ * @property int $away_team_player_count
+ * @property string $outcome
+ * @property string $match_date
+ * @property string $platform
+ * @property array|null $properties
+ * @property string|null $media
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\ResultFactory factory($count = null, $state = [])
+ * @method static Builder|Result newModelQuery()
+ * @method static Builder|Result newQuery()
+ * @method static Builder|Result query()
+ * @method static Builder|Result whereAwayTeamGoals($value)
+ * @method static Builder|Result whereAwayTeamId($value)
+ * @method static Builder|Result whereAwayTeamPlayerCount($value)
+ * @method static Builder|Result whereCreatedAt($value)
+ * @method static Builder|Result whereHomeTeamGoals($value)
+ * @method static Builder|Result whereHomeTeamId($value)
+ * @method static Builder|Result whereHomeTeamPlayerCount($value)
+ * @method static Builder|Result whereId($value)
+ * @method static Builder|Result whereMatchDate($value)
+ * @method static Builder|Result whereMatchId($value)
+ * @method static Builder|Result whereMedia($value)
+ * @method static Builder|Result whereOutcome($value)
+ * @method static Builder|Result wherePlatform($value)
+ * @method static Builder|Result whereProperties($value)
+ * @method static Builder|Result whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Result extends Model
 {
     use HasFactory;
