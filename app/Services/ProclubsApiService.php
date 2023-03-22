@@ -43,7 +43,7 @@ class ProclubsApiService
 //                ],
 //            ]);
 
-            // TODO - use the Laravel way for this, keeping the block above because we all know EA like to mess about like they did before and locked out the ProClub Avengers!
+            // TODO - use the Laravel way for this just need to figure it out?!, keeping the block above because we all know EA like to mess about like they did before and locked out the ProClub Avengers!
             curl_setopt_array($curl, [
                 CURLOPT_URL => $url,
                 CURLOPT_RETURNTRANSFER => true,
@@ -144,14 +144,10 @@ class ProclubsApiService
         ]);
     }
 
-    public static function playerStats(Platforms $platform, int $clubId, string $playerName)
+    public static function playerStats(Platforms $platform, int $clubId, string $playerName): array
     {
         $career = json_decode(self::careerStats($platform, $clubId));
         $members = json_decode(self::memberStats($platform, $clubId));
-
-        if (empty($career) || empty($members)) {
-            return false;
-        }
 
         return [
             'career' => self::filterPlayer($career->members, $playerName),

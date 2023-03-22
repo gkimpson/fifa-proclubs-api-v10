@@ -93,7 +93,7 @@ class ClubController extends Controller
     /**
      * @throws Exception
      */
-    public function league(int $clubId, string $platform, ResultService $resultService): \Illuminate\Http\JsonResponse
+    public function league(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
         $data = json_decode(ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE));
 
@@ -154,7 +154,7 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
-    public function form(ResultService $resultService): \Illuminate\Http\JsonResponse
+    public function form(): \Illuminate\Http\JsonResponse
     {
         $data = [];
 

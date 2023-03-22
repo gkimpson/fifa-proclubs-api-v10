@@ -16,32 +16,4 @@ class ResultController extends Controller
     {
         return Result::getAll();
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreResultRequest $request): Response
-    {
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Result $result): Response
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateResultRequest $request, Result $result): Response
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Result $result): Response
-    {
-    }
 }

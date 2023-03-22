@@ -31,7 +31,7 @@ class GetMatchesCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(Request $request): int
+    public function handle(): int
     {
         try {
 //            ray()->measure();
@@ -59,7 +59,7 @@ class GetMatchesCommand extends Command
 //            ray()->measure();
             return 0;
         } catch (Exception $e) {
-            log::error($e->getMessage());
+            Log::error($e->getMessage());
 
             return 0;
         }

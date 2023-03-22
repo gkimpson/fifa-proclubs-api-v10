@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 /**
  * App\Models\Result
@@ -82,6 +83,7 @@ class Result extends Model
                 ];
             })->all();
         } catch (Exception $e) {
+            Log::error($e->getMessage());
         }
 
         return $results;
@@ -124,6 +126,7 @@ class Result extends Model
                     Result::create($data);
                     $inserted++;
                 } catch (Exception $e) {
+                    Log::error($e->getMessage());
                 }
             }
         }
@@ -171,40 +174,39 @@ class Result extends Model
     {
         return collect($players)->map(function ($clubPlayers) {
             return collect($clubPlayers)->map(function ($player) {
-                return [
-                    'assists' => $player->assists,
-                    'cleansheetsany' => $player->cleansheetsany,
-                    'cleansheetsdef' => $player->cleansheetsdef,
-                    'cleansheetsgk' => $player->cleansheetsgk,
-                    'goals' => $player->goals,
-                    'goalsconceded' => $player->goalsconceded,
-                    'losses' => $player->losses,
-                    'mom' => $player->mom,
-                    'passattempts' => $player->passattempts,
-                    'passesmade' => $player->passesmade,
-                    'pos' => $player->pos,
-                    'realtimegame' => $player->realtimegame,
-                    'realtimeidle' => $player->realtimeidle,
-                    'redcards' => $player->redcards,
-                    'saves' => $player->saves,
-                    'SCORE' => $player->SCORE,
-                    'shots' => $player->shots,
-                    'tackleattempts' => $player->tackleattempts,
-                    'tacklesmade' => $player->tacklesmade,
-                    'vproattr' => self::getProAttributes($player->vproattr),
-                    'vprohackreason' => $player->vprohackreason,
-                    'wins' => $player->wins,
-                    'playername' => $player->playername,
-                    'properties' => $player,
-                ];
+                return self::getPlayerStats($player);
             })->toArray();
         })->toArray();
     }
 
-    // TODO: generate FUT style card with attributes
-    private static function getProAttributes(string $attributes): string
+    private static function getPlayerStats($player): array
     {
-        return $attributes;
+        return [
+            'assists' => $player->assists,
+            'cleansheetsany' => $player->cleansheetsany,
+            'cleansheetsdef' => $player->cleansheetsdef,
+            'cleansheetsgk' => $player->cleansheetsgk,
+            'goals' => $player->goals,
+            'goalsconceded' => $player->goalsconceded,
+            'losses' => $player->losses,
+            'mom' => $player->mom,
+            'passattempts' => $player->passattempts,
+            'passesmade' => $player->passesmade,
+            'pos' => $player->pos,
+            'realtimegame' => $player->realtimegame,
+            'realtimeidle' => $player->realtimeidle,
+            'redcards' => $player->redcards,
+            'saves' => $player->saves,
+            'SCORE' => $player->SCORE,
+            'shots' => $player->shots,
+            'tackleattempts' => $player->tackleattempts,
+            'tacklesmade' => $player->tacklesmade,
+            'vproattr' => self::getProAttributes($player->vproattr),
+            'vprohackreason' => $player->vprohackreason,
+            'wins' => $player->wins,
+            'playername' => $player->playername,
+            'properties' => $player,
+        ];
     }
 
     private static function getMatchOutcome(array $clubData): string
