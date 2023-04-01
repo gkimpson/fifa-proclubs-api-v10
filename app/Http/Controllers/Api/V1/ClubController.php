@@ -7,11 +7,9 @@ use App\Enums\Platforms;
 use App\Http\Controllers\Controller;
 use App\Services\ProclubsApiService;
 use App\Services\ResultService;
-use Illuminate\Http\Request;
 
 class ClubController extends Controller
 {
-
     public function index(int $clubId, string $platform): \Illuminate\Http\JsonResponse
     {
         $data = json_decode(ProclubsApiService::clubsInfo(Platforms::getPlatform($platform), $clubId));
@@ -112,5 +110,4 @@ class ClubController extends Controller
 
         return response()->json($data);
     }
-
 }

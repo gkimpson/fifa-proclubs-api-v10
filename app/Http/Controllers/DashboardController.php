@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ResultResource;
 use App\Models\Result;
 
 class DashboardController extends Controller
