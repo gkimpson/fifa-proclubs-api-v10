@@ -28,3 +28,5 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
 
+includes:
+    - ./vendor/tomasvotruba/bladestan/config/extension.neon
