@@ -8,7 +8,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $data['results'] = Result::get()->paginate(10);
+	$data['results'] = Result::orderBy('created_at', 'desc')->get()->paginate(10);
 
         return view('dashboard.index', $data);
     }
