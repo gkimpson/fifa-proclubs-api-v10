@@ -18,9 +18,9 @@
                         </div>
                         @foreach ($results as $result)
                         <div class="flex flex-row">
-                            <div class="basis-1/3 text-center">{{ $result->properties['clubs'][0]['name'] }}</div>
+                            <div class="basis-1/3 text-center">{{ $result->properties['clubs'][0]['name'] ?? 'Team Disbanded' }}</div>
                             <div class="basis-1/3 text-center">{{ $result->home_team_goals }} - {{ $result->away_team_goals }}</div>
-                            <div class="basis-1/3 text-center">{{ $result->properties['clubs'][1]['name'] }}</div>
+                            <div class="basis-1/3 text-center">{{ $result->properties['clubs'][1]['name'] ?? 'Team Disbanded' }}</div>
                         </div>
                         @endforeach
                     </div>
