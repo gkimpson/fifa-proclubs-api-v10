@@ -38,7 +38,6 @@ class ResultService
 
     public function getClubComparision(int $clubId, string $platform)
     {
-        
     }
 
     public function getRankingData(int $clubId, string $platform): array

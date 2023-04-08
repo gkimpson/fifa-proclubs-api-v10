@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class HighchartController extends Controller
 {

@@ -26,9 +26,9 @@ class ChartService
             return self::getFormattedPlayerAttributes($player->club_id, $player->platform, $player->player_name, true);
         });
 
-        return ([
+        return [
             'players' => $clubPlayers->toArray(),
-        ]);
+        ];
     }
 
     public static function getFormattedPlayerAttributes(int $clubId, string $platform, string $player, $valuesOnly = false): array
@@ -142,5 +142,4 @@ class ChartService
 
         return $collection->average();
     }
-
 }
