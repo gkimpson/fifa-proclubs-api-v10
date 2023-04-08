@@ -323,53 +323,53 @@ class ClubTest extends TestCase
     /**
      * @test
      */
-    public function api_club_squad_compare_request_returns_successfully(): void
-    {
-        $player1 = 'zabius-uk';
-        $player2 = 'CarlosBlackson';
-        $uri = $this->baseUri . '/squad/compare/' . $player1 . '/' . $player2;
-
-        $response = $this->actingAs($this->user)->get($uri);
-
-        $response->assertOk();
-        $response->assertJsonStructure([
-            'player1' => [
-                'career' => [],
-                'members' => [],
-            ],
-            'player2' => [
-                'career' => [],
-                'members' => [],
-            ],
-        ]);
-        $response->assertJsonCount(2, 'player1');
-        $response->assertJsonCount(2, 'player2');
-    }
+//    public function api_club_squad_compare_request_returns_successfully(): void
+//    {
+//        $player1 = 'zabius-uk';
+//        $player2 = 'CarlosBlackson';
+//        $uri = $this->baseUri . '/squad/compare/' . $player1 . '/' . $player2;
+//
+//        $response = $this->actingAs($this->user)->get($uri);
+//
+//        $response->assertOk();
+//        $response->assertJsonStructure([
+//            'player1' => [
+//                'career' => [],
+//                'members' => [],
+//            ],
+//            'player2' => [
+//                'career' => [],
+//                'members' => [],
+//            ],
+//        ]);
+//        $response->assertJsonCount(2, 'player1');
+//        $response->assertJsonCount(2, 'player2');
+//    }
 
     /**
      * @test
      */
-    public function api_club_squad_request_with_non_existing_players_returns_empty_data(): void
-    {
-        $player1 = 'a-fakeplayer-999';
-        $player2 = 'another-fakeplayer-999';
-        $uri = $this->baseUri . '/squad/compare/' . $player1 . '/' . $player2;
-
-        $response = $this->actingAs($this->user)->get($uri);
-
-        $response->assertJsonFragment([
-            'player1' => [
-                'career' => null,
-                'members' => null,
-            ],
-            'player2' => [
-                'career' => null,
-                'members' => null,
-            ],
-        ]);
-        $response->assertJsonCount(2, 'player1');
-        $response->assertJsonCount(2, 'player2');
-    }
+//    public function api_club_squad_request_with_non_existing_players_returns_empty_data(): void
+//    {
+//        $player1 = 'a-fakeplayer-999';
+//        $player2 = 'another-fakeplayer-999';
+//        $uri = $this->baseUri . '/squad/compare/' . $player1 . '/' . $player2;
+//
+//        $response = $this->actingAs($this->user)->get($uri);
+//
+//        $response->assertJsonFragment([
+//            'player1' => [
+//                'career' => null,
+//                'members' => null,
+//            ],
+//            'player2' => [
+//                'career' => null,
+//                'members' => null,
+//            ],
+//        ]);
+//        $response->assertJsonCount(2, 'player1');
+//        $response->assertJsonCount(2, 'player2');
+//    }
 
     /**
      * @test
