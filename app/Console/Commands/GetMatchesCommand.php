@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
+use App\Models\Player;
 use App\Models\Result;
 use App\Models\User;
 use App\Services\ProclubsApiService;
@@ -33,28 +34,39 @@ class GetMatchesCommand extends Command
     public function handle(): int
     {
         try {
-//            ray()->measure();
             $this->info('Running...' . $this->description);
 
             // Get distinct club_id & platform properties
             $properties = User::distinct()->pluck('platform', 'club_id');
 
-            foreach ($properties as $clubId => $platform) {
+            $properties->map(function ($platform, $clubId) use ($properties) {
                 $this->info("Collecting matches data for - Platform: {$platform} | ClubId: {$clubId}");
+                $lastIteration = ($clubId === $properties->keys()->last());
 
-                // Get league and cup results, then combine them
                 $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
                 $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
                 $results = array_merge(Result::formatJsonData($leagueResults), Result::formatJsonData($cupResults));
 
-//                $this->info(json_encode($results));
                 $count = count($results);
                 $this->info("{$count} matches found");
 
                 $inserted = Result::insertMatches($results, $platform);
                 $this->info("{$inserted} unique results into the database");
-            }
-//            ray()->measure();
+
+                // Check if this is the last iteration and add/update players for YOUR club (maybe extend this to all clubs?) // TODO
+                if ($lastIteration) {
+                    $latestResult = Result::byTeam($clubId);
+                    $players = collect($latestResult->properties['players'][$clubId]);
+                    $players->each(function (array $row, $eaPlayerId) use ($clubId, $platform) {
+                        $player = Player::updateOrCreate(
+                            ['club_id' => $clubId, 'platform' => $platform, 'player_name' => $row['playername']],
+                            ['ea_player_id' => $eaPlayerId, 'attributes' => $row['vproattr']]
+                        );
+                        $this->info('Player updated: ' . $player->player_name);
+                    });
+                }
+            });
+
             return 0;
         } catch (Exception $e) {
             Log::error($e->getMessage());

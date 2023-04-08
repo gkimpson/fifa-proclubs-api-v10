@@ -9,6 +9,8 @@ class Player extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['club_id', 'ea_player_id', 'platform', 'player_name', 'attributes'];
+
     /**
      * Scope a query to only include the player with the specified club ID, platform, and player name.
      *

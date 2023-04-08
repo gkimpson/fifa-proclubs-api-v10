@@ -14,6 +14,17 @@ class ChartService
 
     }
 
+    public static function getPlayerComparisonData(int $clubId, string $platform, string $player1, string $player2): array
+    {
+        $player1Attributes = self::getFormattedPlayerAttributes($clubId, $platform, $player1);
+        $player2Attributes = self::getFormattedPlayerAttributes($clubId, $platform, $player2);
+
+        return [
+            'player1' => $player1Attributes,
+            'player2' => $player2Attributes,
+        ];
+    }
+
     public static function getFormattedPlayerAttributes(int $clubId, string $platform, string $player): array
     {
         $attributes = self::getPlayer($clubId, $platform, $player);

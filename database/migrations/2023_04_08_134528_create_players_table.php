@@ -15,8 +15,9 @@ return new class extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('club_id');
+            $table->unsignedInteger('ea_player_id')->nullable(); // TODO - need to find out if this changes with new game
             $table->enum('platform', Platforms::all());
-            $table->string('player_name', 255);
+            $table->string('player_name', 255); // psn/xbox/pc unique handle
             $table->string('attributes', 255);
             $table->timestamps();
 

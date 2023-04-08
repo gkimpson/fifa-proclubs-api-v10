@@ -1,11 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <title>Laravel Highcharts Demo</title>
-</head>
 <body>
-<h1>Highcharts in Laravel Example</h1>
 <div id="container"></div>
 </body>
 <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -59,8 +53,7 @@
 
 </style>
 <script type="text/javascript">
-    const chartData = <?php echo json_encode($data)?>;
-    console.log('chartData', chartData);
+    const data = <?php echo json_encode($data)?>;
 
     Highcharts.chart('container', {
 
@@ -70,21 +63,20 @@
         },
 
         accessibility: {
-            description: 'A spiderweb chart compares the allocated budget against actual spending within an organization. The spider chart has six spokes. Each spoke represents one of the 6 departments within the organization: sales, marketing, development, customer support, information technology and administration. The chart is interactive, and each data point is displayed upon hovering. The chart clearly shows that 4 of the 6 departments have overspent their budget with Marketing responsible for the greatest overspend of $20,000. The allocated budget and actual spending data points for each department are as follows: Sales. Budget equals $43,000; spending equals $50,000. Marketing. Budget equals $19,000; spending equals $39,000. Development. Budget equals $60,000; spending equals $42,000. Customer support. Budget equals $35,000; spending equals $31,000. Information technology. Budget equals $17,000; spending equals $26,000. Administration. Budget equals $10,000; spending equals $14,000.'
+            description: 'A spiderweb chart compares the six variables of comparison for two players.'
         },
 
         title: {
-            text: 'Budget vs spending',
+            text: data.chartData.player1.name + ' vs ' + data.chartData.player2.name,
             x: -80
         },
 
         pane: {
-            size: '80%'
+            size: '100%'
         },
 
         xAxis: {
-            categories: ['Sales', 'Marketing', 'Development', 'Customer Support',
-                'Information Technology', 'Administration'],
+            categories: ['Shooting', 'Passing', 'Dribbling', 'Defending', 'Physical', 'Pace', 'Goalkeeping'],
             tickmarkPlacement: 'on',
             lineWidth: 0
         },
@@ -97,7 +89,7 @@
 
         tooltip: {
             shared: true,
-            pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}/99</b><br/>'
         },
 
         legend: {
@@ -107,12 +99,24 @@
         },
 
         series: [{
-            name: 'Allocated Budget',
-            data: [43000, 19000, 60000, 35000, 17000, 10000],
+            name: data.chartData.player1.name,
+            data: [data.chartData.player1.averages.shooting,
+                data.chartData.player1.averages.passing,
+                data.chartData.player1.averages.dribbling,
+                data.chartData.player1.averages.defending,
+                data.chartData.player1.averages.physical,
+                data.chartData.player1.averages.pace,
+                data.chartData.player1.averages.goalkeeping],
             pointPlacement: 'on'
         }, {
-            name: 'Actual Spending',
-            data: [50000, 39000, 42000, 31000, 26000, 14000],
+            name: data.chartData.player2.name,
+            data: [data.chartData.player2.averages.shooting,
+                data.chartData.player2.averages.passing,
+                data.chartData.player2.averages.dribbling,
+                data.chartData.player2.averages.defending,
+                data.chartData.player2.averages.physical,
+                data.chartData.player2.averages.pace,
+                data.chartData.player2.averages.goalkeeping],
             pointPlacement: 'on'
         }],
 
@@ -132,17 +136,13 @@
                     }
                 }
             }]
-        }
-
+        },
     });
-
 </script>
 <figure class="highcharts-figure">
     <div id="container"></div>
     <p class="highcharts-description">
-        A spiderweb chart or radar chart is a variant of the polar chart.
-        Spiderweb charts are commonly used to compare multivariate data sets,
-        like this demo using six variables of comparison.
+        A spiderweb chart compares the six variables of comparison for two players.
     </p>
 </figure>
 </html>

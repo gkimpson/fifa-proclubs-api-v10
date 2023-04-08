@@ -73,6 +73,14 @@ class Result extends Model
         return Result::all();
     }
 
+    public function scopeByTeam($query, $teamId)
+    {
+        return $query->where('home_team_id', $teamId)
+            ->orWhere('away_team_id', $teamId)
+            ->latest()
+            ->first();
+    }
+
     public static function formatJsonData(string $data): array
     {
         $results = [];

@@ -55,6 +55,8 @@ Route::prefix('chart')->group(function () {
     Route::get('/', [HighchartController::class, 'index'])->name('chart.index');
 });
 
+Route::get('debug', [ClubController::class, 'debug'])->name('club.debug');
+
 // playing around with Blueprint autogenerator
 Route::resource('video', App\Http\Controllers\VideoController::class)->only('index', 'show');
 

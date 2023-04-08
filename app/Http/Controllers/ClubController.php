@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
+use App\Models\Player;
+use App\Models\Result;
 use App\Models\User;
 use App\Services\ChartService;
 use App\Services\ProclubsApiService;
@@ -139,21 +141,14 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
-    public function compare(ResultService $resultService)
+    public function compare(ResultService $resultService, ChartService $chartService): \Illuminate\Contracts\View\View
     {
         $data = [
             'playerData' => $resultService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2),
-            'chartData' => [
-                'player1' => ChartService::getFormattedPlayerAttributes($this->clubId, $this->platform, $this->player1),
-                'player2' => ChartService::getFormattedPlayerAttributes($this->clubId, $this->platform, $this->player2),
-            ]
+            'chartData' => $chartService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2),
         ];
 
-
-        dd($data);
         return view('club.compare', compact('data'));
-
-
     }
 
     public function ranking(ResultService $resultService): \Illuminate\Http\JsonResponse
@@ -171,5 +166,21 @@ class ClubController extends Controller
         $data = [];
 
         return response()->json($data);
+    }
+
+    public function debug()
+    {
+        $result = Result::first();
+        $clubId = 52003;
+        $platform = 'ps5';
+
+        $players = collect($result->properties['players'][$clubId]);
+
+        $players->each(function (array $row, $eaPlayerId) use ($clubId, $platform) {
+            $player = Player::updateOrCreate(
+              ['club_id' => $clubId, 'platform' => $platform, 'player_name' => $row['playername']],
+              ['ea_player_id' => $eaPlayerId, 'attributes' => $row['vproattr']]
+            );
+        });
     }
 }
