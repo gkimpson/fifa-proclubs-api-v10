@@ -142,7 +142,7 @@
 <figure class="highcharts-figure">
     <div id="container"></div>
     <p class="highcharts-description">
-        A spiderweb chart compares the six variables of comparison for two players.
+        A spiderweb chart compares the seven variables of comparison for two players.
     </p>
 </figure>
 </html>
