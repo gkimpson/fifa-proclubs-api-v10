@@ -127,7 +127,4 @@ class ChartService
         return $collection->average();
     }
 
-    public function index()
-    {
-    }
 }
