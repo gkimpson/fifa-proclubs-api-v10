@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HighchartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResultController;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,10 @@ Route::prefix('club/{clubId}/platform/{platform}')->group(function () {
 });
 
 Route::get('platform/{platform}/leaderboard/{leaderboardType}/', [ClubController::class, 'leaderboard'])->name('club.leaderboard');
+
+Route::prefix('chart')->group(function () {
+    Route::get('/', [HighchartController::class, 'index'])->name('chart.index');
+});
 
 // playing around with Blueprint autogenerator
 Route::resource('video', App\Http\Controllers\VideoController::class)->only('index', 'show');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
+use App\Models\User;
+use App\Services\ChartService;
 use App\Services\ProclubsApiService;
 use App\Services\ResultService;
 use Exception;
@@ -137,11 +139,21 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
-    public function compare(ResultService $resultService): \Illuminate\Http\JsonResponse
+    public function compare(ResultService $resultService)
     {
-        $data = $resultService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2);
+        $data = [
+            'playerData' => $resultService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2),
+            'chartData' => [
+                'player1' => ChartService::getFormattedPlayerAttributes($this->clubId, $this->platform, $this->player1),
+                'player2' => ChartService::getFormattedPlayerAttributes($this->clubId, $this->platform, $this->player2),
+            ]
+        ];
 
-        return response()->json($data);
+
+        dd($data);
+        return view('club.compare', compact('data'));
+
+
     }
 
     public function ranking(ResultService $resultService): \Illuminate\Http\JsonResponse

@@ -61,6 +61,13 @@ class Result extends Model
         'properties' => 'json',
     ];
 
+    protected static function booted()
+    {
+        if (auth()->check() && auth()->user()->club_id) {
+            self::getByClubId();
+        }
+    }
+
     public static function getAll()
     {
         return Result::all();
@@ -132,13 +139,6 @@ class Result extends Model
         }
 
         return $inserted;
-    }
-
-    protected static function booted()
-    {
-        if (auth()->check() && auth()->user()->club_id) {
-            self::getByClubId();
-        }
     }
 
     private static function getByClubId(): void
