@@ -81,8 +81,9 @@
 </style>
 <script type="text/javascript">
     const data = <?php echo json_encode($data)?>;
+    console.log('data', data);
 
-    Highcharts.chart('container', {
+    let chart = Highcharts.chart('container', {
 
         chart: {
             polar: true,
@@ -94,7 +95,7 @@
         },
 
         title: {
-            text: data.chartData.player1.name + ' vs ' + data.chartData.player2.name,
+            text: 'Club Player Comparision',
             x: -80
         },
 
@@ -125,27 +126,7 @@
             layout: 'vertical'
         },
 
-        series: [{
-            name: data.chartData.player1.name,
-            data: [data.chartData.player1.averages.shooting,
-                data.chartData.player1.averages.passing,
-                data.chartData.player1.averages.dribbling,
-                data.chartData.player1.averages.defending,
-                data.chartData.player1.averages.physical,
-                data.chartData.player1.averages.pace,
-                data.chartData.player1.averages.goalkeeping],
-            pointPlacement: 'on'
-        }, {
-            name: data.chartData.player2.name,
-            data: [data.chartData.player2.averages.shooting,
-                data.chartData.player2.averages.passing,
-                data.chartData.player2.averages.dribbling,
-                data.chartData.player2.averages.defending,
-                data.chartData.player2.averages.physical,
-                data.chartData.player2.averages.pace,
-                data.chartData.player2.averages.goalkeeping],
-            pointPlacement: 'on'
-        }],
+        series: [],
 
         responsive: {
             rules: [{
@@ -164,6 +145,14 @@
                 }
             }]
         },
+    });
+
+    var series = data.chartData.players;
+    console.log(series);
+
+    // Add the series to the chart
+    series.forEach(function (serie) {
+        chart.addSeries(serie);
     });
 </script>
 <figure class="highcharts-figure">

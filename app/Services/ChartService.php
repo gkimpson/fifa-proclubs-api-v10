@@ -19,7 +19,19 @@ class ChartService
         ];
     }
 
-    public static function getFormattedPlayerAttributes(int $clubId, string $platform, string $player): array
+    public static function getClubComparisonData(int $clubId, string $platform)
+    {
+        $clubPlayers = Player::findByClubAndPlatform($clubId, $platform);
+        $clubPlayers = $clubPlayers->map(function ($player) {
+            return self::getFormattedPlayerAttributes($player->club_id, $player->platform, $player->player_name, true);
+        });
+
+        return ([
+            'players' => $clubPlayers->toArray(),
+        ]);
+    }
+
+    public static function getFormattedPlayerAttributes(int $clubId, string $platform, string $player, $valuesOnly = false): array
     {
         $attributes = self::getPlayer($clubId, $platform, $player);
         Assertion::notEmpty($attributes, 'Attributes cannot be empty');
@@ -30,10 +42,12 @@ class ChartService
         $attribute_names = self::getAttributeNames();
         $attribute_groups = self::getAttributeGroups();
 
+        // TODO - refactor this to not duplicate the category averages (will break the other chart if averages key removed)
         return [
             'name' => $player,
-            'averages' => self::getCategoryAverages($attribute_groups, $attributesCollection),
+            'averages' => self::getCategoryAverages($attribute_groups, $attributesCollection, $valuesOnly),
             'mapped' => self::getMappedAttributes($attribute_names, $attributesCollection),
+            'data' => self::getCategoryAverages($attribute_groups, $attributesCollection, $valuesOnly),
         ];
     }
 
@@ -97,28 +111,30 @@ class ChartService
         ];
     }
 
-    private static function getCategoryAverages($attribute_groups, $attributes): array
+    private static function getCategoryAverages($attributeGroups, $attributes, $valuesOnly = false): array
     {
-        return collect($attribute_groups)->map(function ($attribute_group) use ($attributes) {
-            return round(self::attribute_values_averages($attributes, $attribute_group), 0);
-        })->all();
+        $data = collect($attributeGroups)->map(function ($attributeGroup) use ($attributes) {
+            return round(self::attribute_values_averages($attributes, $attributeGroup), 0);
+        });
+
+        return $valuesOnly ? $data->values()->all() : $data->all();
     }
 
-    private static function getMappedAttributes($attribute_names, $attributes): array
+    private static function getMappedAttributes($attributeNames, $attributes): array
     {
-        return collect($attribute_names)
-            ->map(function ($attribute_name, $attribute_key) use ($attributes) {
-                $slug = Str::slug($attribute_name, '-');
+        return collect($attributeNames)
+            ->map(function ($attributeName, $attributeKey) use ($attributes) {
+                $slug = Str::slug($attributeName, '-');
 
-                return [$slug => $attributes[$attribute_key]];
+                return [$slug => $attributes[$attributeKey]];
             })
             ->collapse()
             ->all();
     }
 
-    private static function attribute_values_averages(object $attributes, array $attribute_group)
+    private static function attribute_values_averages(object $attributes, array $attributeGroup)
     {
-        $collection = collect($attribute_group)->map(function ($key) use ($attributes) {
+        $collection = collect($attributeGroup)->map(function ($key) use ($attributes) {
             return $attributes[$key];
         })->reject(function ($key) {
             return empty($key);

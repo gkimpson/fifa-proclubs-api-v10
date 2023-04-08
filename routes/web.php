@@ -45,6 +45,7 @@ Route::prefix('club/{clubId}/platform/{platform}')->group(function () {
     Route::get('season', [ClubController::class, 'season'])->name('club.season');
     Route::get('settings', [ClubController::class, 'settings'])->name('club.settings');
     Route::get('squad', [ClubController::class, 'squad'])->name('club.squad');
+    Route::get('squad/compare/all', [ClubController::class, 'compareAll'])->name('club.squad.compare.all');
     Route::get('squad/compare/{player1}/{player2}', [ClubController::class, 'compare'])->name('club.squad.compare');
     Route::get('squad/ranking', [ClubController::class, 'ranking'])->name('club.squad.ranking');
 });

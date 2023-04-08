@@ -24,4 +24,11 @@ class Player extends Model
             ->where('player_name', $playerName)
             ->first();
     }
+
+    public function scopeFindByClubAndPlatform(object $query, int $clubId, string $platform): \Illuminate\Database\Eloquent\Collection
+    {
+        return $query->where('club_id', $clubId)
+            ->where('platform', $platform)
+            ->get();
+    }
 }
