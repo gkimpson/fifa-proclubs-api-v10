@@ -6,7 +6,6 @@ use App\Enums\MatchTypes;
 use App\Enums\Platforms;
 use App\Models\Player;
 use App\Models\Result;
-use App\Models\User;
 use App\Services\ChartService;
 use App\Services\ProclubsApiService;
 use App\Services\ResultService;
@@ -178,8 +177,8 @@ class ClubController extends Controller
 
         $players->each(function (array $row, $eaPlayerId) use ($clubId, $platform) {
             $player = Player::updateOrCreate(
-              ['club_id' => $clubId, 'platform' => $platform, 'player_name' => $row['playername']],
-              ['ea_player_id' => $eaPlayerId, 'attributes' => $row['vproattr']]
+                ['club_id' => $clubId, 'platform' => $platform, 'player_name' => $row['playername']],
+                ['ea_player_id' => $eaPlayerId, 'attributes' => $row['vproattr']]
             );
         });
     }

@@ -15,12 +15,9 @@ class Player extends Model
      * Scope a query to only include the player with the specified club ID, platform, and player name.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  int  $clubId
-     * @param  string  $platform
-     * @param  string  $playerName
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeFindByClubAndPlatformAndPlayerName(object $query, int $clubId, string $platform, string $playerName): \App\Models\Player|null
+    public function scopeFindByClubAndPlatformAndPlayerName(object $query, int $clubId, string $platform, string $playerName): Player|null
     {
         return $query->where('club_id', $clubId)
             ->where('platform', $platform)

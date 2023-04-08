@@ -5,7 +5,7 @@ namespace App\Listeners;
 use Illuminate\Auth\Events as LaravelEvents;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use Request;
+use Illuminate\Support\Facades\Request;
 
 class LogActivity
 {

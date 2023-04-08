@@ -8,12 +8,6 @@ use Illuminate\Support\Str;
 
 class ChartService
 {
-
-    public function index()
-    {
-
-    }
-
     public static function getPlayerComparisonData(int $clubId, string $platform, string $player1, string $player2): array
     {
         $player1Attributes = self::getFormattedPlayerAttributes($clubId, $platform, $player1);
@@ -36,16 +30,17 @@ class ChartService
         $attribute_names = self::getAttributeNames();
         $attribute_groups = self::getAttributeGroups();
 
-        return ([
+        return [
             'name' => $player,
             'averages' => self::getCategoryAverages($attribute_groups, $attributesCollection),
             'mapped' => self::getMappedAttributes($attribute_names, $attributesCollection),
-        ]);
+        ];
     }
 
     private static function getPlayer(int $clubId, string $platform, string $player)
     {
         $player = Player::findByClubAndPlatformAndPlayerName($clubId, $platform, $player);
+
         return ($player && isset($player->attributes)) ? $player->attributes : null;
     }
 
@@ -108,11 +103,13 @@ class ChartService
             return round(self::attribute_values_averages($attributes, $attribute_group), 0);
         })->all();
     }
+
     private static function getMappedAttributes($attribute_names, $attributes): array
     {
         return collect($attribute_names)
             ->map(function ($attribute_name, $attribute_key) use ($attributes) {
                 $slug = Str::slug($attribute_name, '-');
+
                 return [$slug => $attributes[$attribute_key]];
             })
             ->collapse()
@@ -130,4 +127,7 @@ class ChartService
         return $collection->average();
     }
 
+    public function index()
+    {
+    }
 }
