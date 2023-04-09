@@ -182,6 +182,7 @@ class Result extends Model
     private static function getPlayerStats($player): array
     {
         return [
+            'SCORE' => $player->SCORE,
             'assists' => $player->assists,
             'cleansheetsany' => $player->cleansheetsany,
             'cleansheetsdef' => $player->cleansheetsdef,
@@ -190,22 +191,23 @@ class Result extends Model
             'goalsconceded' => $player->goalsconceded,
             'losses' => $player->losses,
             'mom' => $player->mom,
+            'namespace' => $player->namespace,
             'passattempts' => $player->passattempts,
             'passesmade' => $player->passesmade,
+            'playername' => $player->playername,
             'pos' => $player->pos,
+            'rating' => $player->rating,
             'realtimegame' => $player->realtimegame,
             'realtimeidle' => $player->realtimeidle,
             'redcards' => $player->redcards,
             'saves' => $player->saves,
-            'SCORE' => $player->SCORE,
             'shots' => $player->shots,
             'tackleattempts' => $player->tackleattempts,
             'tacklesmade' => $player->tacklesmade,
             'vproattr' => $player->vproattr,
             'vprohackreason' => $player->vprohackreason,
             'wins' => $player->wins,
-            'playername' => $player->playername,
-            'properties' => $player,
+//            'properties' => $player,
         ];
     }
 
