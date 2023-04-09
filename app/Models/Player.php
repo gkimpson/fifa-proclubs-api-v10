@@ -22,6 +22,7 @@ class Player extends Model
         return $query->where('club_id', $clubId)
             ->where('platform', $platform)
             ->where('player_name', $playerName)
+            ->orderBy('player_name')
             ->first();
     }
 
@@ -29,6 +30,7 @@ class Player extends Model
     {
         return $query->where('club_id', $clubId)
             ->where('platform', $platform)
+            ->orderBy('player_name')
             ->get();
     }
 }
