@@ -69,21 +69,23 @@
         padding: 0.5em;
     }
 
+    .highcharts-data-table th.highcharts-text[scope="col"] {
+        background-color: black;
+    }
+
     .highcharts-data-table thead tr,
     .highcharts-data-table tr:nth-child(even) {
         background-color: #9ca3af;
     }
 
-    .highcharts-data-table tr:hover {
-        /*background: #f1f7ff;*/
+    .highcharts-data-table tr:hover th.highcharts-text[scope="col"] {
         cursor: pointer;
     }
 
-    .highcharts-data-table th.highcharts-text {
-        color: ghostwhite;
+    .highcharts-data-table th.highcharts-text[scope="col"] {
+        color: lightslategrey;
+        font-weight: bolder;
     }
-
-
 </style>
 <script type="text/javascript">
     const data = <?php echo json_encode($data)?>;
@@ -160,7 +162,7 @@
         },
     });
 
-    var series = data.chartData.players;
+    let series = data.chartData.players;
     console.log(series);
 
     // Add the series to the chart
