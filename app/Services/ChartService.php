@@ -24,7 +24,7 @@ class ChartService
         $clubPlayers = Player::findByClubAndPlatform($clubId, $platform);
         $clubPlayers = $clubPlayers->map(function ($player) {
             return self::getFormattedPlayerAttributes($player->club_id, $player->platform, $player->player_name, true);
-        });
+        })->sortBy('key', SORT_NATURAL, true);
 
         return [
             'players' => $clubPlayers->toArray(),
