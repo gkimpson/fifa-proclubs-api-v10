@@ -49,7 +49,7 @@
         margin: 10px auto;
         text-align: center;
         width: 100%;
-        max-width: 500px;
+        max-width: 100%;
     }
 
     .highcharts-data-table caption {
@@ -71,12 +71,18 @@
 
     .highcharts-data-table thead tr,
     .highcharts-data-table tr:nth-child(even) {
-        background: #f8f8f8;
+        background-color: #9ca3af;
     }
 
     .highcharts-data-table tr:hover {
-        background: #f1f7ff;
+        /*background: #f1f7ff;*/
+        cursor: pointer;
     }
+
+    .highcharts-data-table th.highcharts-text {
+        color: ghostwhite;
+    }
+
 
 </style>
 <script type="text/javascript">
@@ -145,6 +151,12 @@
                     }
                 }
             }]
+        },
+
+        exporting: {
+            showTable: true,
+            tableCaption: false,
+            enabled: false
         },
     });
 
