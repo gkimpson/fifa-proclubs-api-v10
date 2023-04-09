@@ -5,7 +5,6 @@
         </h2>
     </x-slot>
 
-    <!-- Start Results -->
     <div class="py-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -27,13 +26,8 @@
 
 </x-app-layout>
 
+@include('js.highcharts')
 
-<!-- TODO do this in the proper Laravel way -->
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/highcharts-more.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <style>
     .highcharts-figure,
     .highcharts-data-table table {
@@ -88,7 +82,7 @@
     }
 </style>
 <script type="text/javascript">
-    const data = <?php echo json_encode($data)?>;
+    const data = <?php echo json_encode($chartData)?>;
     console.log('data', data);
 
     let chart = Highcharts.chart('container', {
@@ -162,10 +156,7 @@
         },
     });
 
-    let series = data.chartData.players;
-    console.log(series);
-
-    // Add the series to the chart
+    const series = data.players;
     series.forEach(function (serie) {
         chart.addSeries(serie);
     });

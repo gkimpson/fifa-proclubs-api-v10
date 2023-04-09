@@ -156,7 +156,7 @@ class ClubController extends Controller
             'chartData' => $chartService->getClubComparisonData($this->clubId, $this->platform),
         ];
 
-        return view('club.compareall', compact('data'));
+        return view('club.compareall', $data);
     }
 
     public function ranking(ResultService $resultService): \Illuminate\Http\JsonResponse

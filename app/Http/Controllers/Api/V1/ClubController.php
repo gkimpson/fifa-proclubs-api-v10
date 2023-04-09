@@ -87,9 +87,9 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
-    public function compare(ResultService $resultService): \Illuminate\Http\JsonResponse
+    public function compare(int $clubId, string $platform, string $player1, string $player2, ResultService $resultService): \Illuminate\Http\JsonResponse
     {
-        $data = $resultService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2);
+        $data = $resultService->getPlayerComparisonData($clubId, $platform, $player1, $player2);
 
         return response()->json($data);
     }
