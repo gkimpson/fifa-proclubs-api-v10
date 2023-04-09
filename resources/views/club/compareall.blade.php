@@ -112,7 +112,8 @@
         yAxis: {
             gridLineInterpolation: 'polygon',
             lineWidth: 0,
-            min: 0
+            min: 0,
+            max: 99
         },
 
         tooltip: {
