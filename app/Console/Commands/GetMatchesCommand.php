@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Assert\Assertion;
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
 use App\Models\Player;
@@ -53,11 +54,12 @@ class GetMatchesCommand extends Command
                 $inserted = Result::insertMatches($results, $platform);
                 $this->info("{$inserted} unique results into the database");
 
-                // Check if this is the last iteration and add/update players for YOUR club (maybe extend this to all clubs?) // TODO
+                // Check if this is the last iteration and add/update players for YOUR club (maybe extend this to all clubs?) // TODO - Add/update players for all clubs later
                 if ($lastIteration) {
                     $latestResult = Result::byTeam($clubId);
                     $players = collect($latestResult->properties['players'][$clubId]);
                     $players->each(function (array $row, $eaPlayerId) use ($clubId, $platform) {
+                        Assertion::length($row['vproattr'], 136, 'Invalid vproattr length, 136 string length expected however "%s" given');
                         $player = Player::updateOrCreate(
                             ['club_id' => $clubId, 'platform' => $platform, 'player_name' => $row['playername']],
                             ['ea_player_id' => $eaPlayerId, 'attributes' => $row['vproattr']]
