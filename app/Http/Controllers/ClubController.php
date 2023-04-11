@@ -147,7 +147,6 @@ class ClubController extends Controller
             'chartData' => $chartService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2),
         ];
 
-        dd($data);
         return view('club.compare', compact('data'));
     }
 
