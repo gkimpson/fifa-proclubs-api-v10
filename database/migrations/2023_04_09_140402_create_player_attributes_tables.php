@@ -14,16 +14,18 @@ return new class extends Migration
     {
         Schema::create('player_attributes', function (Blueprint $table) {
             $table->id();
-            $table->foreign('player_id')->references('id')->on('players');
             $table->unsignedInteger('player_id');
             $table->unsignedInteger('club_id');
             $table->unsignedInteger('ea_player_id')->nullable(); // TODO - need to find out if this changes with new game
-            $table->enum('platform', \App\Enums\Platforms::all());
+            $table->enum('platform', Platforms::all());
             $table->string('player_name', 255); // psn/xbox/pc unique handle
 
-            $table->unsignedInteger('pace');
-            $table->unsignedInteger('shooting');
+            // TODO - need to figure out which method I prefer
+            //$table->json('attributes')->nullable();
+            // OR
+            //individual attributes??
 
+            $table->foreign('player_id')->references('id')->on('players');
         });
     }
 
