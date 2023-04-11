@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\PlayerAttribute;
 use Assert\Assertion;
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
@@ -63,6 +64,12 @@ class GetMatchesCommand extends Command
                         $player = Player::updateOrCreate(
                             ['club_id' => $clubId, 'platform' => $platform, 'player_name' => $row['playername']],
                             ['ea_player_id' => $eaPlayerId, 'attributes' => $row['vproattr']]
+                        );
+
+                        $attributes = PlayerAttribute::generateAttributes($row['vproattr']);
+                        PlayerAttribute::updateOrCreate(
+                            ['player_id' => $player->id],
+                            $attributes
                         );
                         $this->info('Player updated: ' . $player->player_name);
                     });

@@ -60,6 +60,7 @@ class ChartService
 
     private static function getAttributeNames()
     {
+        // TODO - put this in a config file
         return [
             0 => 'ACCELERATION',
             1 => 'SPRINT SPEED',
@@ -70,7 +71,7 @@ class ChartService
             6 => 'STRENGTH',
             7 => 'REACTIONS',
             8 => 'AGGRESSION',
-            9 => 'UNSURE WTF',
+            9 => 'UNSURE ATTRIBUTE',
             10 => 'INTERCEPTIONS',
             11 => 'ATTACK POSITION',
             12 => 'VISION',
@@ -124,7 +125,7 @@ class ChartService
     {
         return collect($attributeNames)
             ->map(function ($attributeName, $attributeKey) use ($attributes) {
-                $slug = Str::slug($attributeName, '-');
+                $slug = Str::slug($attributeName, '_');
 
                 return [$slug => $attributes[$attributeKey]];
             })
