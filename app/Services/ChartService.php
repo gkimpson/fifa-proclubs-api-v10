@@ -90,11 +90,11 @@ class ChartService
             26 => 'VOLLEYS',
             27 => 'CURVE',
             28 => 'PENALTIES',
-            29 => 'GK Diving',
-            30 => 'GK Handling',
-            31 => 'GK Kicking',
-            32 => 'GK Reflexes',
-            33 => 'GK Positioning',
+            29 => 'GK DIVING',
+            30 => 'GK HANDLINE',
+            31 => 'GK KICKING',
+            32 => 'GK REFLEXES',
+            33 => 'GK POSITIONING',
         ];
     }
 
