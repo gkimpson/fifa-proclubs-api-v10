@@ -15,8 +15,6 @@ class PlayerController extends Controller
             'players' => PlayerAttribute::filter()->paginate(10),
         ];
 
-        dump($data['players']);
-
         return view('player.search', $data);
     }
 }
