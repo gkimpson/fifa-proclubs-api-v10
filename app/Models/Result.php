@@ -207,7 +207,7 @@ class Result extends Model
             'vproattr' => $player->vproattr,
             'vprohackreason' => $player->vprohackreason,
             'wins' => $player->wins,
-//            'properties' => $player,
+            //            'properties' => $player,
         ];
     }
 

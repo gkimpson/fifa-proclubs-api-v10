@@ -2,14 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Models\PlayerAttribute;
-use Assert\Assertion;
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
 use App\Models\Player;
+use App\Models\PlayerAttribute;
 use App\Models\Result;
 use App\Models\User;
 use App\Services\ProclubsApiService;
+use Assert\Assertion;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;

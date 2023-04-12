@@ -53,7 +53,6 @@ Route::prefix('player')->group(function () {
     Route::get('search', [PlayerController::class, 'search'])->name('player.search');
 });
 
-
 // some routes that don't necessarily fit into a grouping
 Route::get('platform/{platform}/leaderboard/{leaderboardType}/', [ClubController::class, 'leaderboard'])->name('club.leaderboard');
 Route::get('results', [ResultController::class, 'index'])->name('results.index');

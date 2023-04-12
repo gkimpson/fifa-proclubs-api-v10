@@ -16,6 +16,7 @@ class PlayerController extends Controller
         ];
 
         dump($data['players']);
+
         return view('player.search', $data);
     }
 }

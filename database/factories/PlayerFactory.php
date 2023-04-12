@@ -21,7 +21,7 @@ class PlayerFactory extends Factory
             'ea_player_id' => $this->faker->numberBetween(11111, 99999),
             'platform' => $this->faker->randomElement(['pc', 'ps4', 'ps5', 'xboxone', 'xbox-series-xs']),
             'player_name' => $this->faker->userName(),
-            'attributes' => '091|092|087|090|079|085|077|089|070|089|060|099|075|093|072|094|096|084|083|068|080|054|094|091|055|048|089|076|089|010|010|010|010|010|'
+            'attributes' => '091|092|087|090|079|085|077|089|070|089|060|099|075|093|072|094|096|084|083|068|080|054|094|091|055|048|089|076|089|010|010|010|010|010|',
         ];
     }
 }

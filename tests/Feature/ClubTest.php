@@ -322,6 +322,7 @@ class ClubTest extends TestCase
 
     /**
      * TODO - needs modifying to work with new squad compare as we now hit the database
+     *
      * @test
      */
 //    public function api_club_squad_compare_request_returns_successfully(): void

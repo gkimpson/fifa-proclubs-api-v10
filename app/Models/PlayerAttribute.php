@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Helpers\PlayerAttributesHelper;
 use Assert\Assertion;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -60,6 +59,7 @@ class PlayerAttribute extends Model
 
         return self::getMappedAttributes($attributeNames, $attributesCollection);
     }
+
     public static function parseAttributes(string $attributes)
     {
         $attributes = Str::of($attributes)->explode('|')->filter()->map(function ($attribute) {

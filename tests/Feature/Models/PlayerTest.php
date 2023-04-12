@@ -47,7 +47,7 @@ class PlayerTest extends TestCase
         Player::factory()->create([
             'club_id' => 12345,
             'platform' => 'ps5',
-            'player_name' => 'johndoe'
+            'player_name' => 'johndoe',
         ]);
 
         $this->assertDatabaseCount('players', 1);
@@ -96,7 +96,10 @@ class PlayerTest extends TestCase
         })();
     }
 
-    public function testFindByClubAndPlatformAndPlayerName()
+    /**
+     * @test
+     */
+    public function findByClubAndPlatformAndPlayerName()
     {
         // Create a test player in the database
         $player = Player::factory()->create([
@@ -114,7 +117,10 @@ class PlayerTest extends TestCase
         $this->assertEquals($player->player_name, $foundPlayer->player_name);
     }
 
-    public function testFindByClubAndPlatform()
+    /**
+     * @test
+     */
+    public function findByClubAndPlatform()
     {
         // Create some test players in the database
         Player::factory()->create([
@@ -139,7 +145,10 @@ class PlayerTest extends TestCase
         $this->assertEquals('JohnDoe', $players->get(1)->player_name);
     }
 
-    private function testAttributesStringIsValid()
+    /**
+     * @test
+     */
+    private function attributesStringIsValid()
     {
         $string = '057|069|042|055|083|062|067|099|053|060|020|020|045|020|025|017|020|020|015|040|040|020|059|015|020|020|015|030|035|091|097|095|097|097|';
 
@@ -156,5 +165,4 @@ class PlayerTest extends TestCase
             $this->assertLessThanOrEqual(99, $value);
         }
     }
-
 }
