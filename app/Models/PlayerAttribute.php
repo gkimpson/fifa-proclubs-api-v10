@@ -83,10 +83,15 @@ class PlayerAttribute extends Model
 
     public function scopeFilter(\Illuminate\Contracts\Database\Query\Builder $builder)
     {
-        // loop through these...
-        $builder->when(request('acceleration'), function ($builder) {
-            $builder->where('acceleration', '>=', request('acceleration'));
-        });
+        $playerAttributes = PlayerAttributesHelper::getPlayerAttributeNames();
+
+        foreach ($playerAttributes as $attribute) {
+            $builder->when(request($attribute), function ($builder) use ($attribute) {
+                $builder->where($attribute, '>=', request($attribute));
+            });
+        }
+
+        $builder->with('player');
     }
 
     // create a relationship with the player model
