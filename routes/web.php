@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HighchartController;
+use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResultController;
 use Illuminate\Support\Facades\Route;
@@ -23,16 +24,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('results', [ResultController::class, 'index'])->name('results.index');
-
 Route::prefix('club/{clubId}/platform/{platform}')->group(function () {
     Route::get('/', [ClubController::class, 'index'])->name('club.index');
     Route::get('career', [ClubController::class, 'career'])->name('club.career');
@@ -49,15 +46,18 @@ Route::prefix('club/{clubId}/platform/{platform}')->group(function () {
     Route::get('squad/compare/{player1}/{player2}', [ClubController::class, 'compare'])->name('club.squad.compare');
     Route::get('squad/ranking', [ClubController::class, 'ranking'])->name('club.squad.ranking');
 });
-
-Route::get('platform/{platform}/leaderboard/{leaderboardType}/', [ClubController::class, 'leaderboard'])->name('club.leaderboard');
-
 Route::prefix('chart')->group(function () {
     Route::get('/', [HighchartController::class, 'index'])->name('chart.index');
 });
+Route::prefix('player')->group(function () {
+    Route::get('search', [PlayerController::class, 'search'])->name('player.search');
+});
 
+
+// some routes that don't necessarily fit into a grouping
+Route::get('platform/{platform}/leaderboard/{leaderboardType}/', [ClubController::class, 'leaderboard'])->name('club.leaderboard');
+Route::get('results', [ResultController::class, 'index'])->name('results.index');
 Route::get('debug', [ClubController::class, 'debug'])->name('club.debug');
-
 // playing around with Blueprint autogenerator
 Route::resource('video', App\Http\Controllers\VideoController::class)->only('index', 'show');
 

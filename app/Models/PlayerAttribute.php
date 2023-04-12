@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Helpers\PlayerAttributesHelper;
 use Assert\Assertion;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -11,14 +13,50 @@ class PlayerAttribute extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'player_id',
+        'acceleration',
+        'aggression',
+        'agility',
+        'attack_position',
+        'balance',
+        'ball_control',
+        'crossing',
+        'curve',
+        'dribbling',
+        'finishing',
+        'free_kick_accuracy',
+        'gk_diving',
+        'gk_handling',
+        'gk_kicking',
+        'gk_positioning',
+        'gk_reflexes',
+        'heading_accuracy',
+        'interceptions',
+        'jumping',
+        'long_pass',
+        'long_shots',
+        'marking',
+        'penalties',
+        'reactions',
+        'short_pass',
+        'shot_power',
+        'slide_tackle',
+        'sprint_speed',
+        'stamina',
+        'stand_tackle',
+        'strength',
+        'unsure_attribute',
+        'vision',
+        'volleys',
+    ];
 
     public static function generateAttributes($attributes): array
     {
         Assertion::notEmpty($attributes, 'Attributes cannot be empty');
 
         $attributesCollection = self::parseAttributes($attributes);
-        $attributeNames = self::getAttributeNames();
+        $attributeNames = PlayerAttributesHelper::getPlayerAttributeNames();
 
         return self::getMappedAttributes($attributeNames, $attributesCollection);
     }
@@ -43,44 +81,17 @@ class PlayerAttribute extends Model
             ->all();
     }
 
-    private static function getAttributeNames()
+    public function scopeFilter(\Illuminate\Contracts\Database\Query\Builder $builder)
     {
-        // TODO - put this in a config file
-        return [
-            0 => 'ACCELERATION',
-            1 => 'SPRINT SPEED',
-            2 => 'AGILITY',
-            3 => 'BALANCE',
-            4 => 'JUMPING',
-            5 => 'STAMINA',
-            6 => 'STRENGTH',
-            7 => 'REACTIONS',
-            8 => 'AGGRESSION',
-            9 => 'UNSURE ATTRIBUTE',
-            10 => 'INTERCEPTIONS',
-            11 => 'ATTACK POSITION',
-            12 => 'VISION',
-            13 => 'BALL CONTROL',
-            14 => 'CROSSING',
-            15 => 'DRIBBLING',
-            16 => 'FINISHING',
-            17 => 'FREE KICK ACCURACY',
-            18 => 'HEADING ACCURACY',
-            19 => 'LONG PASS',
-            20 => 'SHORT PASS',
-            21 => 'MARKING',
-            22 => 'SHOT POWER',
-            23 => 'LONG SHOTS',
-            24 => 'STAND TACKLE',
-            25 => 'SLIDE TACKLE',
-            26 => 'VOLLEYS',
-            27 => 'CURVE',
-            28 => 'PENALTIES',
-            29 => 'GK DIVING',
-            30 => 'GK HANDLING',
-            31 => 'GK KICKING',
-            32 => 'GK REFLEXES',
-            33 => 'GK POSITIONING',
-        ];
+        // loop through these...
+        $builder->when(request('acceleration'), function ($builder) {
+            $builder->where('acceleration', '>=', request('acceleration'));
+        });
+    }
+
+    // create a relationship with the player model
+    public function player()
+    {
+        return $this->belongsTo(Player::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,5 +33,10 @@ class Player extends Model
             ->where('platform', $platform)
             ->orderBy('player_name')
             ->get();
+    }
+
+    public function playerAttributes(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(PlayerAttribute::class);
     }
 }
