@@ -14,6 +14,7 @@ class PlayerAttribute extends Model
 
     protected $fillable = [
         'player_id',
+        'favourite_position',
         'acceleration',
         'aggression',
         'agility',
@@ -49,6 +50,23 @@ class PlayerAttribute extends Model
         'vision',
         'volleys',
     ];
+
+    /**
+     * returns the first character of the position e.g 'G' Goalkeeper, 'D' Defender, 'M' Midfielder, 'F' Forward
+     *
+     * @return string
+     */
+    public static function generateFavouritePosition(string $position): ?string
+    {
+        if (empty($position)) {
+            return null;
+        }
+
+        $firstCharacter = ucfirst($position[0]);
+        Assertion::inArray($firstCharacter, ['G', 'D', 'M', 'F'], 'Invalid position');
+
+        return $firstCharacter;
+    }
 
     public static function generateAttributes($attributes): array
     {

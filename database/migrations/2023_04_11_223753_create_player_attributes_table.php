@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('player_attributes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('player_id');
-
+            $table->enum('favourite_position', ['G', 'D', 'M', 'F', 'A'])->default('A');
             $attributes = [
                 'ACCELERATION',
                 'AGGRESSION',

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef2a2b6ca6dff0fe7cd348ac1b61ac7b",
+    "content-hash": "17ec823782de5c18948fefc70dd5b0d7",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -8940,6 +8940,85 @@
                 }
             ],
             "time": "2023-03-18T18:38:03+00:00"
+        },
+        {
+            "name": "onlime/laravel-sql-reporter",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/onlime/laravel-sql-reporter.git",
+                "reference": "a4ddd2fa8fac5db79f152e7b8fe1e634c3088642"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/onlime/laravel-sql-reporter/zipball/a4ddd2fa8fac5db79f152e7b8fe1e634c3088642",
+                "reference": "a4ddd2fa8fac5db79f152e7b8fe1e634c3088642",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "^9.0 || ^10.0",
+                "illuminate/filesystem": "^9.0 || ^10.0",
+                "illuminate/support": "^9.0 || ^10.0",
+                "nesbot/carbon": "^2.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "laravel/framework": "^9.0 || ^10.0",
+                "laravel/pint": "^1.5",
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Onlime\\LaravelSqlReporter\\Providers\\EventServiceProvider"
+                    ]
+                },
+                "thanks": {
+                    "name": "mnabialek/laravel-version",
+                    "url": "https://github.com/mnabialek/laravel-version"
+                },
+                "suggest": {
+                    "torann/geoip": "GeoIP country detection for log headers information",
+                    "symfony/thanks": "Star packages you use running 'composer thanks' command"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Onlime\\LaravelSqlReporter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Philip Iezzi",
+                    "email": "philip@onlime.ch"
+                },
+                {
+                    "name": "Onlime GmbH",
+                    "homepage": "https://www.onlime.ch/"
+                }
+            ],
+            "description": "Log SQL queries in Laravel framework",
+            "keywords": [
+                "laravel",
+                "log",
+                "log sql",
+                "log sql queries",
+                "logger",
+                "sql",
+                "sql log",
+                "sql logger"
+            ],
+            "support": {
+                "issues": "https://github.com/onlime/laravel-sql-reporter/issues",
+                "source": "https://github.com/onlime/laravel-sql-reporter/tree/v1.0.1"
+            },
+            "time": "2023-02-26T12:00:29+00:00"
         },
         {
             "name": "phar-io/manifest",

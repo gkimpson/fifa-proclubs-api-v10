@@ -87,11 +87,11 @@ class ProclubsApiService
 
             $response = Http::withHeaders([
                 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/112.0',
-                'Accept' =>	'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
                 'Accept-Encoding' => 'gzip, deflate, br',
             ])->get($url, $params);
 
-            $response->onError(static function($response) {
+            $response->onError(static function ($response) {
                 echo App::environment('production')
                     ? 'An unexpected error has occurred - try again later' . PHP_EOL
                     : 'An error occurred: ' . $response->reason() . PHP_EOL;
