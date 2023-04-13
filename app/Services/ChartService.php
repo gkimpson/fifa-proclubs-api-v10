@@ -115,7 +115,7 @@ class ChartService
     private static function getCategoryAverages($attributeGroups, $attributes, $valuesOnly = false): array
     {
         $data = collect($attributeGroups)->map(function ($attributeGroup) use ($attributes) {
-            return round(self::attribute_values_averages($attributes, $attributeGroup), 0);
+            return round(self::attributeValuesAverages($attributes, $attributeGroup), 0);
         });
 
         return $valuesOnly ? $data->values()->all() : $data->all();
@@ -133,7 +133,7 @@ class ChartService
             ->all();
     }
 
-    private static function attribute_values_averages(object $attributes, array $attributeGroup)
+    private static function attributeValuesAverages(object $attributes, array $attributeGroup)
     {
         $collection = collect($attributeGroup)->map(function ($key) use ($attributes) {
             return $attributes[$key];
