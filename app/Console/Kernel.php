@@ -12,7 +12,20 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('proclubs:matches')->everyFifteenMinutes()->description('Get latest matches data');
+        $schedule->command('proclubs:matches')
+            ->everyFifteenMinutes()
+            ->description('Get latest matches data')
+            ->runInBackground();
+
+        $schedule->command('backup:clean')
+            ->dailyAt('04:00')
+            ->description('Clean up old backups')
+            ->runInBackground();
+
+        $schedule->command('backup:run', ['--only-db'])
+            ->dailyAt('04:00')
+            ->description('Backup database')
+            ->runInBackground();
     }
 
     /**
