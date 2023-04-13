@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Helpers\PlayerAttributesHelper;
 use App\Models\Player;
+use App\Models\PlayerAttribute;
 use Assert\Assertion;
 use Illuminate\Support\Str;
 
@@ -39,7 +41,7 @@ class ChartService
             return (int) $value;
         });
 
-        $attribute_names = self::getAttributeNames();
+        $attribute_names = PlayerAttributesHelper::getPlayerAttributeNames();
         $attribute_groups = self::getAttributeGroups();
 
         // TODO - refactor this to not duplicate the category averages (will break the other chart if averages key removed)
@@ -56,47 +58,6 @@ class ChartService
         $player = Player::findByClubAndPlatformAndPlayerName($clubId, $platform, $player);
 
         return ($player && isset($player->attributes)) ? $player->attributes : null;
-    }
-
-    private static function getAttributeNames()
-    {
-        // TODO - put this in a config file
-        return [
-            0 => 'ACCELERATION',
-            1 => 'SPRINT SPEED',
-            2 => 'AGILITY',
-            3 => 'BALANCE',
-            4 => 'JUMPING',
-            5 => 'STAMINA',
-            6 => 'STRENGTH',
-            7 => 'REACTIONS',
-            8 => 'AGGRESSION',
-            9 => 'UNSURE ATTRIBUTE',
-            10 => 'INTERCEPTIONS',
-            11 => 'ATTACK POSITION',
-            12 => 'VISION',
-            13 => 'BALL CONTROL',
-            14 => 'CROSSING',
-            15 => 'DRIBBLING',
-            16 => 'FINISHING',
-            17 => 'FREE KICK ACCURACY',
-            18 => 'HEADING ACCURACY',
-            19 => 'LONG PASS',
-            20 => 'SHORT PASS',
-            21 => 'MARKING',
-            22 => 'SHOT POWER',
-            23 => 'LONG SHOTS',
-            24 => 'STAND TACKLE',
-            25 => 'SLIDE TACKLE',
-            26 => 'VOLLEYS',
-            27 => 'CURVE',
-            28 => 'PENALTIES',
-            29 => 'GK DIVING',
-            30 => 'GK HANDLINE',
-            31 => 'GK KICKING',
-            32 => 'GK REFLEXES',
-            33 => 'GK POSITIONING',
-        ];
     }
 
     private static function getAttributeGroups()
@@ -133,11 +94,9 @@ class ChartService
             ->all();
     }
 
-    private static function attributeValuesAverages(object $attributes, array $attributeGroup)
+    private static function attributeValuesAverages(object $attributes, array $attributeGroup): float
     {
-        $collection = collect($attributeGroup)->map(function ($key) use ($attributes) {
-            return $attributes[$key];
-        })->reject(function ($key) {
+        $collection = collect($attributeGroup)->map(fn ($key) => $attributes[$key])->reject(function ($key) {
             return empty($key);
         });
 
