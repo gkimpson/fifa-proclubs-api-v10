@@ -50,12 +50,12 @@ class GetMatchesCommand extends Command
         }
     }
 
-    private function getDistinctClubIdAndPlatform()
+    private function getDistinctClubIdAndPlatform(): \Illuminate\Support\Collection
     {
         return User::distinct()->pluck('platform', 'club_id');
     }
 
-    private function processClubProperties($properties)
+    private function processClubProperties(object $properties): void
     {
         $properties->map(function ($platform, $clubId) use ($properties) {
             $this->info("Collecting matches data for - Platform: {$platform} | ClubId: {$clubId}");
@@ -70,7 +70,7 @@ class GetMatchesCommand extends Command
         });
     }
 
-    private function fetchMatchResults($platform, $clubId)
+    private function fetchMatchResults(string $platform, int $clubId): array
     {
         $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
         $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
@@ -78,7 +78,7 @@ class GetMatchesCommand extends Command
         return array_merge(Result::formatJsonData($leagueResults), Result::formatJsonData($cupResults));
     }
 
-    private function storeMatchResults($results, $platform)
+    private function storeMatchResults(array $results, string $platform): void
     {
         $count = count($results);
         $this->info("{$count} matches found");
@@ -87,7 +87,7 @@ class GetMatchesCommand extends Command
         $this->info("{$inserted} unique results into the database");
     }
 
-    private function updatePlayers($clubId, $platform)
+    private function updatePlayers(int $clubId, string $platform): void
     {
         $latestResult = Result::byTeam($clubId);
         $players = collect($latestResult->properties['players'][$clubId]);
@@ -106,7 +106,7 @@ class GetMatchesCommand extends Command
         });
     }
 
-    private function updateOrCreatePlayer($clubId, $platform, $row, $eaPlayerId)
+    private function updateOrCreatePlayer(int $clubId, string $platform, array $row, int $eaPlayerId): Player
     {
         return Player::updateOrCreate(
             ['club_id' => $clubId, 'platform' => $platform, 'player_name' => $row['playername']],
@@ -114,7 +114,7 @@ class GetMatchesCommand extends Command
         );
     }
 
-    private function generatePlayerAttributes($row)
+    private function generatePlayerAttributes(array $row): array
     {
         $attributes = PlayerAttribute::generateAttributes($row['vproattr']);
         $favouritePosition = PlayerAttribute::generateFavouritePosition($row['pos']);
