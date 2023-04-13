@@ -11,6 +11,6 @@ class ResultController extends Controller
      */
     public function index(): mixed
     {
-        return Result::getAll();
+        return Result::all();
     }
 }

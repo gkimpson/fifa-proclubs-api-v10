@@ -61,11 +61,6 @@ class Result extends Model
         'properties' => 'json',
     ];
 
-    public static function getAll()
-    {
-        return Result::all();
-    }
-
     public static function formatJsonData(string $data): array
     {
         $results = [];
