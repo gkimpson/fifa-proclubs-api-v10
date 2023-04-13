@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-use App\Enums\Outcomes;
-use Carbon\Carbon;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 /**
  * App\Models\Result
@@ -57,7 +53,7 @@ class Result extends Model
 
     protected $fillable = [
         'match_id', 'home_team_id', 'away_team_id', 'home_team_goals', 'away_team_goals', 'home_team_player_count',
-        'away_team_player_count', 'outcome', 'match_date', 'properties', 'platform', 'media'
+        'away_team_player_count', 'outcome', 'match_date', 'properties', 'platform', 'media',
     ];
 
     protected $casts = [

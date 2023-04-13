@@ -31,6 +31,31 @@ class ResultDataFormatter
         return $results;
     }
 
+    public static function generateInsertData(array $result, string $platform): array
+    {
+        $carbonDate = Carbon::now();
+        $carbonDate->timestamp($result['timestamp']);
+        $clubs = array_values($result['clubs']);
+
+        return [
+            'match_id' => $result['matchId'],
+            'home_team_id' => $clubs[0]['id'],
+            'away_team_id' => $clubs[1]['id'],
+            'home_team_goals' => $clubs[0]['goals'],
+            'away_team_goals' => $clubs[1]['goals'],
+            'home_team_player_count' => count($result['players'][$clubs[0]['id']]),
+            'away_team_player_count' => count($result['players'][$clubs[1]['id']]),
+            'outcome' => self::getMatchOutcome($clubs[0]),
+            'match_date' => $carbonDate->format('Y-m-d H:i:s'),
+            'properties' => [
+                'clubs' => $result['clubs'],
+                'players' => $result['players'],
+                'aggregate' => $result['aggregate'], // aggregate is used for consistency as EA use the same naming convention - this is basically 'team stats' for that match
+            ],
+            'platform' => $platform,
+        ];
+    }
+
     private static function getClubsData(object $clubs): array
     {
         return collect($clubs)->map(function ($club, $clubId) {
@@ -88,11 +113,11 @@ class ResultDataFormatter
             'vproattr' => $player->vproattr,
             'vprohackreason' => $player->vprohackreason,
             'wins' => $player->wins,
-            //            'properties' => $player,
+            //'properties' => $player,
         ];
     }
 
-    public static function getMatchOutcome(array $clubData): string
+    private static function getMatchOutcome(array $clubData): string
     {
         switch (true) {
             case $clubData['wins'] === '1':
@@ -104,30 +129,5 @@ class ResultDataFormatter
             default:
                 throw new Exception('Invalid club data provided.');
         }
-    }
-
-    public static function generateInsertData(array $result, string $platform): array
-    {
-        $carbonDate = Carbon::now();
-        $carbonDate->timestamp($result['timestamp']);
-        $clubs = array_values($result['clubs']);
-
-        return [
-            'match_id' => $result['matchId'],
-            'home_team_id' => $clubs[0]['id'],
-            'away_team_id' => $clubs[1]['id'],
-            'home_team_goals' => $clubs[0]['goals'],
-            'away_team_goals' => $clubs[1]['goals'],
-            'home_team_player_count' => count($result['players'][$clubs[0]['id']]),
-            'away_team_player_count' => count($result['players'][$clubs[1]['id']]),
-            'outcome' => ResultDataFormatter::getMatchOutcome($clubs[0]),
-            'match_date' => $carbonDate->format('Y-m-d H:i:s'),
-            'properties' => [
-                'clubs' => $result['clubs'],
-                'players' => $result['players'],
-                'aggregate' => $result['aggregate'], // aggregate is used for consistency as EA use the same naming convention - this is basically 'team stats' for that match
-            ],
-            'platform' => $platform,
-        ];
     }
 }
