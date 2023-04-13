@@ -7,8 +7,10 @@ use App\Enums\Platforms;
 use App\Models\Player;
 use App\Models\PlayerAttribute;
 use App\Models\Result;
+use App\Models\ResultDataFormatter;
 use App\Models\User;
 use App\Services\ProclubsApiService;
+use App\Services\ResultService;
 use Assert\Assertion;
 use Exception;
 use Illuminate\Console\Command;
@@ -75,7 +77,7 @@ class GetMatchesCommand extends Command
         $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
         $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
 
-        return array_merge(Result::formatJsonData($leagueResults), Result::formatJsonData($cupResults));
+        return array_merge(ResultDataFormatter::formatJsonData($leagueResults), ResultDataFormatter::formatJsonData($cupResults));
     }
 
     private function storeMatchResults(array $results, string $platform): void
@@ -83,7 +85,7 @@ class GetMatchesCommand extends Command
         $count = count($results);
         $this->info("{$count} matches found");
 
-        $inserted = Result::insertMatches($results, $platform);
+        $inserted = ResultService::insertMatches($results, $platform);
         $this->info("{$inserted} unique results into the database");
     }
 

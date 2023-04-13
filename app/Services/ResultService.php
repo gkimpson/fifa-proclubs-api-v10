@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\Enums\Platforms;
+use App\Models\Result;
+use App\Models\ResultDataFormatter;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class ResultService
 {
@@ -162,5 +165,25 @@ class ResultService
             'tacklesMade',
             'winRate',
         ];
+    }
+
+    public static function insertMatches(array $results, string $platform): int
+    {
+        $inserted = 0;
+
+        foreach ($results as $result) {
+            if (Result::where('match_id', '=', $result['matchId'])->doesntExist()) {
+                $data = ResultDataFormatter::generateInsertData($result, $platform);
+
+                try {
+                    Result::create($data);
+                    $inserted++;
+                } catch (Exception $e) {
+                    Log::error($e->getMessage());
+                }
+            }
+        }
+
+        return $inserted;
     }
 }
