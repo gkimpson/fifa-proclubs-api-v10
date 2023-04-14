@@ -52,26 +52,6 @@ class GetMatchesCommand extends Command
         }
     }
 
-    private function getDistinctClubIdAndPlatform(): \Illuminate\Support\Collection
-    {
-        return User::distinct()->pluck('platform', 'club_id');
-    }
-
-    private function processClubProperties(object $properties): void
-    {
-        $properties->map(function ($platform, $clubId) use ($properties) {
-            $this->info("Collecting matches data for - Platform: {$platform} | ClubId: {$clubId}");
-            $lastIteration = ($clubId === $properties->keys()->last());
-
-            $results = $this->fetchMatchResults($platform, $clubId);
-            $this->storeMatchResults($results, $platform);
-
-            if ($lastIteration) {
-                $this->updatePlayers($clubId, $platform);
-            }
-        });
-    }
-
     protected function fetchMatchResults(string $platform, int $clubId): array
     {
         $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
@@ -105,6 +85,26 @@ class GetMatchesCommand extends Command
             );
 
             $this->info('Player updated: ' . $player->player_name);
+        });
+    }
+
+    private function getDistinctClubIdAndPlatform(): \Illuminate\Support\Collection
+    {
+        return User::distinct()->pluck('platform', 'club_id');
+    }
+
+    private function processClubProperties(object $properties): void
+    {
+        $properties->map(function ($platform, $clubId) use ($properties) {
+            $this->info("Collecting matches data for - Platform: {$platform} | ClubId: {$clubId}");
+            $lastIteration = ($clubId === $properties->keys()->last());
+
+            $results = $this->fetchMatchResults($platform, $clubId);
+            $this->storeMatchResults($results, $platform);
+
+            if ($lastIteration) {
+                $this->updatePlayers($clubId, $platform);
+            }
         });
     }
 

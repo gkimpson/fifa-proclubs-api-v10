@@ -1,22 +1,15 @@
 <?php
 
-
 namespace Tests\Unit\Console\Commands;
 
-use App\Console\Commands\GetMatchesCommand;
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
-use App\Models\Player;
 use App\Models\Result;
 use App\Models\User;
 use App\Services\ProclubsApiService;
-use App\Services\ResultService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
-use Mockery;
 
 class GetMatchesCommandTest extends TestCase
 {
@@ -40,8 +33,8 @@ class GetMatchesCommandTest extends TestCase
                 'home_team_id' => 12345,
                 'platform' => 'pc',
                 'properties' => [
-                    'matchId' => '98765'
-                ]
+                    'matchId' => '98765',
+                ],
             ]
         );
 
@@ -50,8 +43,8 @@ class GetMatchesCommandTest extends TestCase
                 'away_team_id' => 23456,
                 'platform' => 'ps4',
                 'properties' => [
-                    'matchId' => '87654'
-                ]
+                    'matchId' => '87654',
+                ],
             ]
         );
 

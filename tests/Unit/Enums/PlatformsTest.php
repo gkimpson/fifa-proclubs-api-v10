@@ -8,7 +8,10 @@ use PHPUnit\Framework\TestCase;
 
 class PlatformsTest extends TestCase
 {
-    public function test_all_returns_all_platform_names()
+    /**
+     * @test
+     */
+    public function all_returns_all_platform_names()
     {
         $allPlatforms = Platforms::all();
 
@@ -21,7 +24,10 @@ class PlatformsTest extends TestCase
         $this->assertContains('xbox-series-xs', $allPlatforms);
     }
 
-    public function test_generate_dropdown_values_returns_array_of_platforms()
+    /**
+     * @test
+     */
+    public function generate_dropdown_values_returns_array_of_platforms()
     {
         $dropdownValues = Platforms::generateDropdownValues();
 
@@ -40,7 +46,10 @@ class PlatformsTest extends TestCase
         $this->assertEquals('XBOX SERIES SX', $dropdownValues['xbox-series-xs']);
     }
 
-    public function test_get_platform_returns_correct_platform()
+    /**
+     * @test
+     */
+    public function get_platform_returns_correct_platform()
     {
         $pc = Platforms::getPlatform('pc');
         $this->assertEquals(Platforms::PC, $pc);
@@ -61,7 +70,10 @@ class PlatformsTest extends TestCase
         Platforms::getPlatform('invalid_platform');
     }
 
-    public function test_name_returns_correct_name()
+    /**
+     * @test
+     */
+    public function name_returns_correct_name()
     {
         $pc = Platforms::PC;
         $this->assertEquals('pc', $pc->name());

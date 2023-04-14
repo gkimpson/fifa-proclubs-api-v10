@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Unit\Scopes;
 
 use App\Models\Result;
@@ -28,7 +27,7 @@ class ClubScopeTest extends TestCase
         $result3 = Result::factory()->create(['home_team_id' => 3, 'away_team_id' => 3000]);
 
         // Apply the scope to the match query builder
-        $results = Result::query()->withGlobalScope('club_id', new ClubScope())->get();
+        $results = Result::query()->withGlobalScope('club_id', new ClubScope)->get();
 
         // Assert that only the matches that involve the user's club are returned
         $this->assertCount(1, $results);
