@@ -4,8 +4,8 @@ namespace App\Models;
 
 use App\Enums\Outcomes;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class ResultDataFormatter
 {
@@ -57,6 +57,15 @@ class ResultDataFormatter
         ];
     }
 
+    protected static function getPlayerData(object $players): array
+    {
+        return collect($players)->map(function ($clubPlayers) {
+            return collect($clubPlayers)->map(function ($player) {
+                return self::getPlayerStats($player);
+            })->toArray();
+        })->toArray();
+    }
+
     private static function getClubsData(object $clubs): array
     {
         return collect($clubs)->map(function ($club, $clubId) {
@@ -75,15 +84,6 @@ class ResultDataFormatter
                 'teamId' => $club->details->teamId ?? null,
             ];
         })->values()->toArray();
-    }
-
-    protected static function getPlayerData(object $players): array
-    {
-        return collect($players)->map(function ($clubPlayers) {
-            return collect($clubPlayers)->map(function ($player) {
-                return self::getPlayerStats($player);
-            })->toArray();
-        })->toArray();
     }
 
     private static function getPlayerStats($player): array

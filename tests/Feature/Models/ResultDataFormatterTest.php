@@ -2,19 +2,19 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\ResultDataFormatter;
 use App\Enums\Outcomes;
-use Carbon\Carbon;
+use App\Models\ResultDataFormatter;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use ReflectionMethod;
 use stdClass;
-
 
 class ResultDataFormatterTest extends TestCase
 {
-    public function testGetMatchOutcome(): void
+    /**
+     * @test
+     */
+    public function getMatchOutcome(): void
     {
         // Test with club data indicating a home win
         $clubData = ['wins' => '1', 'losses' => '0', 'ties' => '0'];
@@ -32,33 +32,26 @@ class ResultDataFormatterTest extends TestCase
         $this->assertEquals(Outcomes::DRAW->name(), $matchOutcome);
     }
 
-    public function testGetMatchOutcomeWithInvalidClubData(): void
+    /**
+     * @test
+     */
+    public function getMatchOutcomeWithInvalidClubData(): void
     {
         // Test with invalid club data
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Invalid club data provided.');
 
         $clubData = ['wins' => '0', 'losses' => '0', 'ties' => '0'];
         $this->invokeGetMatchOutcome($clubData);
     }
 
-    private function invokeGetMatchOutcome(array $clubData): string
-    {
-        $reflection = new \ReflectionClass(ResultDataFormatter::class);
-        $method = $reflection->getMethod('getMatchOutcome');
-        $method->setAccessible(true);
-
-        // Create a new instance of the ResultDataFormatter class
-        $resultDataFormatter = new ResultDataFormatter();
-
-        // Invoke the getMatchOutcome method with the club data
-        return $method->invokeArgs($resultDataFormatter, [$clubData]);
-    }
-
-    public function testGetPlayerStats(): void
+    /**
+     * @test
+     */
+    public function getPlayerStats(): void
     {
         // Prepare the input player object
-        $player = new stdClass();
+        $player = new stdClass;
         $player->SCORE = 100;
         $player->assists = 2;
         // ... (set other player properties here)
@@ -72,16 +65,10 @@ class ResultDataFormatterTest extends TestCase
         // ... (test other player properties here)
     }
 
-    private function invokeGetPlayerStats($player): array
-    {
-        $reflectionClass = new ReflectionClass(ResultDataFormatter::class);
-        $method = $reflectionClass->getMethod('getPlayerStats');
-        $method->setAccessible(true);
-
-        return $method->invoke(null, $player);
-    }
-
-    public function testGetPlayerData()
+    /**
+     * @test
+     */
+    public function getPlayerData()
     {
         $player1 = new stdClass;
         $player1->SCORE = 1;
@@ -108,5 +95,27 @@ class ResultDataFormatterTest extends TestCase
         $this->assertEquals(1, $result['club1'][0]['SCORE']);
         $this->assertEquals(2, $result['club2'][0]['SCORE']);
         // ... (assert other player properties)
+    }
+
+    private function invokeGetMatchOutcome(array $clubData): string
+    {
+        $reflection = new ReflectionClass(ResultDataFormatter::class);
+        $method = $reflection->getMethod('getMatchOutcome');
+        $method->setAccessible(true);
+
+        // Create a new instance of the ResultDataFormatter class
+        $resultDataFormatter = new ResultDataFormatter;
+
+        // Invoke the getMatchOutcome method with the club data
+        return $method->invokeArgs($resultDataFormatter, [$clubData]);
+    }
+
+    private function invokeGetPlayerStats($player): array
+    {
+        $reflectionClass = new ReflectionClass(ResultDataFormatter::class);
+        $method = $reflectionClass->getMethod('getPlayerStats');
+        $method->setAccessible(true);
+
+        return $method->invoke(null, $player);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Models;
 
-use App\Helpers\PlayerAttributesHelper;
 use App\Models\Player;
 use App\Models\PlayerAttribute;
-use Assert\Assertion;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use InvalidArgumentException;
+use ReflectionClass;
 use Tests\TestCase;
 
 class PlayerAttributeTest extends TestCase
@@ -64,7 +64,7 @@ class PlayerAttributeTest extends TestCase
     /** @test */
     public function it_throws_an_exception_when_generating_a_favourite_position_with_an_invalid_position()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         PlayerAttribute::generateFavouritePosition('invalid position');
     }
@@ -177,7 +177,10 @@ class PlayerAttributeTest extends TestCase
         $this->assertEquals($player->id, $relatedPlayer->id);
     }
 
-    public function testGenerateFavouritePosition(): void
+    /**
+     * @test
+     */
+    public function generateFavouritePosition(): void
     {
         // Test with a valid position string
         $position = 'Goalkeeper';
@@ -190,10 +193,13 @@ class PlayerAttributeTest extends TestCase
         $this->assertNull($favouritePosition);
     }
 
-    public function testGenerateFavouritePositionWithInvalidPosition(): void
+    /**
+     * @test
+     */
+    public function generateFavouritePositionWithInvalidPosition(): void
     {
         // Test with an invalid position string
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid position');
 
         $position = 'InvalidPosition';
@@ -207,12 +213,12 @@ class PlayerAttributeTest extends TestCase
         $attributeString = '85|75';
 
         // Make the parseAttributes method accessible
-        $reflection = new \ReflectionClass(PlayerAttribute::class);
+        $reflection = new ReflectionClass(PlayerAttribute::class);
         $method = $reflection->getMethod('parseAttributes');
         $method->setAccessible(true);
 
         // Create a new instance of the PlayerAttribute class
-        $playerAttribute = new PlayerAttribute();
+        $playerAttribute = new PlayerAttribute;
 
         // Invoke the parseAttributes method with the sample data
         $parsedAttributes = $method->invokeArgs($playerAttribute, [$attributeString]);
@@ -231,12 +237,12 @@ class PlayerAttributeTest extends TestCase
         $attributes = [85, 75, 70];
 
         // Make the getMappedAttributes method accessible
-        $reflection = new \ReflectionClass(PlayerAttribute::class);
+        $reflection = new ReflectionClass(PlayerAttribute::class);
         $method = $reflection->getMethod('getMappedAttributes');
         $method->setAccessible(true);
 
         // Create a new instance of the PlayerAttribute class
-        $playerAttribute = new PlayerAttribute();
+        $playerAttribute = new PlayerAttribute;
 
         // Invoke the getMappedAttributes method with the sample data
         $mappedAttributes = $method->invokeArgs($playerAttribute, [$attributeNames, $attributes]);
@@ -245,7 +251,7 @@ class PlayerAttributeTest extends TestCase
         $expectedMappedAttributes = [
             'sprint_speed' => 85,
             'stamina' => 75,
-            'gk_diving' => 70
+            'gk_diving' => 70,
         ];
 
         $this->assertEquals($expectedMappedAttributes, $mappedAttributes);
@@ -306,4 +312,3 @@ class PlayerAttributeTest extends TestCase
         $this->assertTrue($filteredPlayerAttributes->contains('id', $playerAttribute3->id));
     }
 }
-
