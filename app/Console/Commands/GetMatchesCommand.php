@@ -72,7 +72,7 @@ class GetMatchesCommand extends Command
         });
     }
 
-    private function fetchMatchResults(string $platform, int $clubId): array
+    protected function fetchMatchResults(string $platform, int $clubId): array
     {
         $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
         $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
@@ -80,7 +80,7 @@ class GetMatchesCommand extends Command
         return array_merge(ResultDataFormatter::formatJsonData($leagueResults), ResultDataFormatter::formatJsonData($cupResults));
     }
 
-    private function storeMatchResults(array $results, string $platform): void
+    protected function storeMatchResults(array $results, string $platform): void
     {
         $count = count($results);
         $this->info("{$count} matches found");
@@ -89,7 +89,7 @@ class GetMatchesCommand extends Command
         $this->info("{$inserted} unique results into the database");
     }
 
-    private function updatePlayers(int $clubId, string $platform): void
+    protected function updatePlayers(int $clubId, string $platform): void
     {
         $latestResult = Result::byTeam($clubId);
         $players = collect($latestResult->properties['players'][$clubId]);

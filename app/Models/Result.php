@@ -76,7 +76,7 @@ class Result extends Model
         });
     }
 
-    public function scopeByTeam(Builder $query, int $teamId): Result
+    public function scopeByTeam(Builder $query, int $teamId)
     {
         return $query->where('home_team_id', $teamId)
             ->orWhere('away_team_id', $teamId)
