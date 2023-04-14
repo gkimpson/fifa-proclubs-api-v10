@@ -13,6 +13,13 @@ class PlayerAttributeTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->attributes = '80|75|90|80|70|70|65|85|80|75|70|75|80|65|60|65|70|75|70|75|80|75|80|70|65|75|75|70|70|80|70|65|80|75';
+    }
+
     /** @test */
     public function it_can_generate_a_favourite_position_for_goalkeeper()
     {
@@ -72,9 +79,7 @@ class PlayerAttributeTest extends TestCase
     /** @test */
     public function it_can_parse_attributes()
     {
-        $attributes = '80|75|90|80|70|70|65|85|80|75|70|75|80|65|60|65|70|75|70|75|80|75|80|70|65|75|75|70|70|80|70|65|80|75';
-
-        $parsedAttributes = PlayerAttribute::parseAttributes($attributes);
+        $parsedAttributes = PlayerAttribute::parseAttributes($this->attributes);
 
         $this->assertEquals([80, 75, 90, 80, 70, 70, 65, 85, 80, 75, 70, 75, 80, 65, 60, 65, 70, 75, 70, 75, 80, 75, 80, 70, 65, 75, 75, 70, 70, 80, 70, 65, 80, 75], $parsedAttributes->toArray());
     }
@@ -82,9 +87,7 @@ class PlayerAttributeTest extends TestCase
     /** @test */
     public function it_can_generate_attributes()
     {
-        $attributes = '80|75|90|80|70|70|65|85|80|75|70|75|80|65|60|65|70|75|70|75|80|75|80|70|65|75|75|70|70|80|70|65|80|75';
-
-        $generatedAttributes = PlayerAttribute::generateAttributes($attributes);
+        $generatedAttributes = PlayerAttribute::generateAttributes($this->attributes);
         $this->assertEquals([
             'acceleration' => 80,
             'sprint_speed' => 75,
