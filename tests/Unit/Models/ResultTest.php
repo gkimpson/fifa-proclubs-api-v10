@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Unit\Models;
 
 use App\Models\Result;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -68,29 +68,4 @@ class ResultTest extends TestCase
             'match_id' => [],
         ]);
     }
-
-//    /**
-//     * @test
-//     * @dataProvider invalidData
-//     */
-//    public function testErrorExceptionReturned($invalidData): void
-//    {
-//        $this->expectException(\TypeError::class);
-//        Result::factory()->create([
-//            $invalidData
-//        ]);
-//    }
-//
-//    public function invalidData(): array
-//    {
-//        return [
-//            [
-//                'match_id' => []
-//            ],
-//            [
-//                'match_id' => 123456789,
-//                'home_team_id' => 'not-an-id'
-//            ]
-//        ];
-//    }
 }
