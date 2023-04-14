@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Outcomes;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class ResultDataFormatter
 {
@@ -76,7 +77,7 @@ class ResultDataFormatter
         })->values()->toArray();
     }
 
-    private static function getPlayerData(object $players): array
+    protected static function getPlayerData(object $players): array
     {
         return collect($players)->map(function ($clubPlayers) {
             return collect($clubPlayers)->map(function ($player) {

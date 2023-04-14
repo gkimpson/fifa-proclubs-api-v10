@@ -112,7 +112,6 @@ class PlayerAttribute extends Model
         $builder->with('player');
     }
 
-    // create a relationship with the player model
     public function player()
     {
         return $this->belongsTo(Player::class);

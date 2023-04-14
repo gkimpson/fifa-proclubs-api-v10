@@ -76,7 +76,7 @@ class Result extends Model
         });
     }
 
-    public function scopeByTeam(Builder $query, int $teamId): Builder
+    public function scopeByTeam(Builder $query, int $teamId): Result
     {
         return $query->where('home_team_id', $teamId)
             ->orWhere('away_team_id', $teamId)
@@ -84,12 +84,12 @@ class Result extends Model
             ->first();
     }
 
-    public function scopeHomeTeam(Builder $query, int $teamId): Builder
+    public function scopeHomeTeam(Builder $query, int $teamId): Result
     {
         return $query->where('home_team_id', $teamId);
     }
 
-    public function scopeAwayTeam(Builder $query, int $teamId): Builder
+    public function scopeAwayTeam(Builder $query, int $teamId): Result
     {
         return $query->where('away_team_id', $teamId);
     }
