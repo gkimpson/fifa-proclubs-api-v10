@@ -109,7 +109,7 @@ class ResultService
     {
         if (isset($players->members)) {
             return collect($players->members)
-                ->first(function ($player) use ($matchedPlayer) {P
+                ->first(function ($player) use ($matchedPlayer) {
                     return $player->name === $matchedPlayer;
                 });
         }

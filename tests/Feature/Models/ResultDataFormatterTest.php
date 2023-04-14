@@ -84,7 +84,7 @@ class ResultDataFormatterTest extends TestCase
         $player1->passesmade = 5;
         $player1->playername = 'bobby';
         $player1->pos = 'forward';
-        $player1->rating = 9.2;
+        $player1->rating = '9.2';
         $player1->realtimegame = '905';
         $player1->redcards = 0;
         $player1->saves = 0;
@@ -110,7 +110,7 @@ class ResultDataFormatterTest extends TestCase
         $player2->passesmade = 5;
         $player2->playername = 'peter';
         $player2->pos = 'midfielder';
-        $player2->rating = 7.2;
+        $player2->rating = '7.2';
         $player2->realtimegame = '800';
         $player2->redcards = 1;
         $player2->saves = 0;
