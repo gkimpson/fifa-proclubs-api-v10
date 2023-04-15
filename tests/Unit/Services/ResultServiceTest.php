@@ -321,9 +321,12 @@ class ResultServiceTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    public function testGetRankingTypes()
+    /**
+     * @test
+     */
+    public function getRankingTypes()
     {
-        $resultService = new ResultService(new ProclubsApiService());
+        $resultService = new ResultService(new ProclubsApiService);
 
         $expectedRankingTypes = [
             'assists',
@@ -347,5 +350,4 @@ class ResultServiceTest extends TestCase
 
         $this->assertEquals($expectedRankingTypes, $resultService->getRankingTypes());
     }
-
 }

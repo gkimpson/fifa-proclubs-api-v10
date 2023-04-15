@@ -79,6 +79,29 @@ class ResultService
         return array_merge(...$data);
     }
 
+    public function getRankingTypes(): array
+    {
+        return [
+            'assists',
+            'cleanSheetsDef',
+            'cleanSheetsGk',
+            'favoritePosition',
+            'gamesPlayed',
+            'goals',
+            'manOfTheMatch',
+            'passSuccessRate',
+            'passesMade',
+            'prevGoals',
+            'proHeight',
+            'proOverall',
+            'ratingAve',
+            'shotSuccessRate',
+            'tackleSuccessRate',
+            'tacklesMade',
+            'winRate',
+        ];
+    }
+
     protected function getSquadData(int $clubId, string $platform): object
     {
         return json_decode($this->apiService::memberStats(Platforms::getPlatform($platform), $clubId));
@@ -162,28 +185,5 @@ class ResultService
         return $membersCollection->sortByDesc($rankingType)
             ->pluck($rankingType, 'name')
             ->toArray();
-    }
-
-    public function getRankingTypes(): array
-    {
-        return [
-            'assists',
-            'cleanSheetsDef',
-            'cleanSheetsGk',
-            'favoritePosition',
-            'gamesPlayed',
-            'goals',
-            'manOfTheMatch',
-            'passSuccessRate',
-            'passesMade',
-            'prevGoals',
-            'proHeight',
-            'proOverall',
-            'ratingAve',
-            'shotSuccessRate',
-            'tackleSuccessRate',
-            'tacklesMade',
-            'winRate',
-        ];
     }
 }

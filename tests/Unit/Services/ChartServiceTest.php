@@ -10,7 +10,10 @@ class ChartServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testGetPlayerComparisonDataReturnsInvalidArgumentExceptionIfNotAttributes()
+    /**
+     * @test
+     */
+    public function getPlayerComparisonDataReturnsInvalidArgumentExceptionIfNotAttributes()
     {
         $clubId = 1;
         $platform = 'ps5';
