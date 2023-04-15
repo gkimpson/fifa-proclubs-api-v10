@@ -79,12 +79,12 @@ class ResultService
         return array_merge(...$data);
     }
 
-    private function getSquadData(int $clubId, string $platform): object
+    protected function getSquadData(int $clubId, string $platform): object
     {
         return json_decode($this->apiService::memberStats(Platforms::getPlatform($platform), $clubId));
     }
 
-    private function getCareerData(int $clubId, string $platform): object
+    protected function getCareerData(int $clubId, string $platform): object
     {
         return json_decode($this->apiService::careerStats(Platforms::getPlatform($platform), $clubId));
     }
@@ -105,7 +105,7 @@ class ResultService
         });
     }
 
-    private function filterPlayerData(object $players, string $matchedPlayer)
+    protected function filterPlayerData(object $players, string $matchedPlayer)
     {
         if (isset($players->members)) {
             return collect($players->members)
@@ -131,14 +131,14 @@ class ResultService
         ];
     }
 
-    private function mapRankingData(object $members, string $sortingMethod): array
+    protected function mapRankingData(object $members, string $sortingMethod): array
     {
         return array_map(function ($rankingType) use ($members, $sortingMethod) {
             return [$rankingType => $this->{$sortingMethod}($rankingType, $members)];
         }, $this->rankingTypes);
     }
 
-    private function sortingCustomRankingData(string $rankingType, object $membersObject): array
+    protected function sortingCustomRankingData(string $rankingType, object $membersObject): array
     {
         $membersCollection = collect($membersObject->members ?? []);
 
