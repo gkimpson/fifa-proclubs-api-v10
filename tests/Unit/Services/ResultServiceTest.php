@@ -7,6 +7,7 @@ use App\Services\ResultService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Mockery;
+use stdClass;
 use Tests\TestCase;
 
 class TestableResultService extends ResultService
@@ -36,7 +37,7 @@ class TestableResultService extends ResultService
         return $this->getCareerData($clubId, $platform);
     }
 
-    public function publicFilterPlayerData(object $players, string $matchedPlayer)
+    public function publicFilterPlayerData(object $players, string $matchedPlayer): object|null
     {
         return $this->filterPlayerData($players, $matchedPlayer);
     }
@@ -70,7 +71,7 @@ class ResultServiceTest extends TestCase
     /**
      * @test
      */
-    public function getPlayerComparisonData()
+    public function getPlayerComparisonData(): void
     {
         $clubId = 1;
         $platform = 'ps5';
@@ -109,7 +110,7 @@ class ResultServiceTest extends TestCase
     /**
      * @test
      */
-    public function getCachedData()
+    public function getCachedData(): void
     {
         $clubId = 1;
         $platform = 'ps5';
@@ -136,7 +137,7 @@ class ResultServiceTest extends TestCase
     /**
      * @test
      */
-    public function getRankingData()
+    public function getRankingData(): void
     {
         $clubId = 1;
         $platform = 'ps5';
@@ -168,7 +169,7 @@ class ResultServiceTest extends TestCase
     /**
      * @test
      */
-    public function getCustomRankingData()
+    public function getCustomRankingData(): void
     {
         $clubId = 1;
         $platform = 'ps5';
@@ -198,7 +199,7 @@ class ResultServiceTest extends TestCase
     /**
      * @test
      */
-    public function getSquadData()
+    public function getSquadData(): void
     {
         $clubId = 1;
         $platform = 'ps5';
@@ -231,7 +232,7 @@ class ResultServiceTest extends TestCase
     /**
      * @test
      */
-    public function getCareerData()
+    public function getCareerData(): void
     {
         $clubId = 1;
         $platform = 'ps5';
