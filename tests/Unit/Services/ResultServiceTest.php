@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Services;
 
-use App\Services\ResultService;
 use App\Services\ProclubsApiService;
+use App\Services\ResultService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Mockery;
@@ -45,7 +45,6 @@ class TestableResultService extends ResultService
     {
         return $this->sortingCustomRankingData($rankingType, $membersObject);
     }
-
 }
 
 class ResultServiceTest extends TestCase
@@ -68,7 +67,10 @@ class ResultServiceTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetPlayerComparisonData()
+    /**
+     * @test
+     */
+    public function getPlayerComparisonData()
     {
         $clubId = 1;
         $platform = 'ps5';
@@ -78,13 +80,13 @@ class ResultServiceTest extends TestCase
         $this->apiServiceMock->shouldReceive('memberStats')
             ->andReturn(json_encode(['members' => [
                 ['name' => $player1, 'goals' => 10],
-                ['name' => $player2, 'goals' => 15]
+                ['name' => $player2, 'goals' => 15],
             ]]));
 
         $this->apiServiceMock->shouldReceive('careerStats')
             ->andReturn(json_encode(['members' => [
                 ['name' => $player1, 'goals' => 50],
-                ['name' => $player2, 'goals' => 60]
+                ['name' => $player2, 'goals' => 60],
             ]]));
 
         $result = $this->resultService->getPlayerComparisonData($clubId, $platform, $player1, $player2);
@@ -94,17 +96,20 @@ class ResultServiceTest extends TestCase
 
         $this->assertEquals([
             'player1' => [
-                'career' => (object)['name' => $player1, 'goals' => 50],
-                'members' => (object)['name' => $player1, 'goals' => 10],
+                'career' => (object) ['name' => $player1, 'goals' => 50],
+                'members' => (object) ['name' => $player1, 'goals' => 10],
             ],
             'player2' => [
-                'career' => (object)['name' => $player2, 'goals' => 60],
-                'members' => (object)['name' => $player2, 'goals' => 15],
+                'career' => (object) ['name' => $player2, 'goals' => 60],
+                'members' => (object) ['name' => $player2, 'goals' => 15],
             ],
         ], $result);
     }
 
-    public function testGetCachedData()
+    /**
+     * @test
+     */
+    public function getCachedData()
     {
         $clubId = 1;
         $platform = 'ps5';
@@ -113,7 +118,7 @@ class ResultServiceTest extends TestCase
         $this->apiServiceMock->shouldReceive('memberStats')
             ->andReturn(json_encode(['members' => [
                 ['name' => 'player1', 'goals' => 10],
-                ['name' => 'player2', 'goals' => 15]
+                ['name' => 'player2', 'goals' => 15],
             ]]));
 
         $expectedResult = json_decode('{"members":[{"name":"player1","goals":10},{"name":"player2","goals":15}]}');
@@ -128,7 +133,10 @@ class ResultServiceTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function testGetRankingData()
+    /**
+     * @test
+     */
+    public function getRankingData()
     {
         $clubId = 1;
         $platform = 'ps5';
@@ -136,7 +144,7 @@ class ResultServiceTest extends TestCase
         $this->apiServiceMock->shouldReceive('memberStats')
             ->andReturn(json_encode(['members' => [
                 ['name' => 'player1', 'goals' => 10],
-                ['name' => 'player2', 'goals' => 15]
+                ['name' => 'player2', 'goals' => 15],
             ]]));
 
         Cache::shouldReceive('remember')
@@ -157,7 +165,10 @@ class ResultServiceTest extends TestCase
         $this->assertEquals(15, $result['goals']['player2']);
     }
 
-    public function testGetCustomRankingData()
+    /**
+     * @test
+     */
+    public function getCustomRankingData()
     {
         $clubId = 1;
         $platform = 'ps5';
@@ -165,7 +176,7 @@ class ResultServiceTest extends TestCase
         $this->apiServiceMock->shouldReceive('memberStats')
             ->andReturn(json_encode(['members' => [
                 ['name' => 'player1', 'goals' => 5, 'gamesPlayed' => 5],
-                ['name' => 'player2', 'goals' => 30, 'gamesPlayed' => 10]
+                ['name' => 'player2', 'goals' => 30, 'gamesPlayed' => 10],
             ]]));
 
         Cache::shouldReceive('remember')
@@ -184,7 +195,10 @@ class ResultServiceTest extends TestCase
         $this->assertEquals(3, $result['goals']['player2']);
     }
 
-    public function testGetSquadData()
+    /**
+     * @test
+     */
+    public function getSquadData()
     {
         $clubId = 1;
         $platform = 'ps5';
@@ -193,8 +207,8 @@ class ResultServiceTest extends TestCase
             ->andReturn(json_encode([
                 'members' => [
                     ['name' => 'player1', 'goals' => 10],
-                    ['name' => 'player2', 'goals' => 15]
-                ]
+                    ['name' => 'player2', 'goals' => 15],
+                ],
             ]));
 
         $testableResultService = new TestableResultService($this->apiServiceMock);
@@ -214,7 +228,10 @@ class ResultServiceTest extends TestCase
         $this->assertEquals(15, $player2->goals);
     }
 
-    public function testGetCareerData()
+    /**
+     * @test
+     */
+    public function getCareerData()
     {
         $clubId = 1;
         $platform = 'ps5';
@@ -223,8 +240,8 @@ class ResultServiceTest extends TestCase
             ->andReturn(json_encode([
                 'members' => [
                     ['name' => 'player1', 'goals' => 50],
-                    ['name' => 'player2', 'goals' => 60]
-                ]
+                    ['name' => 'player2', 'goals' => 60],
+                ],
             ]));
 
         $testableResultService = new TestableResultService($this->apiServiceMock);
@@ -245,14 +262,17 @@ class ResultServiceTest extends TestCase
         $this->assertEquals(60, $player2->goals);
     }
 
-    public function testFilterPlayerData()
+    /**
+     * @test
+     */
+    public function filterPlayerData()
     {
         $playersJson = json_encode([
             'members' => [
                 ['name' => 'player1', 'goals' => 10],
                 ['name' => 'player2', 'goals' => 15],
-                ['name' => 'player3', 'goals' => 5]
-            ]
+                ['name' => 'player3', 'goals' => 5],
+            ],
         ]);
 
         $players = json_decode($playersJson);
@@ -271,14 +291,17 @@ class ResultServiceTest extends TestCase
         $this->assertNull($result);
     }
 
-    public function testSortingCustomRankingData()
+    /**
+     * @test
+     */
+    public function sortingCustomRankingData()
     {
         $membersJson = json_encode([
             'members' => [
                 ['name' => 'player1', 'goals' => 10, 'gamesPlayed' => 5],
                 ['name' => 'player2', 'goals' => 15, 'gamesPlayed' => 10],
                 ['name' => 'player3', 'goals' => 0, 'gamesPlayed' => 3],
-            ]
+            ],
         ]);
 
         $membersObject = json_decode($membersJson);
@@ -298,5 +321,31 @@ class ResultServiceTest extends TestCase
         $this->assertEmpty($result);
     }
 
+    public function testGetRankingTypes()
+    {
+        $resultService = new ResultService(new ProclubsApiService());
+
+        $expectedRankingTypes = [
+            'assists',
+            'cleanSheetsDef',
+            'cleanSheetsGk',
+            'favoritePosition',
+            'gamesPlayed',
+            'goals',
+            'manOfTheMatch',
+            'passSuccessRate',
+            'passesMade',
+            'prevGoals',
+            'proHeight',
+            'proOverall',
+            'ratingAve',
+            'shotSuccessRate',
+            'tackleSuccessRate',
+            'tacklesMade',
+            'winRate',
+        ];
+
+        $this->assertEquals($expectedRankingTypes, $resultService->getRankingTypes());
+    }
 
 }
