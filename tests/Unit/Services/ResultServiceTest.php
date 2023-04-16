@@ -7,7 +7,6 @@ use App\Services\ResultService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Mockery;
-use stdClass;
 use Tests\TestCase;
 
 class TestableResultService extends ResultService
