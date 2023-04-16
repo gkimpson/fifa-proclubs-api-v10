@@ -24,7 +24,7 @@ class GetMatchesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'proclubs:matches';
+    protected $signature = 'proclubs:matches {useLaravelHttp?}';   // optional argument
 
     /**
      * The console command description.
@@ -40,9 +40,10 @@ class GetMatchesCommand extends Command
     {
         try {
             $this->info('Running...' . $this->description);
+            $useLaravelHttp = (bool) $this->argument('useLaravelHttp') ?? false;
 
             $properties = $this->getDistinctClubIdAndPlatform();
-            $this->processClubProperties($properties);
+            $this->processClubProperties($properties, $useLaravelHttp);
 
             return 0;
         } catch (Exception $e) {
@@ -52,10 +53,10 @@ class GetMatchesCommand extends Command
         }
     }
 
-    protected function fetchMatchResults(string $platform, int $clubId): array
+    protected function fetchMatchResults(string $platform, int $clubId, bool $useLaravelHttp = false): array
     {
-        $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE);
-        $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP);
+        $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE, $useLaravelHttp);
+        $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP, $useLaravelHttp);
 
         return array_merge(ResultDataFormatter::formatJsonData($leagueResults), ResultDataFormatter::formatJsonData($cupResults));
     }
@@ -93,13 +94,13 @@ class GetMatchesCommand extends Command
         return User::distinct()->pluck('platform', 'club_id');
     }
 
-    private function processClubProperties(object $properties): void
+    private function processClubProperties(object $properties, bool $useLaravelHttp = false): void
     {
-        $properties->map(function ($platform, $clubId) use ($properties) {
+        $properties->map(function ($platform, $clubId) use ($properties, $useLaravelHttp) {
             $this->info("Collecting matches data for - Platform: {$platform} | ClubId: {$clubId}");
             $lastIteration = ($clubId === $properties->keys()->last());
 
-            $results = $this->fetchMatchResults($platform, $clubId);
+            $results = $this->fetchMatchResults($platform, $clubId, $useLaravelHttp);
             $this->storeMatchResults($results, $platform);
 
             if ($lastIteration) {

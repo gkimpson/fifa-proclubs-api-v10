@@ -120,8 +120,16 @@ class ProclubsApiService
         ]);
     }
 
-    public static function matchStats(Platforms $platform, int $clubId, MatchTypes $matchType): mixed
+    public static function matchStats(Platforms $platform, int $clubId, MatchTypes $matchType, bool $useLaravelHttp = false): mixed
     {
+        if ($useLaravelHttp) {
+            return self::doLaravelExternalApiCall('clubs/matches', [
+                'matchType' => $matchType->name(),
+                'platform' => $platform->name(),
+                'clubIds' => $clubId,
+            ]);
+        }
+
         return self::doExternalApiCall('clubs/matches', [
             'matchType' => $matchType->name(),
             'platform' => $platform->name(),
