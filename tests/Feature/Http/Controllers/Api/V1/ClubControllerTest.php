@@ -7,7 +7,7 @@ namespace Tests\Feature\Http\Controllers\Api\V1;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class sClubControllerTest extends TestCase
+class ClubControllerTest extends TestCase
 {
     use RefreshDatabase;
 
