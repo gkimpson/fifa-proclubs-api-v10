@@ -19,6 +19,15 @@ class ProclubsApiService
     {
     }
 
+    /**
+     * Performs a CURL request to the API and returns the response.It takes an optional endpoint, an array of query parameters,
+     * a boolean to return the response as JSON decoded or not, and a boolean indicating if the call is from the command line.
+     * @param string|null $endpoint
+     * @param array $params
+     * @param bool $jsonDecoded
+     * @param bool $isCLI
+     * @return bool|int|mixed|string
+     */
     public static function doExternalApiCall(?string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false)
     {
         try {
@@ -44,20 +53,6 @@ class ProclubsApiService
                 ],
             ]);
 
-//            // TODO - use the Laravel way for this just need to figure it out?!, keeping the block above because we all know EA like to mess about like they did before and locked out the ProClub Avengers!
-//            curl_setopt_array($curl, [
-//                CURLOPT_URL => $url,
-//                CURLOPT_RETURNTRANSFER => true,
-//                CURLOPT_TIMEOUT => 5,
-//                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
-//                CURLOPT_HTTPHEADER => [
-//                    'accept-language: en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7',
-//                    'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
-//                    'Content-Type: application/json',
-//                    'accept: application/json',
-//                ],
-//            ]);
-
             if (curl_exec($curl) === false || curl_errno($curl)) {
                 echo App::environment(['local', 'staging']) ? 'Curl error: ' . curl_error($curl) : 'An unexpected error has occurred - try again later';
                 Log::error('Curl request failed with last error: ' . curl_error($curl));
@@ -80,6 +75,16 @@ class ProclubsApiService
     }
 
     // TODO - use the Laravel method - seems to not work on the AWS server but works locally
+
+    /**
+     * Performs a Laravel HTTP request to the API and returns the response.
+     * Similar to doExternalApiCall but uses Laravel's HTTP facade instead of CURL.
+     * @param string|null $endpoint
+     * @param array $params
+     * @param bool $jsonDecoded
+     * @param bool $isCLI
+     * @return array|\GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response|int|mixed
+     */
     public static function doLaravelExternalApiCall(?string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false)
     {
         try {
@@ -112,6 +117,12 @@ class ProclubsApiService
         }
     }
 
+    /**
+     * Fetches club information given a platform and club ID
+     * @param Platforms $platform
+     * @param int $clubId
+     * @return mixed
+     */
     public static function clubsInfo(Platforms $platform, int $clubId): mixed
     {
         return self::doExternalApiCall('clubs/info', [
@@ -120,6 +131,14 @@ class ProclubsApiService
         ]);
     }
 
+    /**
+     * Fetches match stats for a club given the platform, club ID, and match type
+     * @param Platforms $platform
+     * @param int $clubId
+     * @param MatchTypes $matchType
+     * @param bool $useLaravelHttp
+     * @return mixed
+     */
     public static function matchStats(Platforms $platform, int $clubId, MatchTypes $matchType, bool $useLaravelHttp = false): mixed
     {
         if ($useLaravelHttp) {
@@ -137,6 +156,12 @@ class ProclubsApiService
         ]);
     }
 
+    /**
+     * Fetches member stats for a club given the platform and club ID
+     * @param Platforms $platform
+     * @param int $clubId
+     * @return mixed
+     */
     public static function memberStats(Platforms $platform, int $clubId): mixed
     {
         return self::doExternalApiCall('members/stats', [
@@ -145,6 +170,12 @@ class ProclubsApiService
         ]);
     }
 
+    /**
+     * Fetches career stats for a club given the platform and club ID
+     * @param Platforms $platform
+     * @param int $clubId
+     * @return string
+     */
     public static function careerStats(Platforms $platform, int $clubId): string
     {
         return self::doExternalApiCall('members/career/stats', [
@@ -153,6 +184,12 @@ class ProclubsApiService
         ]);
     }
 
+    /**
+     * Fetches seasonal stats for a club given the platform and club ID
+     * @param Platforms $platform
+     * @param int $clubId
+     * @return string
+     */
     public static function seasonStats(Platforms $platform, int $clubId): string
     {
         return self::doExternalApiCall('clubs/seasonalStats', [
@@ -161,6 +198,12 @@ class ProclubsApiService
         ]);
     }
 
+    /**
+     * Fetches club settings given the platform and club name
+     * @param Platforms $platform
+     * @param string $clubName
+     * @return string
+     */
     public static function settings(Platforms $platform, string $clubName): string
     {
         return self::doExternalApiCall('settings', [
@@ -169,6 +212,12 @@ class ProclubsApiService
         ]);
     }
 
+    /**
+     * Searches for clubs given the platform and club name
+     * @param Platforms $platform
+     * @param string $clubName
+     * @return string
+     */
     public static function search(Platforms $platform, string $clubName): string
     {
         return self::doExternalApiCall('clubs/search', [
@@ -177,6 +226,12 @@ class ProclubsApiService
         ]);
     }
 
+    /**
+     * Fetches the leaderboard given the platform and type (club or season).
+     * @param Platforms $platform
+     * @param string $type
+     * @return string
+     */
     public static function leaderboard(Platforms $platform, string $type): string
     {
         $endpoint = $type === 'club' ? 'clubRankLeaderboard' : 'seasonRankLeaderboard';
@@ -186,6 +241,13 @@ class ProclubsApiService
         ]);
     }
 
+    /**
+     * Fetches player stats given the platform, club ID, and player name.
+     * @param Platforms $platform
+     * @param int $clubId
+     * @param string $playerName
+     * @return array
+     */
     public static function playerStats(Platforms $platform, int $clubId, string $playerName): array
     {
         $career = json_decode(self::careerStats($platform, $clubId));
@@ -197,6 +259,13 @@ class ProclubsApiService
         ];
     }
 
+    /**
+     * TODO: This is a temporary solution to filter a player from an array of players based on the player's name.
+     *  Helper method to filter a player from an array of players based on the player's name.
+     * @param array $players
+     * @param string $playerName
+     * @return object|bool
+     */
     private static function filterPlayer(array $players, string $playerName): object|bool
     {
         $targetPlayer = array_filter($players, function ($player) use ($playerName) {
