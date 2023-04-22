@@ -16,10 +16,8 @@ class VideoControllerTest extends TestCase
     /**
      * @test
      */
-    public function index_displays_view(): void
+    public function index_displays_view_with_videos(): void
     {
-        $videos = Video::factory()->count(3)->create();
-
         $response = $this->get(route('video.index'));
 
         $response->assertOk();
@@ -30,7 +28,7 @@ class VideoControllerTest extends TestCase
     /**
      * @test
      */
-    public function show_displays_view(): void
+    public function show_displays_view_with_videos(): void
     {
         $video = Video::factory()->create();
 

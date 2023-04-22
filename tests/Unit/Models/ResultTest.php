@@ -14,7 +14,7 @@ class ResultTest extends TestCase
     /**
      * @test
      */
-    public function singleResultCanBeAdded()
+    public function a_single_result_can_be_added()
     {
         Result::factory()->create();
         $this->assertDatabaseCount('results', 1);
@@ -23,7 +23,7 @@ class ResultTest extends TestCase
     /**
      * @test
      */
-    public function multipleResultsCanBeAdded()
+    public function multiple_results_can_be_added()
     {
         $num_rows_to_insert = 10;
         Result::factory($num_rows_to_insert)->create();
@@ -33,7 +33,7 @@ class ResultTest extends TestCase
     /**
      * @test
      */
-    public function modelExistsInTheDatabase()
+    public function results_model_exists_in_the_database()
     {
         $result = Result::factory()->create();
         $this->assertModelExists($result);
@@ -42,7 +42,7 @@ class ResultTest extends TestCase
     /**
      * @test
      */
-    public function resultCanBeAddedAndVerifiedInDatabase()
+    public function single_result_can_be_added_and_verified_in_the_database()
     {
         Result::factory()->create([
             'match_id' => 1234567890123,
@@ -61,7 +61,7 @@ class ResultTest extends TestCase
     /**
      * @test
      */
-    public function errorExceptionReturnedIfMatchIdValueIncorrect()
+    public function error_exception_returned_if_match_id_value_incorrect()
     {
         $this->expectException(TypeError::class);
         Result::factory()->create([

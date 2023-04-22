@@ -15,7 +15,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function testSinglePlayerCanBeAdded()
+    public function it_can_create_a_single_player_and_confirm_they_exist_in_the_database()
     {
         Player::factory()->create();
         $this->assertDatabaseCount('players', 1);
@@ -24,7 +24,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function testMultiplePlayersCanBeAdded()
+    public function it_can_create_multiple_players_and_confirm_they_exist_in_the_database()
     {
         Player::factory(10)->create();
         $this->assertDatabaseCount('players', 10);
@@ -33,7 +33,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function testModelExistsInTheDatabase()
+    public function it_can_test_player_model_exists_in_the_database()
     {
         $player = Player::factory()->create();
         $this->assertModelExists($player);
@@ -42,7 +42,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function testPlayerCanBeAddedAndVerifiedExactlyInDatabase()
+    public function it_can_create_a_player_and_check_their_clubId_and_platform_and_name_is_correct()
     {
         Player::factory()->create([
             'club_id' => 12345,
@@ -61,7 +61,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function testTypeErrorExceptionReturnedIfClubIdValueIncorrect()
+    public function it_can_generate_an_type_error_exception_when_creating_a_player_and_incorrect_clubId_values_passed()
     {
         $this->expectException(TypeError::class);
         Player::factory()->create([
@@ -72,7 +72,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function testQueryExceptionErrorExceptionReturnedIfPlatformValueIncorrect()
+    public function it_can_generate_an_query_error_exception_when_creating_a_player_and_incorrect_platform_values_passed()
     {
         $this->expectException(QueryException::class);
         Player::factory()->create([
@@ -83,12 +83,11 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function testArrayToStringErrorExceptionMessageReturnedIfAttributesValueIncorrect()
+    public function it_can_generate_an_array_to_string_error_exception_when_creating_a_player_and_incorrect_attributes_values_passed()
     {
         $this->expectExceptionMessage('Array to string conversion');
 
-        // Wrap the Player::factory()->create() call in a closure
-        // to trigger the exception when the closure is executed
+        // Wrap the Player::factory()->create() call in a closure to trigger the exception when the closure is executed
         (function () {
             Player::factory()->create([
                 'attributes' => [],
@@ -99,7 +98,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function findByClubAndPlatformAndPlayerName()
+    public function it_can_create_a_player_and_check_findByClubAndPlatformAndPlayerName_scope_finds_the_correct_player()
     {
         // Create a test player in the database
         $player = Player::factory()->create([
@@ -108,9 +107,9 @@ class PlayerTest extends TestCase
             'player_name' => 'JohnDoe',
         ]);
 
+        // Call the Scope method being tested
         $foundPlayer = Player::findByClubAndPlatformAndPlayerName(1, 'ps4', 'JohnDoe');
 
-        // Assert that the returned player is the same as the test player
         $this->assertEquals($player->id, $foundPlayer->id);
         $this->assertEquals($player->club_id, $foundPlayer->club_id);
         $this->assertEquals($player->platform, $foundPlayer->platform);
@@ -120,9 +119,8 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function findByClubAndPlatform()
+    public function it_can_create_players_and_check_findByClubAndPlatform_scope_finds_the_correct_players()
     {
-        // Create some test players in the database
         Player::factory()->create([
             'club_id' => 1,
             'platform' => 'ps4',
@@ -134,13 +132,10 @@ class PlayerTest extends TestCase
             'player_name' => 'JaneDoe',
         ]);
 
-        // Call the method being tested
+        // Call the Scope method being tested
         $players = Player::findByClubAndPlatform(1, 'ps4');
 
-        // Assert that the returned collection has the expected number of players
         $this->assertCount(2, $players);
-
-        // Assert that the players are in the expected order
         $this->assertEquals('JaneDoe', $players->get(0)->player_name);
         $this->assertEquals('JohnDoe', $players->get(1)->player_name);
     }

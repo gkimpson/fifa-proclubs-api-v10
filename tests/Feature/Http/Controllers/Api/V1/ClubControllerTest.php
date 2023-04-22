@@ -24,32 +24,76 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_request_returns_successfully(): void
+    public function api_club_request_returns_successfully_with_valid_json_structure(): void
     {
-        $uri = $this->apiVersion . $this->baseUri;
+        $uri = $this->baseUri;
 
         $response = $this->actingAs($this->user)->get($uri);
-        $json = $response->getContent();
 
         $response->assertOk();
-        $this->assertStringContainsString('name', $json);
-        $this->assertStringContainsString('teamId', $json);
+        $response->assertJsonCount(5, '52003');
+        $response->assertJsonCount(17, '52003.customKit');
+        $response->assertJsonStructure([
+            '52003' => [
+                'name',
+                'clubId',
+                'regionId',
+                'teamId',
+                'customKit' => [
+                    'stadName',
+                    'kitId',
+                    'isCustomTeam',
+                    'customKitId',
+                    'customAwayKitId',
+                    'customKeeperKitId',
+                    'kitColor1',
+                    'kitColor2',
+                    'kitColor3',
+                    'kitColor4',
+                    'kitAColor1',
+                    'kitAColor2',
+                    'kitAColor3',
+                    'kitAColor4',
+                    'dCustomKit',
+                    'crestColor',
+                    'crestAssetId',
+                ],
+            ],
+        ]);
     }
 
     /**
      * @test
      */
-    public function api_club_career_request_returns_successfully(): void
+    public function api_club_career_request_returns_successfully_with_valid_json_structure(): void
     {
-        $uri = $this->apiVersion . $this->baseUri . '/career';
+        $uri = $this->baseUri . '/career';
 
         $response = $this->actingAs($this->user)->get($uri);
-        $json = $response->getContent();
 
         $response->assertOk();
-        $this->assertStringContainsString('members', $json);
-        $this->assertStringContainsString('positionCount', $json);
         $response->assertJsonCount(4, 'positionCount');
+        $response->assertJsonCount(8, 'members.0');
+        $response->assertJsonStructure([
+            'members' => [
+                '*' => [
+                    'name',
+                    'proPos',
+                    'gamesPlayed',
+                    'goals',
+                    'assists',
+                    'manOfTheMatch',
+                    'ratingAve',
+                    'favoritePosition'
+                ],
+            ],
+            'positionCount' => [
+                'midfielder',
+                'goalkeeper',
+                'forward',
+                'defender',
+            ],
+        ]);
     }
 
     /**
@@ -61,6 +105,7 @@ class ClubControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->get($uri);
 
+        // NOTE - lots of clubs don't play cup games so this test doesn't really require a valid json structure like the 'league' equivalent
         $response->assertOk();
     }
 
@@ -79,18 +124,16 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_league_request_returns_successfully(): void
+    public function api_club_league_request_returns_successfully_with_valid_json_structure(): void
     {
         $uri = $this->baseUri . '/league';
 
         $response = $this->actingAs($this->user)->get($uri);
-
-        $json = $response->getContent();
         $response->assertOk();
-
-        $this->assertStringContainsString('matchId', $json);
-        $this->assertStringContainsString('clubs', $json);
-        $this->assertStringContainsString('players', $json);
+        $response->assertJsonCount(2, '0.timeAgo');
+        $response->assertJsonCount(2, '0.clubs');
+        $response->assertJsonCount(2, '0.players');
+        $response->assertJsonCount(2, '0.aggregate');
         $response->assertJsonStructure([
             [
                 'matchId',
@@ -117,6 +160,65 @@ class ClubControllerTest extends TestCase
                         ],
                     ],
                 ],
+                'players' => [
+                    '*' => [
+                        '*' => [
+                            'assists',
+                            'cleansheetsany',
+                            'cleansheetsdef',
+                            'cleansheetsgk',
+                            'goals',
+                            'goalsconceded',
+                            'losses',
+                            'mom',
+                            'namespace',
+                            'passattempts',
+                            'passesmade',
+                            'pos',
+                            'rating',
+                            'realtimegame',
+                            'realtimeidle',
+                            'redcards',
+                            'saves',
+                            'SCORE',
+                            'shots',
+                            'tackleattempts',
+                            'tacklesmade',
+                            'vproattr',
+                            'vprohackreason',
+                            'wins',
+                            'playername',
+                        ]
+                    ],
+                ],
+                'aggregate' => [
+                    '*' => [
+                        'assists',
+                        'cleansheetsany',
+                        'cleansheetsdef',
+                        'cleansheetsgk',
+                        'goals',
+                        'goalsconceded',
+                        'losses',
+                        'mom',
+                        'namespace',
+                        'passattempts',
+                        'passesmade',
+                        'pos',
+                        'rating',
+                        'realtimegame',
+                        'realtimeidle',
+                        'redcards',
+                        'saves',
+                        'SCORE',
+                        'shots',
+                        'tackleattempts',
+                        'tacklesmade',
+                        'vproattr',
+                        'vprohackreason',
+                        'wins',
+                    ]
+                ]
             ],
         ]);
     }
@@ -124,15 +226,14 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_leaderboard_request_returns_successfully(): void
+    public function api_club_leaderboard_request_returns_successfully_with_valid_json_structure(): void
     {
         $uri = 'platform/ps5/leaderboard/club';
 
         $response = $this->actingAs($this->user)->get($uri);
 
-        $json = $response->getContent();
         $response->assertOk();
-
+        $response->assertJsonCount(98, '*');
         $response->assertJsonStructure([
             [
                 'rank',
@@ -174,7 +275,25 @@ class ClubControllerTest extends TestCase
                     'clubId',
                     'regionId',
                     'teamId',
-                    'customKit' => [],
+                    'customKit' => [
+                        'stadName',
+                        'kitId',
+                        'isCustomTeam',
+                        'customKitId',
+                        'customAwayKitId',
+                        'customKeeperKitId',
+                        'kitColor1',
+                        'kitColor2',
+                        'kitColor3',
+                        'kitColor4',
+                        'kitAColor1',
+                        'kitAColor2',
+                        'kitAColor3',
+                        'kitAColor4',
+                        'dCustomKit',
+                        'crestColor',
+                        'crestAssetId',
+                    ],
                 ],
                 'platform',
             ],
@@ -184,20 +303,41 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_members_request_returns_successfully(): void
+    public function api_club_members_request_returns_successfully_with_valid_json_structure(): void
     {
         $uri = $this->baseUri . '/members';
 
         $response = $this->actingAs($this->user)->get($uri);
 
-        $json = $response->getContent();
         $response->assertOk();
-
-        $this->assertStringContainsString('members', $json);
-        $this->assertStringContainsString('gamesPlayed', $json);
-        $this->assertStringContainsString('assists', $json);
+        $response->assertJsonCount(4, 'positionCount');
         $response->assertJsonStructure([
-            'members' => [],
+            'members' => [
+                '*' => [
+                    'name',
+                    'gamesPlayed',
+                    'winRate',
+                    'goals',
+                    'assists',
+                    'cleanSheetsDef',
+                    'cleanSheetsGK',
+                    'shotSuccessRate',
+                    'passesMade',
+                    'passSuccessRate',
+                    'tacklesMade',
+                    'tackleSuccessRate',
+                    'proName',
+                    'proPos',
+                    'proStyle',
+                    'proHeight',
+                    'proNationality',
+                    'proOverall',
+                    'manOfTheMatch',
+                    'redCards',
+                    'prevGoals',
+                    'favoritePosition',
+                ]
+            ],
             'positionCount' => [
                 'midfielder' => [],
                 'goalkeeper' => [],
@@ -210,19 +350,16 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_player_request_returns_succesfully(): void
+    public function api_club_player_request_returns_succesfully_with_valid_json_structure(): void
     {
         $player = 'zabius-uk';
         $uri = $this->baseUri . '/players/' . $player;
 
         $response = $this->actingAs($this->user)->get($uri);
 
-        $json = $response->getContent();
         $response->assertOk();
-
-        $this->assertStringContainsString('members', $json);
-        $this->assertStringContainsString('gamesPlayed', $json);
-        $this->assertStringContainsString('assists', $json);
+        $response->assertJsonCount(8, 'career');
+        $response->assertJsonCount(22, 'members');
         $response->assertJsonStructure([
             'career' => [
                 'name',
@@ -276,15 +413,16 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_settings_request_returns_successfully(): void
+    public function api_settings_request_returns_successfully_with_valid_json_structure(): void
     {
         $uri = $this->baseUri . '/settings';
 
         $response = $this->actingAs($this->user)->get($uri);
 
         $response->assertOk();
+        $response->assertJsonCount(10, '*');
         $response->assertJsonStructure([
-            '1' => [
+            '*' => [
                 'divisionName',
                 'divisionId',
                 'pointsForPromotion',
@@ -297,20 +435,42 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_squad_request_returns_successfully(): void
+    public function api_club_squad_request_returns_successfully_with_valid_json_structure(): void
     {
         $uri = $this->baseUri . '/squad';
 
         $response = $this->actingAs($this->user)->get($uri);
 
-        $json = $response->getContent();
         $response->assertOk();
-
-        $this->assertStringContainsString('members', $json);
-        $this->assertStringContainsString('gamesPlayed', $json);
-        $this->assertStringContainsString('assists', $json);
+        $response->assertJsonCount(22, 'members.0');
+        $response->assertJsonCount(4, 'positionCount');
         $response->assertJsonStructure([
-            'members' => [],
+            'members' => [
+                '*' => [
+                    'name',
+                    'gamesPlayed',
+                    'winRate',
+                    'goals',
+                    'assists',
+                    'cleanSheetsDef',
+                    'cleanSheetsGK',
+                    'shotSuccessRate',
+                    'passesMade',
+                    'passSuccessRate',
+                    'tacklesMade',
+                    'tackleSuccessRate',
+                    'proName',
+                    'proPos',
+                    'proStyle',
+                    'proHeight',
+                    'proNationality',
+                    'proOverall',
+                    'manOfTheMatch',
+                    'redCards',
+                    'prevGoals',
+                    'favoritePosition',
+                ]
+            ],
             'positionCount' => [
                 'midfielder' => [],
                 'goalkeeper' => [],
@@ -331,6 +491,12 @@ class ClubControllerTest extends TestCase
         $response = $this->actingAs($this->user)->get($uri);
 
         $response->assertOk();
+        $response->assertJsonCount(2, 'player1');
+        $response->assertJsonCount(2, 'player2');
+        $response->assertJsonCount(8, 'player1.career');
+        $response->assertJsonCount(22, 'player1.members');
+        $response->assertJsonCount(8, 'player2.career');
+        $response->assertJsonCount(22, 'player2.members');
         $response->assertJsonStructure([
             'player1' => [
                 'career' => [],
@@ -341,74 +507,126 @@ class ClubControllerTest extends TestCase
                 'members' => [],
             ],
         ]);
-        $response->assertJsonCount(2, 'player1');
-        $response->assertJsonCount(2, 'player2');
     }
 
     /**
-     * @TODO - needs modifying to work with the new charts stuff as we now hit the database
-     *
      * @test
      */
-//    public function api_club_squad_request_with_non_existing_players_returns_empty_data(): void
-//    {
-//        $player1 = 'a-fakeplayer-999';
-//        $player2 = 'another-fakeplayer-999';
-//        $uri = $this->baseUri . '/squad/compare/' . $player1 . '/' . $player2;
-//
-//        $response = $this->actingAs($this->user)->get($uri);
-//
-//        $response->assertJsonFragment([
-//            'player1' => [
-//                'career' => null,
-//                'members' => null,
-//            ],
-//            'player2' => [
-//                'career' => null,
-//                'members' => null,
-//            ],
-//        ]);
-//        $response->assertJsonCount(2, 'player1');
-//        $response->assertJsonCount(2, 'player2');
-//    }
-
-    /**
-     * @test
-     */
-    public function api_club_seasonal_request_returns_successfully(): void
+    public function api_club_seasonal_request_returns_successfully_with_valid_json_structure(): void
     {
         $uri = $this->baseUri . '/season';
 
         $response = $this->actingAs($this->user)->get($uri);
 
-        $json = $response->getContent();
         $response->assertOk();
-
-        $this->assertStringContainsString('clubId', $json);
-        $this->assertStringContainsString('seasons', $json);
-        $this->assertStringContainsString('leaguesWon', $json);
-    }
-
-    /**
-     * @test
-     */
-    public function api_club_members_request_returns_expected_data(): void
-    {
-        $uri = $this->baseUri . '/members';
-
-        $response = $this->actingAs($this->user)->get($uri);
-        $json = $response->getContent();
-
-        $response->assertOk();
-
-        $this->assertIsString($json);
-        $this->assertStringContainsString('assists', $json);
-        $this->assertStringContainsString('favoritePosition', $json);
-        $this->assertStringContainsString('gamesPlayed', $json);
-        $this->assertStringContainsString('goals', $json);
-        $this->assertStringContainsString('manOfTheMatch', $json);
-        $this->assertStringContainsString('members', $json);
-        $this->assertStringContainsString('name', $json);
-        $this->assertStringContainsString('winRate', $json);
+        $response->assertJsonCount(1, '*');
+        $response->assertJsonCount(105, '*.*');
+        $response->assertJsonStructure([
+            '*' => [
+                'clubId',
+                'leaguesWon',
+                'divsWon1',
+                'divsWon2',
+                'divsWon3',
+                'divsWon4',
+                'cupsWon0',
+                'cupsWon1',
+                'cupsWon2',
+                'cupsWon3',
+                'cupsWon4',
+                'cupsWon5',
+                'cupsWon6',
+                'cupsElim0',
+                'cupsElim0R1',
+                'cupsElim0R2',
+                'cupsElim0R3',
+                'cupsElim0R4',
+                'cupsElim1',
+                'cupsElim1R1',
+                'cupsElim1R2',
+                'cupsElim1R3',
+                'cupsElim1R4',
+                'cupsElim2',
+                'cupsElim2R1',
+                'cupsElim2R2',
+                'cupsElim2R3',
+                'cupsElim2R4',
+                'cupsElim3',
+                'cupsElim3R1',
+                'cupsElim3R2',
+                'cupsElim3R3',
+                'cupsElim3R4',
+                'cupsElim4',
+                'cupsElim4R1',
+                'cupsElim4R2',
+                'cupsElim4R3',
+                'cupsElim4R4',
+                'cupsElim5',
+                'cupsElim5R1',
+                'cupsElim5R2',
+                'cupsElim5R3',
+                'cupsElim5R4',
+                'cupsElim6',
+                'cupsElim6R1',
+                'cupsElim6R2',
+                'cupsElim6R3',
+                'cupsElim6R4',
+                'promotions',
+                'holds',
+                'relegations',
+                'rankingPoints',
+                'prevDivision',
+                'maxDivision',
+                'bestDivision',
+                'bestPoints',
+                'curSeasonMov',
+                'lastMatch0',
+                'lastMatch1',
+                'lastMatch2',
+                'lastMatch3',
+                'lastMatch4',
+                'lastMatch5',
+                'lastMatch6',
+                'lastMatch7',
+                'lastMatch8',
+                'lastMatch9',
+                'lastOpponent0',
+                'lastOpponent1',
+                'lastOpponent2',
+                'lastOpponent3',
+                'lastOpponent4',
+                'lastOpponent5',
+                'lastOpponent6',
+                'lastOpponent7',
+                'lastOpponent8',
+                'lastOpponent9',
+                'starLevel',
+                'cupRankingPoints',
+                'overallRankingPoints',
+                'alltimeGoals',
+                'alltimeGoalsAgainst',
+                'seasonWins',
+                'seasonTies',
+                'seasonLosses',
+                'gamesPlayed',
+                'goals',
+                'goalsAgainst',
+                'points',
+                'prevSeasonWins',
+                'prevSeasonTies',
+                'prevSeasonLosses',
+                'prevPoints',
+                'prevProjectedPts',
+                'skill',
+                'wins',
+                'ties',
+                'losses',
+                'currentDivision',
+                'projectedPoints',
+                'totalCupsWon',
+                'recentResults',
+                'totalGames',
+            ],
+        ]);
     }
 }
