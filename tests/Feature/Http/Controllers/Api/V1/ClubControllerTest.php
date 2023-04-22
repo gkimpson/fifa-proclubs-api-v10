@@ -84,7 +84,7 @@ class ClubControllerTest extends TestCase
                     'assists',
                     'manOfTheMatch',
                     'ratingAve',
-                    'favoritePosition'
+                    'favoritePosition',
                 ],
             ],
             'positionCount' => [
@@ -188,7 +188,7 @@ class ClubControllerTest extends TestCase
                             'vprohackreason',
                             'wins',
                             'playername',
-                        ]
+                        ],
                     ],
                 ],
                 'aggregate' => [
@@ -217,8 +217,8 @@ class ClubControllerTest extends TestCase
                         'vproattr',
                         'vprohackreason',
                         'wins',
-                    ]
-                ]
+                    ],
+                ],
             ],
         ]);
     }
@@ -336,7 +336,7 @@ class ClubControllerTest extends TestCase
                     'redCards',
                     'prevGoals',
                     'favoritePosition',
-                ]
+                ],
             ],
             'positionCount' => [
                 'midfielder' => [],
@@ -469,7 +469,7 @@ class ClubControllerTest extends TestCase
                     'redCards',
                     'prevGoals',
                     'favoritePosition',
-                ]
+                ],
             ],
             'positionCount' => [
                 'midfielder' => [],
