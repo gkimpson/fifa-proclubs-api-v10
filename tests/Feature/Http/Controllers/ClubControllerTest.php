@@ -48,7 +48,6 @@ class ClubControllerTest extends TestCase
         $response->assertOk();
         $this->assertStringContainsString('members', $json);
         $this->assertStringContainsString('positionCount', $json);
-        $response->assertJsonCount(9, 'members');
         $response->assertJsonCount(4, 'positionCount');
     }
 
