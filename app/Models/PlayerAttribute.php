@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Helpers\PlayerAttributesHelper;
+use Assert\Assert;
 use Assert\Assertion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class PlayerAttribute extends Model
@@ -87,7 +89,7 @@ class PlayerAttribute extends Model
         return $attributes;
     }
 
-    private static function getMappedAttributes($attributeNames, $attributes): array
+    private static function getMappedAttributes(array $attributeNames, $attributes): array
     {
         return collect($attributeNames)
             ->map(function ($attributeName, $attributeKey) use ($attributes) {
@@ -103,9 +105,14 @@ class PlayerAttribute extends Model
     {
         $playerAttributes = PlayerAttributesHelper::getPlayerAttributeNames();
 
-        foreach ($playerAttributes as $attribute) {
+        $filteredAttributes = collect($playerAttributes)->filter(function ($attribute) {
+            return request($attribute) !== '';
+        });
+
+        foreach ($filteredAttributes as $attribute) {
             $builder->when(request($attribute), function ($builder) use ($attribute) {
                 $builder->where($attribute, '>=', request($attribute));
+                Assert::that(request($attribute))->integerish('Attribute must be an integerish value');
             });
         }
 

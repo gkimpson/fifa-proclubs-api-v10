@@ -314,4 +314,34 @@ class PlayerAttributeTest extends TestCase
         $this->assertFalse($filteredPlayerAttributes->contains('id', $playerAttribute2->id));
         $this->assertTrue($filteredPlayerAttributes->contains('id', $playerAttribute3->id));
     }
+
+    /** @test */
+    public function it_cannot_filter_query_by_player_attribute_with_invalid_parameters()
+    {
+        $player1 = Player::factory()->create(['player_name' => 'Player1']);
+        $player2 = Player::factory()->create(['player_name' => 'Player2']);
+
+        PlayerAttribute::factory()->create([
+            'player_id' => $player1->id,
+            'favourite_position' => 'G',
+            'acceleration' => 80,
+            'aggression' => 75,
+        ]);
+
+        PlayerAttribute::factory()->create([
+            'player_id' => $player2->id,
+            'favourite_position' => 'D',
+            'acceleration' => 90,
+            'aggression' => 85,
+        ]);
+
+        $query = PlayerAttribute::query();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Attribute must be an integerish value');
+
+        request()->merge(['acceleration' => 'invalid', 'aggression' => 80]);
+
+        $query->filter();
+    }
 }
