@@ -14,7 +14,6 @@ class ProclubsApiService
     public const API_URL = 'https://proclubs.ea.com/api/fifa/';
     public const REFERER = 'https://www.ea.com/';
 
-    // TODO - add to an ENUM later
     public function __construct()
     {
     }
@@ -25,67 +24,78 @@ class ProclubsApiService
      * @param string|null $endpoint
      * @param array $params
      * @param bool $jsonDecoded
-     * @param bool $isCLI
      * @return bool|int|mixed|string
      */
-    public static function doExternalApiCall(?string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false)
+    public static function doExternalApiCall(
+        ?string $endpoint = null,
+        array $params = []
+    )
+    {
+        return self::performCurlRequest($endpoint, $params);
+    }
+
+    private static function performCurlRequest(string $endpoint, array $params): string
     {
         try {
             $url = self::API_URL . $endpoint . '?' . http_build_query($params);
-            $curl = curl_init();
-
-            // KEEP THIS BLOCK JUST IN CASE IT NEEDS TO BE USED AGAIN
-            curl_setopt_array($curl, [
-                CURLOPT_URL => $url,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                // CURLOPT_MAXREDIRS => 5,
-                CURLOPT_TIMEOUT => 10,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
-                // CURLOPT_CUSTOMREQUEST => 'GET',
-                // CURLOPT_VERBOSE => false,
-                CURLOPT_FAILONERROR => true,
-                CURLOPT_REFERER => self::REFERER,
-                CURLOPT_HTTPHEADER => [
-                    'accept-language: en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7',
-                    'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
-                ],
-            ]);
-
-            if (curl_exec($curl) === false || curl_errno($curl)) {
-                echo App::environment(['local', 'staging']) ? 'Curl error: ' . curl_error($curl) : 'An unexpected error has occurred - try again later';
-                Log::error('Curl request failed with last error: ' . curl_error($curl));
-            } else {
-                if ($isCLI) {
-                    echo "Operation completed without any errors\n";
-                }
-            }
+            $curl = self::initializeCurl($url);
 
             $response = curl_exec($curl);
+            if ($response === false || curl_errno($curl)) {
+                self::handleCurlError($curl);
+                curl_close($curl);
+                return '';
+            }
+
             curl_close($curl);
-
-            return $jsonDecoded ? json_decode($response) : $response;
+            return $response;
         } catch (Exception $e) {
-            // do some logging...
             Log::error('API request failed with exception: ' . $e->getMessage());
-
-            return 0;
+            return '';
         }
     }
 
-    // TODO - use the Laravel method - seems to not work on the AWS server but works locally
+    private static function initializeCurl(string $url): \CurlHandle|false
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_TIMEOUT => 10,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
+            CURLOPT_FAILONERROR => true,
+            CURLOPT_REFERER => self::REFERER,
+            CURLOPT_HTTPHEADER => [
+                'accept-language: en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7',
+                'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
+            ],
+        ]);
+
+        return $curl;
+    }
+
+    private static function handleCurlError($curl): void
+    {
+        $errorMessage = App::environment(['local', 'staging']) ? 'Curl error: ' . curl_error($curl) : 'An unexpected error has occurred - try again later';
+        echo $errorMessage;
+        Log::error('Curl request failed with last error: ' . curl_error($curl));
+    }
 
     /**
      * Performs a Laravel HTTP request to the API and returns the response.
      * Similar to doExternalApiCall but uses Laravel's HTTP facade instead of CURL.
+     * // TODO - use the Laravel method - seems to not work on the AWS server but works locally
      * @param string|null $endpoint
      * @param array $params
      * @param bool $jsonDecoded
-     * @param bool $isCLI
-     * @return array|\GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response|int|mixed
+     * @return array|\GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response|int|null
      */
-    public static function doLaravelExternalApiCall(?string $endpoint = null, array $params = [], bool $jsonDecoded = false, bool $isCLI = false)
+    public static function doLaravelExternalApiCall(
+        ?string $endpoint = null,
+        array $params = [],
+    ): array|\GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response|int|null
     {
         try {
             $url = self::API_URL . $endpoint;
@@ -104,11 +114,7 @@ class ProclubsApiService
                 Log::error('Request failed with last error: ' . $response->reason());
             });
 
-            if ($isCLI) {
-                echo 'Operation completed without any errors' . PHP_EOL;
-            }
-
-            return $jsonDecoded ? $response->json() : $response;
+            return $response;
         } catch (Exception $e) {
             // do some logging...
             Log::error('API request failed with exception: ' . $e->getMessage());
