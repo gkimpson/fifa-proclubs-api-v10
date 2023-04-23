@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.8",
+        "mkocansey/bladewind": "^2.1",
         "spatie/laravel-backup": "^8.1",
         "spatie/laravel-collection-macros": "^7.12"
     },

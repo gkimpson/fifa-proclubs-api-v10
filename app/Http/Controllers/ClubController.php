@@ -150,13 +150,30 @@ class ClubController extends Controller
         return view('club.compare', compact('data'));
     }
 
-    public function compareAll(ResultService $resultService, ChartService $chartService)
+    public function compareAll(ChartService $chartService): \Illuminate\Contracts\View\View
     {
         $data = [
             'chartData' => $chartService->getClubComparisonData($this->clubId, $this->platform),
         ];
 
         return view('club.compareall', $data);
+    }
+
+    public function getAttributeClass(string $rating): string
+    {
+        if ($rating >= 90) {
+            return 'text-success';
+        }
+
+        if ($rating >= 80) {
+            return 'text-primary';
+        }
+
+        if ($rating >= 70) {
+            return 'text-warning';
+        }
+
+        return 'text-danger';
     }
 
     public function ranking(ResultService $resultService): \Illuminate\Http\JsonResponse
