@@ -49,4 +49,31 @@ class PlayerAttributesHelperTest extends TestCase
         $this->assertEquals('gk_reflexes', $attributeNames[32]);
         $this->assertEquals('gk_positioning', $attributeNames[33]);
     }
+
+    public function GetAttributeTailwindCssClasses()
+    {
+        // Test very_poor rating
+        $result = PlayerAttributesHelper::getAttributeTailwindCssClass('20');
+        $this->assertEquals('bg-red-500', $result);
+
+        // Test poor rating
+        $result = PlayerAttributesHelper::getAttributeTailwindCssClass('45');
+        $this->assertEquals('bg-red-500', $result);
+
+        // Test fair rating
+        $result = PlayerAttributesHelper::getAttributeTailwindCssClass('60');
+        $this->assertEquals('bg-yellow-500', $result);
+
+        // Test good rating
+        $result = PlayerAttributesHelper::getAttributeTailwindCssClass('75');
+        $this->assertEquals('bg-green-500', $result);
+
+        // Test very_good rating
+        $result = PlayerAttributesHelper::getAttributeTailwindCssClass('85');
+        $this->assertEquals('bg-green-500', $result);
+
+        // Test excellent rating
+        $result = PlayerAttributesHelper::getAttributeTailwindCssClass('95');
+        $this->assertEquals('bg-green-500', $result);
+    }
 }
