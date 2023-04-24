@@ -195,7 +195,6 @@ class ClubController extends Controller
 
     public function debug()
     {
-        throw new \Exception('Testing my application!');
         $result = Result::first();
         $clubId = 52003;
         $platform = 'ps5';
