@@ -91,6 +91,7 @@ class PlayerAttribute extends Model
 
     private static function getMappedAttributes(array $attributeNames, $attributes): array
     {
+        Assertion::eq(count($attributeNames), count($attributes), 'Attribute names and attributes must be the same length');
         return collect($attributeNames)
             ->map(function ($attributeName, $attributeKey) use ($attributes) {
                 $slug = Str::slug($attributeName, '_');

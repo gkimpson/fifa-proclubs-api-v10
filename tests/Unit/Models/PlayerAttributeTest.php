@@ -344,4 +344,28 @@ class PlayerAttributeTest extends TestCase
 
         $query->filter();
     }
+
+    /** @test */
+    public function testGetMappedAttributesWithMismatchedArrays()
+    {
+        // Create sample data with different lengths for attributeNames and attributes
+        $attributeNames = ['Sprint Speed', 'Stamina', 'GK Diving'];
+        $attributes = [85, 75];
+
+        // Make the getMappedAttributes method accessible
+        $reflection = new ReflectionClass(PlayerAttribute::class);
+        $method = $reflection->getMethod('getMappedAttributes');
+        $method->setAccessible(true);
+
+        // Create a new instance of the PlayerAttribute class
+        $playerAttribute = new PlayerAttribute;
+
+        // Invoke the getMappedAttributes method with the sample data and catch the exception
+        try {
+            $mappedAttributes = $method->invokeArgs($playerAttribute, [$attributeNames, $attributes]);
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(\InvalidArgumentException::class, $e);
+            $this->assertEquals('Attribute names and attributes must be the same length', $e->getMessage());
+        }
+    }
 }
