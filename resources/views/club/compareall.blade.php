@@ -27,7 +27,7 @@
 
                                 <div class="grid grid-flow-col justify-stretch">
                                     <div class="">
-                                        <div>Shooting</div>
+                                        <div class="text-center">Shooting</div>
                                         <div class="flex flex-row text-xs">
                                             <div class="basis-3/4">Finishing</div>
                                             <div class="basis-1/4">
@@ -66,7 +66,7 @@
                                         </div>
                                     </div>
                                     <div class="">
-                                        <div>Passing</div>
+                                        <div class="text-center">Passing</div>
                                         <div class="flex flex-row text-xs">
                                             <div class="basis-3/4">Vision</div>
                                             <div class="basis-1/4">
@@ -99,7 +99,7 @@
                                         </div>
                                     </div>
                                     <div class="">
-                                        <div>Dribbling</div>
+                                        <div class="text-center">Dribbling</div>
                                         <div class="flex flex-row text-xs">
                                             <div class="basis-3/4">Agility</div>
                                             <div class="basis-1/4">
@@ -132,7 +132,7 @@
                                         </div>
                                     </div>
                                     <div class="">
-                                        <div>Defending</div>
+                                        <div class="text-center">Defending</div>
                                         <div class="flex flex-row text-xs">
                                             <div class="basis-3/4">Interceptions</div>
                                             <div class="basis-1/4">
@@ -159,7 +159,7 @@
                                         </div>
                                     </div>
                                     <div class="">
-                                        <div>Physical</div>
+                                        <div class="text-center">Physical</div>
                                         <div class="flex flex-row text-xs">
                                             <div class="basis-3/4">Jumping</div>
                                             <div class="basis-1/4">
@@ -192,7 +192,7 @@
                                         </div>
                                     </div>
                                     <div class="">
-                                        <div>Pace</div>
+                                        <div class="text-center">Pace</div>
                                         <div class="flex flex-row text-xs">
                                             <div class="basis-3/4">Acceleration</div>
                                             <div class="basis-1/4">
@@ -207,7 +207,7 @@
                                         </div>
                                     </div>
                                     <div class="">
-                                        <div>Goalkeeping</div>
+                                        <div class="text-center">Goalkeeping</div>
                                         <div class="flex flex-row text-xs">
                                             <div class="basis-3/4">GK Diving</div>
                                             <div class="basis-1/4">
