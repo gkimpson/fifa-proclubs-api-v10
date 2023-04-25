@@ -26,11 +26,7 @@ class ClubController extends Controller
 
     public function __construct(Request $request)
     {
-        $this->clubId = (int) $request->route('clubId') ?? 0;
-        $this->clubIds = (int) $request->route('clubIds') ?? 0;
-        $this->platform = (string) $request->route('platform') ?? '';
-        $this->player1 = (string) $request->route('player1') ?? '';
-        $this->player2 = (string) $request->route('player2') ?? '';
+        $this->getRouteParams($request);
     }
 
     /**
@@ -201,11 +197,18 @@ class ClubController extends Controller
 
         $players = collect($result->properties['players'][$clubId]);
 
-        $players->each(function (array $row, $eaPlayerId) use ($clubId, $platform) {
-            $player = Player::updateOrCreate(
-                ['club_id' => $clubId, 'platform' => $platform, 'player_name' => $row['playername']],
-                ['ea_player_id' => $eaPlayerId, 'attributes' => $row['vproattr']]
-            );
-        });
+        $players->each(fn (array $row, $eaPlayerId) => Player::updateOrCreate(
+            ['club_id' => $clubId, 'platform' => $platform, 'player_name' => $row['playername']],
+            ['ea_player_id' => $eaPlayerId, 'attributes' => $row['vproattr']]
+        ));
+    }
+
+    public function getRouteParams(Request $request): void
+    {
+        $this->clubId = $request->route('clubId') ?? 0;
+        $this->clubIds = $request->route('clubIds') ?? 0;
+        $this->platform = $request->route('platform') ?? '';
+        $this->player1 = $request->route('player1') ?? '';
+        $this->player2 = $request->route('player2') ?? '';
     }
 }

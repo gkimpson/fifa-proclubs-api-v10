@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Player;
 use App\Models\PlayerAttribute;
+use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use InvalidArgumentException;
 use ReflectionClass;
@@ -363,8 +364,8 @@ class PlayerAttributeTest extends TestCase
         // Invoke the getMappedAttributes method with the sample data and catch the exception
         try {
             $mappedAttributes = $method->invokeArgs($playerAttribute, [$attributeNames, $attributes]);
-        } catch (\Exception $e) {
-            $this->assertInstanceOf(\InvalidArgumentException::class, $e);
+        } catch (Exception $e) {
+            $this->assertInstanceOf(InvalidArgumentException::class, $e);
             $this->assertEquals('Attribute names and attributes must be the same length', $e->getMessage());
         }
     }

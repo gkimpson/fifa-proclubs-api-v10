@@ -24,7 +24,6 @@ class ProclubsApiService
      * a boolean to return the response as JSON decoded or not, and a boolean indicating if the call is from the command line.
      *
      * @param  bool  $jsonDecoded
-     * @return bool|int|mixed|string
      */
     public static function doExternalApiCall(
         ?string $endpoint = null,
@@ -73,7 +72,7 @@ class ProclubsApiService
     /**
      * Fetches club information given a platform and club ID
      */
-    public static function clubsInfo(Platforms $platform, int $clubId): mixed
+    public static function clubsInfo(Platforms $platform, int $clubId): string
     {
         return self::doExternalApiCall('clubs/info', [
             'platform' => $platform->name(),

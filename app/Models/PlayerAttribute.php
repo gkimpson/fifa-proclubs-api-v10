@@ -7,7 +7,6 @@ use Assert\Assert;
 use Assert\Assertion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class PlayerAttribute extends Model
@@ -92,6 +91,7 @@ class PlayerAttribute extends Model
     private static function getMappedAttributes(array $attributeNames, $attributes): array
     {
         Assertion::eq(count($attributeNames), count($attributes), 'Attribute names and attributes must be the same length');
+
         return collect($attributeNames)
             ->map(function ($attributeName, $attributeKey) use ($attributes) {
                 $slug = Str::slug($attributeName, '_');
