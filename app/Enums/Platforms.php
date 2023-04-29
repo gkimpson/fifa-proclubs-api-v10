@@ -28,7 +28,7 @@ enum Platforms
         })->all();
     }
 
-    public static function getPlatform(string $platform)
+    public static function getPlatform(string $platform): Platforms
     {
         return match ($platform) {
             'pc' => self::PC,
