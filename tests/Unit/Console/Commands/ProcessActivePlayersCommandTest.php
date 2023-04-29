@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Console\Commands;
 
-use App\Console\Commands\ProcessActivePlayersCommand;
 use App\Models\Player;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
