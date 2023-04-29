@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
             ->description('Process inactive players')
             ->runInBackground();
 
-        $schedule->command('backup:clean')
+        $schedule->command('backup:clean', ['--disable-notifications'])
             ->dailyAt('04:00')
             ->description('Clean up old backups')
             ->runInBackground();
