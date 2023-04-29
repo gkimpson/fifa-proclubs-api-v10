@@ -6,6 +6,8 @@ use App\Enums\MatchTypes;
 use App\Enums\Platforms;
 use CurlHandle;
 use Exception;
+use GuzzleHttp\Promise\PromiseInterface;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -20,10 +22,9 @@ class ProclubsApiService
     }
 
     /**
-     * Performs a CURL request to the API and returns the response.It takes an optional endpoint, an array of query parameters,
-     * a boolean to return the response as JSON decoded or not, and a boolean indicating if the call is from the command line.
-     *
-     * @param  bool  $jsonDecoded
+     * Performs a CURL request to the API and returns the response.It takes an optional endpoint, an array of query
+     * parameters, a boolean to return the response as JSON decoded or not, and a boolean indicating if the call
+     * is from the command line.
      */
     public static function doExternalApiCall(
         ?string $endpoint = null,
@@ -36,13 +37,11 @@ class ProclubsApiService
      * Performs a Laravel HTTP request to the API and returns the response.
      * Similar to doExternalApiCall but uses Laravel's HTTP facade instead of CURL.
      * // TODO - use the Laravel method - seems to not work on the AWS server but works locally
-     *
-     * @param  bool  $jsonDecoded
      */
     public static function doLaravelExternalApiCall(
         ?string $endpoint = null,
         array $params = [],
-    ): array|\GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response|int|null {
+    ): array|PromiseInterface|Response|int|null {
         try {
             $url = self::API_URL . $endpoint;
 

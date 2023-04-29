@@ -3,7 +3,7 @@
 namespace Tests\Unit\Helpers;
 
 use App\Helpers\PlayerAttributesHelper;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class PlayerAttributesHelperTest extends TestCase
 {
