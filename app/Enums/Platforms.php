@@ -15,7 +15,7 @@ enum Platforms
 
     public static function all(): array
     {
-        return collect(self::cases())->map(fn($platform) => $platform->name())->all();
+        return collect(self::cases())->map(fn ($platform) => $platform->name())->all();
     }
 
     public static function generateDropdownValues(): array
