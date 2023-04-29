@@ -112,8 +112,8 @@ class GetMatchesCommand extends Command
     private function updateOrCreatePlayer(int $clubId, string $platform, array $row, int $eaPlayerId): Player
     {
         return Player::updateOrCreate(
-            ['club_id' => $clubId, 'platform' => $platform, 'player_name' => $row['playername']],
-            ['ea_player_id' => $eaPlayerId, 'attributes' => $row['vproattr']]
+            ['ea_player_id' => $eaPlayerId, 'platform' => $platform, 'player_name' => $row['playername']],
+            ['club_id' => $clubId, 'attributes' => $row['vproattr']]
         );
     }
 
