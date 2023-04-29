@@ -17,6 +17,11 @@ class Kernel extends ConsoleKernel
             ->description('Get latest matches data')
             ->runInBackground();
 
+        $schedule->command('proclubs:players')
+            ->daily()
+            ->description('Process inactive players')
+            ->runInBackground();
+
         $schedule->command('backup:clean')
             ->dailyAt('04:00')
             ->description('Clean up old backups')

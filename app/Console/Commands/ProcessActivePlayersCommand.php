@@ -33,7 +33,9 @@ class ProcessActivePlayersCommand extends Command
 
     /**
      * TODO: temporary solution to remove players who aren't 'active' for their club
-     * Remove players who have not played a match for the associated club in the last 30 days.
+     * Remove players who have not played a match for the associated club in the last 30 days
+     * We don't want to remove players who have played a match for their club in the last 30 days as some players may be
+     * 'inactive' for a period of time but then return to the club e.g a week later...
      * @return int
      */
     protected function removeInactivePlayersFromClubs(): int
