@@ -37,4 +37,22 @@ return [
         32 => 'gk_reflexes',
         33 => 'gk_positioning',
     ],
+
+    'attribute_tailwind_css_classes' => [
+        'very_poor' => 'bg-red-500',
+        'poor' => 'bg-red-500',
+        'fair' => 'bg-yellow-500',
+        'good' => 'bg-green-500',
+        'very_good' => 'bg-green-500',
+        'excellent' => 'bg-green-500',
+    ],
+
+    'attribute_ratings' => [
+        '0-39' => 'very_poor',
+        '40-49' => 'poor',
+        '50-69' => 'fair',
+        '70-79' => 'good',
+        '80-89' => 'very_good',
+        '90-99' => 'excellent',
+    ],
 ];
