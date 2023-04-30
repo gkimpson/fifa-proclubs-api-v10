@@ -12,7 +12,7 @@ MySQL
 - clone the repository
 - `composer install` (for dependencies)
 - `npm install` (frontend) & `npm run dev` (to build js/css assets)
-- `cp .env.example .env` 
+- `cp .env.example .env`
 - modify the .env with your MySQL DB host, user & password details
 - run `php artisan config:clear` to reload the modified .env
 - run `php artisan migrate` to create the database tables

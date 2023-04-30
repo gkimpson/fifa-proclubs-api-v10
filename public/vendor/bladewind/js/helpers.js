@@ -1,9 +1,9 @@
-/**  
+/**
 ** helper functions for BladeWind UI components using vanilla JS
 ** September 2021 by @mkocansey <@mkocansey>
 **/
 var     notification_timeout,
-        user_function, 
+        user_function,
         el_name;
 var     dropdownIsOpen = false;
 
@@ -27,15 +27,15 @@ validateForm = (form) => {
                 el.classList.add('!border-red-400');
                 el.focus();
                 if(error_message){
-                    (show_error_inline == 'true') ? unhide(`.${el_name}-inline-error`) : 
+                    (show_error_inline == 'true') ? unhide(`.${el_name}-inline-error`) :
                     showNotification(error_heading, error_message, 'error');
                 }
-                el.addEventListener('keyup', () => { 
+                el.addEventListener('keyup', () => {
                     if(el.value !== '') {
                         el.classList.remove('!border-red-400');
                         (show_error_inline == 'true') ? hide(`.${el_name}-inline-error`) : '';
                      } else {
-                        el.classList.add('!border-red-400'); 
+                        el.classList.add('!border-red-400');
                         (show_error_inline == 'true') ? unhide(`.${el_name}-inline-error`) : '';
                      }
                 });
@@ -56,20 +56,20 @@ isNumberKey = (evt, with_dots=1) => {   // usage:  onkeypress="return isNumberKe
     return true;
 }
 
-callUserFunction = (func) => { 
-    if (func !== '' && func !== undefined) eval(func); 
+callUserFunction = (func) => {
+    if (func !== '' && func !== undefined) eval(func);
 };
 
 serialize = (form) => {
     let data = new FormData(dom_el(form));
     let obj = {};
     for (let [key, value] of data) {
-        /** 
-        ** in some cases the form field name and api parameter differ, and you want to 
-        ** display a more meaningful error message from Laravels $errors.. set an attr 
+        /**
+        ** in some cases the form field name and api parameter differ, and you want to
+        ** display a more meaningful error message from Laravels $errors.. set an attr
         ** data-serialize-as on the form field. that value will be used instead of [key]
         ** example: input name="contact_name" data-serialize-as="contact_person"
-        ** Laravel will display contact name field is required but contact_person : value 
+        ** Laravel will display contact name field is required but contact_person : value
         ** will be sent to the API
         **/
         let this_element = document.getElementsByName(key);
@@ -78,22 +78,22 @@ serialize = (form) => {
     }   return obj;
 }
 
-stringContains = (str, keyword) => { 
-    if(typeof(str) !== 'string') return false; 
-    return (str.indexOf(keyword) != -1); 
+stringContains = (str, keyword) => {
+    if(typeof(str) !== 'string') return false;
+    return (str.indexOf(keyword) != -1);
 }
 
 doNothing = () => { }
 
-changeCssForDomArray = (elements, css, mode='add') => { 
+changeCssForDomArray = (elements, css, mode='add') => {
     if(dom_els(elements).length > 0){
-        dom_els(elements).forEach((el) => { 
+        dom_els(elements).forEach((el) => {
             changeCss(el, css, mode, true);
         });
     }
 }
 
-changeCss = (element, css, mode='add', elementIsDomObject=false) => { 
+changeCss = (element, css, mode='add', elementIsDomObject=false) => {
     // css can be comma separated
     // if elementIsDomObject dont run it through dom_el
     if( (! elementIsDomObject && dom_el(element) != null) || (elementIsDomObject && element != null)){
@@ -107,7 +107,7 @@ changeCss = (element, css, mode='add', elementIsDomObject=false) => {
         } else {
             if( (! elementIsDomObject && dom_el(element).classList != undefined) || (elementIsDomObject && element.classList != undefined)){
                 (mode == 'add') ?
-                    ((elementIsDomObject) ? element.classList.add(css) : dom_el(element).classList.add(css)) : 
+                    ((elementIsDomObject) ? element.classList.add(css) : dom_el(element).classList.add(css)) :
                     ((elementIsDomObject) ? element.classList.remove(css) : dom_el(element).classList.remove(css));
             }
         }
@@ -122,15 +122,15 @@ showButtonSpinner = (element) => { unhide(`${element} .bw-spinner`); }
 
 hideButtonSpinner = (element) => { hide(`${element} .bw-spinner`); }
 
-hide = (element, elementIsDomObject=false) => { 
+hide = (element, elementIsDomObject=false) => {
     if( (! elementIsDomObject && dom_el(element) != null) || (elementIsDomObject && element != null)){
-        changeCss(element, 'hidden', 'add', elementIsDomObject); 
+        changeCss(element, 'hidden', 'add', elementIsDomObject);
     }
 }
 
-unhide = (element, elementIsDomObject=false) => { 
-    if( (! elementIsDomObject && dom_el(element) != null) || (elementIsDomObject && element != null)){ 
-        changeCss(element, 'hidden', 'remove', elementIsDomObject); 
+unhide = (element, elementIsDomObject=false) => {
+    if( (! elementIsDomObject && dom_el(element) != null) || (elementIsDomObject && element != null)){
+        changeCss(element, 'hidden', 'remove', elementIsDomObject);
     }
 }
 
@@ -151,21 +151,21 @@ animateCSS = (element, animation) =>
 
   addToStorage = (key, val, storageType = 'localStorage') => {
       if(window.localStorage || window.sessionStorage){
-        (storageType === 'localStorage') ? 
+        (storageType === 'localStorage') ?
             localStorage.setItem(key, val) : sessionStorage.setItem(key, val);
       }
   }
 
   getFromStorage = (key, storageType = 'localStorage') => {
       if(window.localStorage || window.sessionStorage){
-        return (storageType === 'localStorage') ? 
+        return (storageType === 'localStorage') ?
             localStorage.getItem(key) : sessionStorage.getItem(key);
       }
   }
 
   removeFromStorage = (key, storageType = 'localStorage') => {
       if(window.localStorage || window.sessionStorage){
-        (storageType === 'localStorage') ? 
+        (storageType === 'localStorage') ?
             localStorage.removeItem(key) : sessionStorage.removeItem(key);
       }
   }
@@ -179,18 +179,18 @@ animateCSS = (element, animation) =>
       }
       changeCssForDomArray(
           `.${context}-headings li.atab span`,
-          `text-${color}-500,border-${color}-500,hover:text-${color}-500,hover:border-${color}-500`, 
+          `text-${color}-500,border-${color}-500,hover:text-${color}-500,hover:border-${color}-500`,
           'remove');
       changeCssForDomArray(
           `.${context}-headings li.atab span`,
           'text-gray-500,border-transparent,hover:text-gray-600,hover:border-gray-300');
       changeCss(
-          `.atab-${el} span`, 
+          `.atab-${el} span`,
           'text-gray-500,border-transparent,hover:text-gray-600,hover:border-gray-300', 'remove');
       changeCss(
-          `.atab-${el} span`, 
+          `.atab-${el} span`,
           `text-${color}-500,border-${color}-500,hover:text-${color}-500,hover:border-${color}-500`);
-      
+
       dom_els(`.${context_}-tab-contents div.atab-content`).forEach((el) => { hide(el, true); });
       unhide(tab_content, true);
   }

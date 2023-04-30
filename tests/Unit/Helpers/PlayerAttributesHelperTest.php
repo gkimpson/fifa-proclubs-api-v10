@@ -8,7 +8,7 @@ use Tests\TestCase;
 class PlayerAttributesHelperTest extends TestCase
 {
     /** @test */
-    public function it_returns_a_valid_array_of_attribute_names()
+    public function it_returns_a_valid_array_of_attribute_names(): void
     {
         $attributeNames = PlayerAttributesHelper::getPlayerAttributeNames();
 
@@ -50,7 +50,7 @@ class PlayerAttributesHelperTest extends TestCase
         $this->assertEquals('gk_positioning', $attributeNames[33]);
     }
 
-    public function GetAttributeTailwindCssClasses()
+    public function GetAttributeTailwindCssClasses(): void
     {
         // Test very_poor rating
         $result = PlayerAttributesHelper::getAttributeTailwindCssClass('20');
