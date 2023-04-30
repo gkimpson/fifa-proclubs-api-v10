@@ -265,7 +265,7 @@ class ResultServiceTest extends TestCase
     /**
      * @test
      */
-    public function filterPlayerData()
+    public function filterPlayerData(): void
     {
         $playersJson = json_encode([
             'members' => [
@@ -294,7 +294,7 @@ class ResultServiceTest extends TestCase
     /**
      * @test
      */
-    public function sortingCustomRankingData()
+    public function sortingCustomRankingData(): void
     {
         $membersJson = json_encode([
             'members' => [
@@ -324,7 +324,7 @@ class ResultServiceTest extends TestCase
     /**
      * @test
      */
-    public function getRankingTypes()
+    public function getRankingTypes(): void
     {
         $resultService = new ResultService(new ProclubsApiService);
 
