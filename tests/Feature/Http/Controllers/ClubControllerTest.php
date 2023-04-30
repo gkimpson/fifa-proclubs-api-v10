@@ -12,6 +12,8 @@ class ClubControllerTest extends TestCase
     use RefreshDatabase;
 
     public string $baseUri;
+    public int $clubId;
+    public string $platform;
 
     protected function setUp(): void
     {
@@ -23,7 +25,7 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_request_returns_successfully_with_valid_json_structure(): void
+    public function apiClubRequestReturnsSuccessfullyWithValidJsonStructure(): void
     {
         $uri = $this->baseUri;
 
@@ -64,7 +66,7 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_career_request_returns_successfully_with_valid_json_structure(): void
+    public function apiClubCareerRequestReturnsSuccessfullyWithValidJsonStructure(): void
     {
         $uri = $this->baseUri . '/career';
 
@@ -98,20 +100,21 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_cup_request_returns_successfully(): void
+    public function apiClubCupRequestReturnsSuccessfully(): void
     {
         $uri = $this->baseUri . '/cup';
 
         $response = $this->actingAs($this->user)->get($uri);
 
-        // NOTE - lots of clubs don't play cup games so this test doesn't really require a valid json structure like the 'league' equivalent
+        // NOTE - lots of clubs don't play cup games so this test doesn't really require a valid json structure like
+        // the 'league' equivalent
         $response->assertOk();
     }
 
     /**
      * @test
      */
-    public function api_club_form_request_returns_successfully(): void
+    public function apiClubFormRequestReturnsSuccessfully(): void
     {
         $uri = $this->baseUri . '/form';
 
@@ -123,7 +126,7 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_league_request_returns_successfully_with_valid_json_structure(): void
+    public function apiClubLeagueRequestReturnsSuccessfullyWithValidJsonStructure(): void
     {
         $uri = $this->baseUri . '/league';
 
@@ -225,7 +228,7 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_leaderboard_request_returns_successfully_with_valid_json_structure(): void
+    public function apiClubLeaderboardRequestReturnsSuccessfullyWithValidJsonStructure(): void
     {
         $uri = 'platform/ps5/leaderboard/club';
 
@@ -302,7 +305,7 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_members_request_returns_successfully_with_valid_json_structure(): void
+    public function apiClubMembersRequestReturnsSuccessfullyWithValidJsonStructure(): void
     {
         $uri = $this->baseUri . '/members';
 
@@ -349,7 +352,7 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_player_request_returns_succesfully_with_valid_json_structure(): void
+    public function apiClubPlayerRequestReturnsSuccesfullyWithValidJsonStructure(): void
     {
         $player = 'zabius-uk';
         $uri = $this->baseUri . '/players/' . $player;
@@ -400,7 +403,7 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_search_request_returns_successfully(): void
+    public function apiSearchRequestReturnsSuccessfully(): void
     {
         $uri = $this->baseUri . '/search';
 
@@ -412,7 +415,7 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_settings_request_returns_successfully_with_valid_json_structure(): void
+    public function apiSettingsRequestReturnsSuccessfullyWithValidJsonStructure(): void
     {
         $uri = $this->baseUri . '/settings';
 
@@ -434,7 +437,7 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_squad_request_returns_successfully_with_valid_json_structure(): void
+    public function apiClubSquadRequestReturnsSuccessfullyWithValidJsonStructure(): void
     {
         $uri = $this->baseUri . '/squad';
 
@@ -482,7 +485,7 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function api_club_seasonal_request_returns_successfully_with_valid_json_structure(): void
+    public function apiClubSeasonalRequestReturnsSuccessfullyWithValidJsonStructure(): void
     {
         $uri = $this->baseUri . '/season';
 

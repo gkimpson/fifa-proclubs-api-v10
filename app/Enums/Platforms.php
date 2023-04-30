@@ -28,6 +28,9 @@ enum Platforms
         })->all();
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getPlatform(string $platform): Platforms
     {
         return match ($platform) {

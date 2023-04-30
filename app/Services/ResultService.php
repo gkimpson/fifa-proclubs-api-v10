@@ -59,10 +59,6 @@ class ResultService
         return $this->generatePlayerComparisonData($careerData, $membersData, $player1, $player2);
     }
 
-    public function getClubComparision(int $clubId, string $platform)
-    {
-    }
-
     public function getRankingData(int $clubId, string $platform): array
     {
         $members = $this->getCachedData($clubId, $platform, 'squad');

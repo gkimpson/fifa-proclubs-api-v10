@@ -6,6 +6,7 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use JsonException;
 use Tests\TestCase;
 
 class ProfileControllerTest extends TestCase
@@ -15,7 +16,7 @@ class ProfileControllerTest extends TestCase
     /**
      * @test
      */
-    public function profile_page_is_displayed(): void
+    public function profilePageIsDisplayed(): void
     {
         $user = User::factory()->create();
 
@@ -28,8 +29,9 @@ class ProfileControllerTest extends TestCase
 
     /**
      * @test
+     * @throws JsonException
      */
-    public function profile_information_can_be_updated(): void
+    public function profileInformationCanBeUpdated(): void
     {
         $user = User::factory()->create();
 
@@ -53,8 +55,9 @@ class ProfileControllerTest extends TestCase
 
     /**
      * @test
+     * @throws JsonException
      */
-    public function email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
+    public function emailVerificationStatusIsUnchangedWhenTheEmailAddressIsUnchanged(): void
     {
         $user = User::factory()->create();
 
@@ -74,8 +77,9 @@ class ProfileControllerTest extends TestCase
 
     /**
      * @test
+     * @throws JsonException
      */
-    public function user_can_delete_their_account(): void
+    public function userCanDeleteTheirAccount(): void
     {
         $user = User::factory()->create();
 
@@ -96,7 +100,7 @@ class ProfileControllerTest extends TestCase
     /**
      * @test
      */
-    public function correct_password_must_be_provided_to_delete_account(): void
+    public function correctPasswordMustBeProvidedToDeleteAccount(): void
     {
         $user = User::factory()->create();
 
