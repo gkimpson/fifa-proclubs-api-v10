@@ -52,6 +52,7 @@ use Illuminate\Support\Str;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Player $player
+ *
  * @method static \Database\Factories\PlayerAttributeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|PlayerAttribute filter()
  * @method static \Illuminate\Database\Eloquent\Builder|PlayerAttribute newModelQuery()
@@ -96,6 +97,7 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|PlayerAttribute whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PlayerAttribute whereVision($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PlayerAttribute whereVolleys($value)
+ *
  * @mixin \Eloquent
  */
 class PlayerAttribute extends Model

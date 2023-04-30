@@ -48,6 +48,7 @@ class PlatformsTest extends TestCase
 
     /**
      * @test
+     *
      * @throws Exception
      */
     public function getPlatformReturnsCorrectPlatform(): void

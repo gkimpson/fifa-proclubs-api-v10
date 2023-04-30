@@ -83,7 +83,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function itCanGenerateArrayToStringErrorExceptionWhenCreatingAPlayerAndIncorrectAttributesValuesPassed():void
+    public function itCanGenerateArrayToStringErrorExceptionWhenCreatingAPlayerAndIncorrectAttributesValuesPassed(): void
     {
         $this->expectExceptionMessage('Array to string conversion');
 
@@ -156,7 +156,7 @@ class PlayerTest extends TestCase
 
         // Validate that each value is an integer between 0 and 99
         foreach ($values as $value) {
-            if (!empty($value)) {
+            if (! empty($value)) {
                 $this->assertIsNumeric($value);
                 $this->assertGreaterThanOrEqual(0, $value);
                 $this->assertLessThanOrEqual(99, $value);

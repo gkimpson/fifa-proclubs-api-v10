@@ -20,10 +20,8 @@ class GetMatchesCommandTest extends TestCase
     {
         // Mock HTTP responses
         Http::fake([
-            ProclubsApiService::matchStats(Platforms::PC, 12345, MatchTypes::LEAGUE)
-                => Http::response(['some' => 'data']),
-            ProclubsApiService::matchStats(Platforms::PC, 23456, MatchTypes::CUP)
-                => Http::response(['more' => 'data']),
+            ProclubsApiService::matchStats(Platforms::PC, 12345, MatchTypes::LEAGUE) => Http::response(['some' => 'data']),
+            ProclubsApiService::matchStats(Platforms::PC, 23456, MatchTypes::CUP) => Http::response(['more' => 'data']),
         ]);
 
         // Create test data

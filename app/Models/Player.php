@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\PlayerAttribute|null $playerAttributes
+ *
  * @method static \Database\Factories\PlayerFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Player findByClubAndPlatform(int $clubId, string $platform)
  * @method static \Illuminate\Database\Eloquent\Builder|Player findByClubAndPlatformAndPlayerName(int $clubId, string $platform, string $playerName)
@@ -31,6 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Player wherePlatform($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Player wherePlayerName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Player whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Player extends Model

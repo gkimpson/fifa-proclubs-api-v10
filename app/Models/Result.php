@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $media
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Database\Factories\ResultFactory factory($count = null, $state = [])
  * @method static Builder|Result newModelQuery()
  * @method static Builder|Result newQuery()
@@ -46,6 +47,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Result awayTeam(int $teamId)
  * @method static Builder|Result byTeam(int $teamId)
  * @method static Builder|Result homeTeam(int $teamId)
+ *
  * @mixin \Eloquent
  */
 class Result extends Model

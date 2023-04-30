@@ -14,6 +14,14 @@ class PlayerAttributeTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->attributes =
+            '80|75|90|80|70|70|65|85|80|75|70|75|80|65|60|65|70|75|70|75|80|75|80|70|65|75|75|70|70|80|70|65|80|75';
+    }
+
     /**
      * @return int[]
      */
@@ -23,16 +31,8 @@ class PlayerAttributeTest extends TestCase
             80, 75, 90, 80, 70, 70, 65, 85, 80, 75,
             70, 75, 80, 65, 60, 65, 70, 75, 70, 75,
             80, 75, 80, 70, 65, 75, 75, 70, 70, 80,
-            70, 65, 80, 75
+            70, 65, 80, 75,
         ];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->attributes =
-            '80|75|90|80|70|70|65|85|80|75|70|75|80|65|60|65|70|75|70|75|80|75|80|70|65|75|75|70|70|80|70|65|80|75';
     }
 
     /** @test */
