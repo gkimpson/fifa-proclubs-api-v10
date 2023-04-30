@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Console\Commands;
 
 use App\Console\Commands\ProcessActivePlayersCommand;
@@ -42,10 +44,9 @@ class ProcessActivePlayersCommandTest extends TestCase
      */
     public function itDoesNotRemoveActivePlayersFromClubs(): void
     {
-        // Create active player who played a match in the last 30 days
+        // Create active player who played a match in the last 15 days
         $player = Player::factory()->create(['updated_at' => now()->subDays(15)]);
 
-        // Run the command
         Artisan::call('proclubs:players');
 
         // Assert that the active player wasn't removed from the club
@@ -59,19 +60,13 @@ class ProcessActivePlayersCommandTest extends TestCase
      */
     public function removeInactivePlayersFromClubsReturnsIntegerOfUpdatedRows(): void
     {
-        // Create some inactive players
         Player::factory()->count(3)->create(['updated_at' => now()->subDays(45)]);
 
-        // Create an instance of the command
         $command = new ProcessActivePlayersCommand;
 
         // Call the removeInactivePlayersFromClubs method
         $count = $command->removeInactivePlayersFromClubs();
-
-        // Assert that the return value is an integer
         $this->assertIsInt($count);
-
-        // Assert that the number of updated rows matches the number of inactive players
         $this->assertEquals(3, $count);
     }
 }
