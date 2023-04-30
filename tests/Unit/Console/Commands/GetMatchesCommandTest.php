@@ -16,12 +16,14 @@ class GetMatchesCommandTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_fetches_and_stores_matches_for_all_clubs()
+    public function itFetchesAndStoresMatchesForAllClubs(): void
     {
         // Mock HTTP responses
         Http::fake([
-            ProclubsApiService::matchStats(Platforms::PC, 12345, MatchTypes::LEAGUE) => Http::response(['some' => 'data']),
-            ProclubsApiService::matchStats(Platforms::PC, 23456, MatchTypes::CUP) => Http::response(['more' => 'data']),
+            ProclubsApiService::matchStats(Platforms::PC, 12345, MatchTypes::LEAGUE)
+                => Http::response(['some' => 'data']),
+            ProclubsApiService::matchStats(Platforms::PC, 23456, MatchTypes::CUP)
+                => Http::response(['more' => 'data']),
         ]);
 
         // Create test data

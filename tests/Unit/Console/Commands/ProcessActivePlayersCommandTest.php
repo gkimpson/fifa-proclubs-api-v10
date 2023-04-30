@@ -15,7 +15,7 @@ class ProcessActivePlayersCommandTest extends TestCase
     /**
      * @test
      */
-    public function it_removes_inactive_players_from_clubs()
+    public function itRemovesInactivePlayersFromClubs(): void
     {
         // Create active player who played a match in the last 30 days
         $activePlayer = Player::factory()->create(['updated_at' => now()->subDays(15)]);
@@ -36,7 +36,7 @@ class ProcessActivePlayersCommandTest extends TestCase
     /**
      * @test
      */
-    public function it_does_not_remove_active_players_from_clubs()
+    public function itDoesNotRemoveActivePlayersFromClubs(): void
     {
         // Create active player who played a match in the last 30 days
         $player = Player::factory()->create(['updated_at' => now()->subDays(15)]);
@@ -51,7 +51,7 @@ class ProcessActivePlayersCommandTest extends TestCase
     /**
      * @test
      */
-    public function removeInactivePlayersFromClubs_returns_integer_of_updated_rows()
+    public function removeInactivePlayersFromClubsReturnsIntegerOfUpdatedRows(): void
     {
         // Create some inactive players
         Player::factory()->count(3)->create(['updated_at' => now()->subDays(45)]);

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class MatchTypesTest extends TestCase
 {
     /** @test */
-    public function it_returns_all_match_types()
+    public function itReturnsAllMatchTypes(): void
     {
         $matchTypes = MatchTypes::all();
 
@@ -19,7 +19,7 @@ class MatchTypesTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_name_for_a_given_match_type()
+    public function itReturnsTheNameForAGivenMatchType(): void
     {
         $leagueName = MatchTypes::LEAGUE->name();
         $cupName = MatchTypes::CUP->name();

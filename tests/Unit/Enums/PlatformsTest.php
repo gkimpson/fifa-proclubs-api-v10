@@ -11,7 +11,7 @@ class PlatformsTest extends TestCase
     /**
      * @test
      */
-    public function all_returns_all_platform_names()
+    public function allReturnsAllPlatformNames(): void
     {
         $allPlatforms = Platforms::all();
 
@@ -27,7 +27,7 @@ class PlatformsTest extends TestCase
     /**
      * @test
      */
-    public function generate_dropdown_values_returns_array_of_platforms()
+    public function generateDropdownValuesReturnsArrayOfPlatforms(): void
     {
         $dropdownValues = Platforms::generateDropdownValues();
 
@@ -48,8 +48,9 @@ class PlatformsTest extends TestCase
 
     /**
      * @test
+     * @throws Exception
      */
-    public function get_platform_returns_correct_platform()
+    public function getPlatformReturnsCorrectPlatform(): void
     {
         $pc = Platforms::getPlatform('pc');
         $this->assertEquals(Platforms::PC, $pc);
@@ -73,7 +74,7 @@ class PlatformsTest extends TestCase
     /**
      * @test
      */
-    public function name_returns_correct_name()
+    public function nameReturnsCorrectName(): void
     {
         $pc = Platforms::PC;
         $this->assertEquals('pc', $pc->name());

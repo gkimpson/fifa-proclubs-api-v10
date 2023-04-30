@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class OutcomesTest extends TestCase
 {
     /** @test */
-    public function it_returns_all_outcomes()
+    public function itReturnsAllOutcomes(): void
     {
         $outcomes = Outcomes::all();
 
@@ -20,7 +20,7 @@ class OutcomesTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_name_for_a_given_outcome()
+    public function itReturnsTheNameForAGivenOutcome(): void
     {
         $homeWinName = Outcomes::HOMEWIN->name();
         $awayWinName = Outcomes::AWAYWIN->name();
