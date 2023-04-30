@@ -7,6 +7,7 @@ use App\Models\ResultDataFormatter;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use ReflectionException;
 use stdClass;
 
 class ResultDataFormatterTest extends TestCase
@@ -68,7 +69,7 @@ class ResultDataFormatterTest extends TestCase
     /**
      * @test
      */
-    public function getPlayerData()
+    public function getPlayerData(): void
     {
         $player1 = new stdClass;
         $player1->SCORE = 1;
@@ -91,6 +92,7 @@ class ResultDataFormatterTest extends TestCase
         $player1->shots = 1;
         $player1->tackleattempts = 5;
         $player1->tacklesmade = 1;
+        // phpcs:disable Generic.Files.LineLength.TooLong
         $player1->vproattr = '089|094|085|091|077|085|079|089|070|089|060|099|079|093|072|093|096|085|078|070|082|054|095|092|055|048|087|076|091|010|010|010|010|010|';
         $player1->vprohackreason = 8;
         $player1->wins = 1;
@@ -128,9 +130,12 @@ class ResultDataFormatterTest extends TestCase
 
         $resultDataFormatter = new ReflectionClass(ResultDataFormatter::class);
         $getPlayerData = $resultDataFormatter->getMethod('getPlayerData');
-        $getPlayerData->setAccessible(true);
 
-        $result = $getPlayerData->invoke(null, $players);
+        $result = [];
+        try {
+            $result = $getPlayerData->invoke(null, $players);
+        } catch (ReflectionException) {
+        }
 
         $this->assertIsArray($result);
         $this->assertCount(2, $result);
@@ -191,7 +196,6 @@ class ResultDataFormatterTest extends TestCase
     {
         $reflection = new ReflectionClass(ResultDataFormatter::class);
         $method = $reflection->getMethod('getMatchOutcome');
-        $method->setAccessible(true);
 
         // Create a new instance of the ResultDataFormatter class
         $resultDataFormatter = new ResultDataFormatter;
@@ -200,11 +204,10 @@ class ResultDataFormatterTest extends TestCase
         return $method->invokeArgs($resultDataFormatter, [$clubData]);
     }
 
-    private function invokeGetPlayerStats($player): array
+    private function invokeGetPlayerStats(object $player): array
     {
         $reflectionClass = new ReflectionClass(ResultDataFormatter::class);
         $method = $reflectionClass->getMethod('getPlayerStats');
-        $method->setAccessible(true);
 
         return $method->invoke(null, $player);
     }

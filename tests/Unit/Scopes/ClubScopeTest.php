@@ -13,7 +13,7 @@ class ClubScopeTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_applies_club_scope_to_result_model()
+    public function itAppliesClubScopeToResultModel(): void
     {
         // Create test data
         $user = User::factory()->create(['club_id' => 1]);

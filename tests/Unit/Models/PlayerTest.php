@@ -15,7 +15,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_create_a_single_player_and_confirm_they_exist_in_the_database()
+    public function itCanCreateASinglePlayerAndConfirmTheyExistInTheDatabase(): void
     {
         Player::factory()->create();
         $this->assertDatabaseCount('players', 1);
@@ -24,7 +24,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_create_multiple_players_and_confirm_they_exist_in_the_database()
+    public function itCanCreateMultiplePlayersAndConfirmTheyExistInTheDatabase(): void
     {
         Player::factory(10)->create();
         $this->assertDatabaseCount('players', 10);
@@ -33,7 +33,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_test_player_model_exists_in_the_database()
+    public function itCanTestPlayerModelExistsInTheDatabase(): void
     {
         $player = Player::factory()->create();
         $this->assertModelExists($player);
@@ -42,7 +42,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_create_a_player_and_check_their_clubId_and_platform_and_name_is_correct()
+    public function itCanCreateAPlayerAndCheckTheirClubIdAndPlatformAndNameIsCorrect(): void
     {
         Player::factory()->create([
             'club_id' => 12345,
@@ -61,7 +61,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_generate_an_type_error_exception_when_creating_a_player_and_incorrect_clubId_values_passed()
+    public function itCanGenerateAnTypeErrorExceptionWhenCreatingAPlayerAndIncorrectClubIdValuesPassed(): void
     {
         $this->expectException(TypeError::class);
         Player::factory()->create([
@@ -72,7 +72,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_generate_an_query_error_exception_when_creating_a_player_and_incorrect_platform_values_passed()
+    public function itCanGenerateAnQueryErrorExceptionWhenCreatingAPlayerAndIncorrectPlatformValuesPassed(): void
     {
         $this->expectException(QueryException::class);
         Player::factory()->create([
@@ -83,7 +83,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_generate_an_array_to_string_error_exception_when_creating_a_player_and_incorrect_attributes_values_passed()
+    public function itCanGenerateArrayToStringErrorExceptionWhenCreatingAPlayerAndIncorrectAttributesValuesPassed():void
     {
         $this->expectExceptionMessage('Array to string conversion');
 
@@ -98,7 +98,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_create_a_player_and_check_findByClubAndPlatformAndPlayerName_scope_finds_the_correct_player()
+    public function itCanCreateAPlayerAndCheckFindByClubAndPlatformAndPlayerNameScopeFindsTheCorrectPlayer(): void
     {
         // Create a test player in the database
         $player = Player::factory()->create([
@@ -119,7 +119,7 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    public function it_can_create_players_and_check_findByClubAndPlatform_scope_finds_the_correct_players()
+    public function itCanCreatePlayersAndCheckFindByClubAndPlatformScopeFindsTheCorrectPlayers(): void
     {
         Player::factory()->create([
             'club_id' => 1,
@@ -143,9 +143,10 @@ class PlayerTest extends TestCase
     /**
      * @test
      */
-    private function attributesStringIsValid()
+    public function itCanGenerateValidAttributesArrayFromString(): void
     {
-        $string = '057|069|042|055|083|062|067|099|053|060|020|020|045|020|025|017|020|020|015|040|040|020|059|015|020|020|015|030|035|091|097|095|097|097|';
+        // phpcs:ignore Generic.Files.LineLength.TooLong
+        $string = '057|069|88|042|055|083|062|067|099|053|060|020|020|045|020|025|017|020|020|015|040|040|020|059|015|020|020|015|030|035|091|097|095|097|097|';
 
         // Split the string into an array of values
         $values = explode('|', $string);
@@ -155,9 +156,11 @@ class PlayerTest extends TestCase
 
         // Validate that each value is an integer between 0 and 99
         foreach ($values as $value) {
-            $this->assertIsNumeric($value);
-            $this->assertGreaterThanOrEqual(0, $value);
-            $this->assertLessThanOrEqual(99, $value);
+            if (!empty($value)) {
+                $this->assertIsNumeric($value);
+                $this->assertGreaterThanOrEqual(0, $value);
+                $this->assertLessThanOrEqual(99, $value);
+            }
         }
     }
 }

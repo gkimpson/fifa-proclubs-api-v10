@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 10.4.1.
+ * Generated for Laravel 10.9.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1762,7 +1762,7 @@
                     /**
          * Set the Artisan application instance.
          *
-         * @param \Illuminate\Console\Application $artisan
+         * @param \Illuminate\Console\Application|null $artisan
          * @return void
          * @static
          */
@@ -3770,6 +3770,18 @@
                         return $instance->extend($driver, $callback);
         }
                     /**
+         * Set the application instance used by the manager.
+         *
+         * @param \Illuminate\Contracts\Foundation\Application $app
+         * @return \Illuminate\Cache\CacheManager
+         * @static
+         */
+        public static function setApplication($app)
+        {
+                        /** @var \Illuminate\Cache\CacheManager $instance */
+                        return $instance->setApplication($app);
+        }
+                    /**
          * Determine if an item exists in the cache.
          *
          * @param array|string $key
@@ -4329,6 +4341,18 @@
         {
                         /** @var \Illuminate\Cache\FileStore $instance */
                         return $instance->getDirectory();
+        }
+                    /**
+         * Set the cache directory where locks should be stored.
+         *
+         * @param string|null $lockDirectory
+         * @return \Illuminate\Cache\FileStore
+         * @static
+         */
+        public static function setLockDirectory($lockDirectory)
+        {
+                        /** @var \Illuminate\Cache\FileStore $instance */
+                        return $instance->setLockDirectory($lockDirectory);
         }
                     /**
          * Get the cache key prefix.
@@ -5370,6 +5394,20 @@
         {            //Method inherited from \Illuminate\Database\Connection
                         /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->select($query, $bindings, $useReadPdo);
+        }
+                    /**
+         * Run a select statement against the database and returns all of the result sets.
+         *
+         * @param string $query
+         * @param array $bindings
+         * @param bool $useReadPdo
+         * @return array
+         * @static
+         */
+        public static function selectResultSets($query, $bindings = [], $useReadPdo = true)
+        {            //Method inherited from \Illuminate\Database\Connection
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
+                        return $instance->selectResultSets($query, $bindings, $useReadPdo);
         }
                     /**
          * Run a select statement against the database and returns a generator.
@@ -6584,15 +6622,16 @@
          * Get the contents of a file as decoded JSON.
          *
          * @param string $path
+         * @param int $flags
          * @param bool $lock
          * @return array
          * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
          * @static
          */
-        public static function json($path, $lock = false)
+        public static function json($path, $flags = 0, $lock = false)
         {
                         /** @var \Illuminate\Filesystem\Filesystem $instance */
-                        return $instance->json($path, $lock);
+                        return $instance->json($path, $flags, $lock);
         }
                     /**
          * Get contents of a file with shared access.
@@ -7760,7 +7799,7 @@
      * @method static \Illuminate\Http\Client\PendingRequest sink(string|resource $to)
      * @method static \Illuminate\Http\Client\PendingRequest timeout(int $seconds)
      * @method static \Illuminate\Http\Client\PendingRequest connectTimeout(int $seconds)
-     * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleepMilliseconds = 0, callable|null $when = null, bool $throw = true)
+     * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, Closure|int $sleepMilliseconds = 0, callable|null $when = null, bool $throw = true)
      * @method static \Illuminate\Http\Client\PendingRequest withOptions(array $options)
      * @method static \Illuminate\Http\Client\PendingRequest withMiddleware(callable $middleware)
      * @method static \Illuminate\Http\Client\PendingRequest beforeSending(callable $callback)
@@ -9487,6 +9526,8 @@
      * @method static \Illuminate\Contracts\Process\ProcessResult run(array|string|null $command = null, callable|null $output = null)
      * @method static \Illuminate\Process\InvokedProcess start(array|string|null $command = null, callable $output = null)
      * @method static \Illuminate\Process\PendingProcess withFakeHandlers(array $fakeHandlers)
+     * @method static \Illuminate\Process\PendingProcess|mixed when(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
+     * @method static \Illuminate\Process\PendingProcess|mixed unless(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
      * @see \Illuminate\Process\PendingProcess
      * @see \Illuminate\Process\Factory
      */
@@ -9671,6 +9712,18 @@
         {
                         /** @var \Illuminate\Process\Factory $instance */
                         return $instance->pool($callback);
+        }
+                    /**
+         * Start defining a series of piped processes.
+         *
+         * @param callable|array $callback
+         * @return \Illuminate\Contracts\Process\ProcessResult
+         * @static
+         */
+        public static function pipe($callback, $output = null)
+        {
+                        /** @var \Illuminate\Process\Factory $instance */
+                        return $instance->pipe($callback, $output);
         }
                     /**
          * Run a pool of processes and wait for them to finish executing.
@@ -10324,7 +10377,7 @@
          * Get the given named rate limiter.
          *
          * @param string $name
-         * @return \Closure
+         * @return \Closure|null
          * @static
          */
         public static function limiter($name)
@@ -15631,6 +15684,19 @@
                         return $instance->get($path);
         }
                     /**
+         * Get the contents of a file as decoded JSON.
+         *
+         * @param string $path
+         * @param int $flags
+         * @return array|null
+         * @static
+         */
+        public static function json($path, $flags = 0)
+        {
+                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+                        return $instance->json($path, $flags);
+        }
+                    /**
          * Create a streamed response for a given file.
          *
          * @param string $path
@@ -18080,7 +18146,7 @@
      *
      *
      * @template TKey of array-key
-     * @template TValue
+     * @template-covariant TValue
      * @implements \ArrayAccess<TKey, TValue>
      * @implements \Illuminate\Support\Enumerable<TKey, TValue>
      */
@@ -18533,12 +18599,14 @@
          *
          *
          * @see \Spatie\CollectionMacros\Macros\Recursive::__invoke()
+         * @param float $maxDepth
+         * @param int $depth
          * @return \Illuminate\Support\Collection
          * @static
          */
-        public static function recursive()
+        public static function recursive($maxDepth = INF, $depth = 0)
         {
-                        return \Illuminate\Support\Collection::recursive();
+                        return \Illuminate\Support\Collection::recursive($maxDepth, $depth);
         }
                     /**
          *
@@ -18724,35 +18792,6 @@
         public static function withSize($size)
         {
                         return \Illuminate\Support\Collection::withSize($size);
-        }
-                    /**
-         *
-         *
-         * @see \Spatie\LaravelRay\RayServiceProvider::registerMacros()
-         * @param string $description
-         * @static
-         */
-        public static function ray($description = '')
-        {
-                        return \Illuminate\Support\Collection::ray($description);
-        }
-
-    }
-            /**
-     *
-     *
-     */
-        class Stringable {
-                    /**
-         *
-         *
-         * @see \Spatie\LaravelRay\RayServiceProvider::registerMacros()
-         * @param string $description
-         * @static
-         */
-        public static function ray($description = '')
-        {
-                        return \Illuminate\Support\Stringable::ray($description);
         }
 
     }
@@ -19296,257 +19335,6 @@
 
 }
 
-    namespace Clockwork\Support\Laravel {
-            /**
-     *
-     *
-     */
-        class Facade {
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function addDataSource($dataSource)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->addDataSource($dataSource);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function resolveRequest()
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->resolveRequest();
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function resolveAsCommand($name, $exitCode = null, $arguments = [], $options = [], $argumentsDefaults = [], $optionsDefaults = [], $output = null)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->resolveAsCommand($name, $exitCode, $arguments, $options, $argumentsDefaults, $optionsDefaults, $output);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function resolveAsQueueJob($name, $description = null, $status = 'processed', $payload = [], $queue = null, $connection = null, $options = [])
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->resolveAsQueueJob($name, $description, $status, $payload, $queue, $connection, $options);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function resolveAsTest($name, $status = 'passed', $statusMessage = null, $asserts = [])
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->resolveAsTest($name, $status, $statusMessage, $asserts);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function extendRequest($request = null)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->extendRequest($request);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function storeRequest()
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->storeRequest();
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function reset()
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->reset();
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function request($request = null)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->request($request);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function log($level = null, $message = null, $context = [])
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->log($level, $message, $context);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function timeline()
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->timeline();
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function event($description, $data = [])
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->event($description, $data);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function shouldCollect($shouldCollect = null)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->shouldCollect($shouldCollect);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function shouldRecord($shouldRecord = null)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->shouldRecord($shouldRecord);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function dataSources($dataSources = null)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->dataSources($dataSources);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function storage($storage = null)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->storage($storage);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function authenticator($authenticator = null)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->authenticator($authenticator);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function getDataSources()
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->getDataSources();
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function getRequest()
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->getRequest();
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function setRequest($request)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->setRequest($request);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function getStorage()
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->getStorage();
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function setStorage($storage)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->setStorage($storage);
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function getAuthenticator()
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->getAuthenticator();
-        }
-                    /**
-         *
-         *
-         * @static
-         */
-        public static function setAuthenticator($authenticator)
-        {
-                        /** @var \Clockwork\Clockwork $instance */
-                        return $instance->setAuthenticator($authenticator);
-        }
-
-    }
-
-}
-
     namespace Spatie\LaravelIgnition\Facades {
             /**
      *
@@ -19727,7 +19515,7 @@
                     /**
          *
          *
-         * @param \Spatie\FlareClient\FlareMiddleware\FlareMiddleware|array<FlareMiddleware>|\Spatie\FlareClient\class-string<FlareMiddleware> $middleware
+         * @param \Spatie\FlareClient\FlareMiddleware\FlareMiddleware|array<FlareMiddleware>|\Spatie\FlareClient\class-string<FlareMiddleware>|callable $middleware
          * @return \Spatie\FlareClient\Flare
          * @static
          */
@@ -19977,6 +19765,192 @@
 
 }
 
+    namespace LaraBug {
+            /**
+     *
+     *
+     */
+        class Facade {
+                    /**
+         *
+         *
+         * @param \Throwable $exception
+         * @param string $fileType
+         * @return bool|mixed
+         * @static
+         */
+        public static function handle($exception, $fileType = 'php', $customData = [])
+        {
+                        /** @var \LaraBug\LaraBug $instance */
+                        return $instance->handle($exception, $fileType, $customData);
+        }
+                    /**
+         *
+         *
+         * @return bool
+         * @static
+         */
+        public static function isSkipEnvironment()
+        {
+                        /** @var \LaraBug\LaraBug $instance */
+                        return $instance->isSkipEnvironment();
+        }
+                    /**
+         * Get the last exception id given to us by the larabug API.
+         *
+         * @return string|null
+         * @static
+         */
+        public static function getLastExceptionId()
+        {
+                        /** @var \LaraBug\LaraBug $instance */
+                        return $instance->getLastExceptionId();
+        }
+                    /**
+         *
+         *
+         * @param \Throwable $exception
+         * @return array
+         * @static
+         */
+        public static function getExceptionData($exception)
+        {
+                        /** @var \LaraBug\LaraBug $instance */
+                        return $instance->getExceptionData($exception);
+        }
+                    /**
+         *
+         *
+         * @param array $parameters
+         * @return array
+         * @static
+         */
+        public static function filterParameterValues($parameters)
+        {
+                        /** @var \LaraBug\LaraBug $instance */
+                        return $instance->filterParameterValues($parameters);
+        }
+                    /**
+         * Determines whether the given parameter value should be filtered.
+         *
+         * @param mixed $value
+         * @return bool
+         * @static
+         */
+        public static function shouldParameterValueBeFiltered($value)
+        {
+                        /** @var \LaraBug\LaraBug $instance */
+                        return $instance->shouldParameterValueBeFiltered($value);
+        }
+                    /**
+         *
+         *
+         * @param $variables
+         * @return array
+         * @static
+         */
+        public static function filterVariables($variables)
+        {
+                        /** @var \LaraBug\LaraBug $instance */
+                        return $instance->filterVariables($variables);
+        }
+                    /**
+         *
+         *
+         * @param $exceptionClass
+         * @return bool
+         * @static
+         */
+        public static function isSkipException($exceptionClass)
+        {
+                        /** @var \LaraBug\LaraBug $instance */
+                        return $instance->isSkipException($exceptionClass);
+        }
+                    /**
+         *
+         *
+         * @param array $data
+         * @return bool
+         * @static
+         */
+        public static function isSleepingException($data)
+        {
+                        /** @var \LaraBug\LaraBug $instance */
+                        return $instance->isSleepingException($data);
+        }
+                    /**
+         *
+         *
+         * @return array|null
+         * @static
+         */
+        public static function getUser()
+        {
+                        /** @var \LaraBug\LaraBug $instance */
+                        return $instance->getUser();
+        }
+                    /**
+         *
+         *
+         * @param array $data
+         * @return bool
+         * @static
+         */
+        public static function addExceptionToSleep($data)
+        {
+                        /** @var \LaraBug\LaraBug $instance */
+                        return $instance->addExceptionToSleep($data);
+        }
+                    /**
+         *
+         *
+         * @param int $expectedCount
+         * @static
+         */
+        public static function assertRequestsSent($expectedCount)
+        {
+                        /** @var \LaraBug\Fakes\LaraBugFake $instance */
+                        return $instance->assertRequestsSent($expectedCount);
+        }
+                    /**
+         *
+         *
+         * @param mixed $throwable
+         * @param callable|null $callback
+         * @static
+         */
+        public static function assertNotSent($throwable, $callback = null)
+        {
+                        /** @var \LaraBug\Fakes\LaraBugFake $instance */
+                        return $instance->assertNotSent($throwable, $callback);
+        }
+                    /**
+         *
+         *
+         * @static
+         */
+        public static function assertNothingSent()
+        {
+                        /** @var \LaraBug\Fakes\LaraBugFake $instance */
+                        return $instance->assertNothingSent();
+        }
+                    /**
+         *
+         *
+         * @param mixed $throwable
+         * @param callable|null $callback
+         * @static
+         */
+        public static function assertSent($throwable, $callback = null)
+        {
+                        /** @var \LaraBug\Fakes\LaraBugFake $instance */
+                        return $instance->assertSent($throwable, $callback);
+        }
+
+    }
+
+}
+
     namespace Illuminate\Filesystem {
             /**
      *
@@ -20085,37 +20059,6 @@
         public static function assertJsonTypedStructure($structure)
         {
                         return \Illuminate\Testing\TestResponse::assertJsonTypedStructure($structure);
-        }
-                    /**
-         *
-         *
-         * @see \Spatie\LaravelRay\RayServiceProvider::registerMacros()
-         * @static
-         */
-        public static function ray()
-        {
-                        return \Illuminate\Testing\TestResponse::ray();
-        }
-
-    }
-
-}
-
-    namespace Illuminate\Database\Query {
-            /**
-     *
-     *
-     */
-        class Builder {
-                    /**
-         *
-         *
-         * @see \Spatie\LaravelRay\RayServiceProvider::registerMacros()
-         * @static
-         */
-        public static function ray()
-        {
-                        return \Illuminate\Database\Query\Builder::ray();
         }
 
     }
@@ -20631,6 +20574,7 @@ namespace  {
              * @param array|string $columns
              * @param string $pageName
              * @param int|null $page
+             * @param \Closure|int|null $total
              * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
              * @throws \InvalidArgumentException
              * @static
@@ -21511,7 +21455,7 @@ namespace  {
              * Add a morph-to relationship condition to the query.
              *
              * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
-             * @param \Illuminate\Database\Eloquent\Model|string $model
+             * @param \Illuminate\Database\Eloquent\Model|string|null $model
              * @return \Illuminate\Database\Eloquent\Builder|static
              * @static
              */
@@ -21539,7 +21483,7 @@ namespace  {
              * Add a morph-to relationship condition to the query with an "or where" clause.
              *
              * @param \Illuminate\Database\Eloquent\Relations\MorphTo|string $relation
-             * @param \Illuminate\Database\Eloquent\Model|string $model
+             * @param \Illuminate\Database\Eloquent\Model|string|null $model
              * @return \Illuminate\Database\Eloquent\Builder|static
              * @static
              */
@@ -23943,17 +23887,6 @@ namespace  {
                                 /** @var \Illuminate\Database\Query\Builder $instance */
                                 return $instance->macroCall($method, $parameters);
             }
-
-                /**
-             *
-             *
-             * @see \Spatie\LaravelRay\RayServiceProvider::registerMacros()
-             * @static
-             */
-            public static function ray()
-            {
-                                return \Illuminate\Database\Query\Builder::ray();
-            }
                     }
             class Event extends \Illuminate\Support\Facades\Event {}
             class File extends \Illuminate\Support\Facades\File {}
@@ -23982,8 +23915,8 @@ namespace  {
             class View extends \Illuminate\Support\Facades\View {}
             class Vite extends \Illuminate\Support\Facades\Vite {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
-            class Clockwork extends \Clockwork\Support\Laravel\Facade {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
             class Signal extends \Spatie\SignalAwareCommand\Facades\Signal {}
+            class LaraBug extends \LaraBug\Facade {}
 
 }

@@ -5,6 +5,34 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Player
+ *
+ * @property int $id
+ * @property int $club_id
+ * @property int|null $ea_player_id
+ * @property string $platform
+ * @property string $player_name
+ * @property string $attributes
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\PlayerAttribute|null $playerAttributes
+ * @method static \Database\Factories\PlayerFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Player findByClubAndPlatform(int $clubId, string $platform)
+ * @method static \Illuminate\Database\Eloquent\Builder|Player findByClubAndPlatformAndPlayerName(int $clubId, string $platform, string $playerName)
+ * @method static \Illuminate\Database\Eloquent\Builder|Player newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Player newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Player query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Player whereAttributes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Player whereClubId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Player whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Player whereEaPlayerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Player whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Player wherePlatform($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Player wherePlayerName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Player whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Player extends Model
 {
     use HasFactory;

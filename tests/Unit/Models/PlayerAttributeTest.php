@@ -14,15 +14,29 @@ class PlayerAttributeTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * @return int[]
+     */
+    public function realisticPlayerAttributes(): array
+    {
+        return [
+            80, 75, 90, 80, 70, 70, 65, 85, 80, 75,
+            70, 75, 80, 65, 60, 65, 70, 75, 70, 75,
+            80, 75, 80, 70, 65, 75, 75, 70, 70, 80,
+            70, 65, 80, 75
+        ];
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->attributes = '80|75|90|80|70|70|65|85|80|75|70|75|80|65|60|65|70|75|70|75|80|75|80|70|65|75|75|70|70|80|70|65|80|75';
+        $this->attributes =
+            '80|75|90|80|70|70|65|85|80|75|70|75|80|65|60|65|70|75|70|75|80|75|80|70|65|75|75|70|70|80|70|65|80|75';
     }
 
     /** @test */
-    public function it_can_generate_a_favourite_position_for_goalkeeper()
+    public function itCanGenerateAFavouritePositionForGoalkeeper(): void
     {
         $position = 'goalkeeper';
 
@@ -32,7 +46,7 @@ class PlayerAttributeTest extends TestCase
     }
 
     /** @test */
-    public function it_can_generate_a_favourite_position_for_defender()
+    public function itCanGenerateAFavouritePositionForDefender(): void
     {
         $position = 'defender';
 
@@ -42,7 +56,7 @@ class PlayerAttributeTest extends TestCase
     }
 
     /** @test */
-    public function it_can_generate_a_favourite_position_for_midfielder()
+    public function itCanGenerateAFavouritePositionForMidfielder(): void
     {
         $position = 'midfielder';
 
@@ -52,7 +66,7 @@ class PlayerAttributeTest extends TestCase
     }
 
     /** @test */
-    public function it_can_generate_a_favourite_position_for_forward()
+    public function itCanGenerateAFavouritePositionForForward(): void
     {
         $position = 'forward';
 
@@ -62,7 +76,7 @@ class PlayerAttributeTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_null_when_generating_a_favourite_position_with_an_empty_string()
+    public function itReturnsNullWhenGeneratingAFavouritePositionWithAnEmptyString(): void
     {
         $favouritePosition = PlayerAttribute::generateFavouritePosition('');
 
@@ -70,7 +84,7 @@ class PlayerAttributeTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_an_exception_when_generating_a_favourite_position_with_an_invalid_position()
+    public function itThrowsAnExceptionWhenGeneratingAFavouritePositionWithAnInvalidPosition(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -78,15 +92,15 @@ class PlayerAttributeTest extends TestCase
     }
 
     /** @test */
-    public function it_can_parse_attributes()
+    public function itCanParseAttributes(): void
     {
         $parsedAttributes = PlayerAttribute::parseAttributes($this->attributes);
 
-        $this->assertEquals([80, 75, 90, 80, 70, 70, 65, 85, 80, 75, 70, 75, 80, 65, 60, 65, 70, 75, 70, 75, 80, 75, 80, 70, 65, 75, 75, 70, 70, 80, 70, 65, 80, 75], $parsedAttributes->toArray());
+        $this->assertEquals($this->realisticPlayerAttributes(), $parsedAttributes->toArray());
     }
 
     /** @test */
-    public function it_can_generate_attributes()
+    public function itCanGenerateAttributes(): void
     {
         $generatedAttributes = PlayerAttribute::generateAttributes($this->attributes);
         $this->assertEquals([
@@ -128,7 +142,7 @@ class PlayerAttributeTest extends TestCase
     }
 
     /** @test */
-    public function it_can_filter_query_by_player_attribute()
+    public function itCanFilterQueryByPlayerAttribute(): void
     {
         $player1 = Player::factory()->create(['player_name' => 'Player1']);
         $player2 = Player::factory()->create(['player_name' => 'Player2']);
@@ -158,7 +172,7 @@ class PlayerAttributeTest extends TestCase
     }
 
     /** @test */
-    public function it_can_define_a_relationship_with_player()
+    public function itCanDefineARelationshipWithPlayer(): void
     {
         $player = Player::factory()->create();
 
@@ -317,7 +331,7 @@ class PlayerAttributeTest extends TestCase
     }
 
     /** @test */
-    public function it_cannot_filter_query_by_player_attribute_with_invalid_parameters()
+    public function itCannotFilterQueryByPlayerAttributeWithInvalidParameters(): void
     {
         $player1 = Player::factory()->create(['player_name' => 'Player1']);
         $player2 = Player::factory()->create(['player_name' => 'Player2']);
@@ -347,7 +361,7 @@ class PlayerAttributeTest extends TestCase
     }
 
     /** @test */
-    public function testGetMappedAttributesWithMismatchedArrays()
+    public function testGetMappedAttributesWithMismatchedArrays(): void
     {
         // Create sample data with different lengths for attributeNames and attributes
         $attributeNames = ['Sprint Speed', 'Stamina', 'GK Diving'];
@@ -363,7 +377,7 @@ class PlayerAttributeTest extends TestCase
 
         // Invoke the getMappedAttributes method with the sample data and catch the exception
         try {
-            $mappedAttributes = $method->invokeArgs($playerAttribute, [$attributeNames, $attributes]);
+            $method->invokeArgs($playerAttribute, [$attributeNames, $attributes]);
         } catch (Exception $e) {
             $this->assertInstanceOf(InvalidArgumentException::class, $e);
             $this->assertEquals('Attribute names and attributes must be the same length', $e->getMessage());

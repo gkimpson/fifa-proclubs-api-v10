@@ -13,7 +13,7 @@ class VideoTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     /** @test */
-    public function it_belongs_to_a_user()
+    public function itBelongsToAUser(): void
     {
         $user = User::factory()->create();
         $video = Video::factory()->create([
@@ -25,7 +25,7 @@ class VideoTest extends TestCase
     }
 
     /** @test */
-    public function it_is_mass_assignable()
+    public function itIsMassAssignable(): void
     {
         $data = [
             'user_id' => User::factory()->create()->id,
@@ -40,7 +40,7 @@ class VideoTest extends TestCase
     }
 
     /** @test */
-    public function test_video_belongs_to_user()
+    public function testVideoBelongsToUser(): void
     {
         // Create a new user
         $user = User::factory()->create();

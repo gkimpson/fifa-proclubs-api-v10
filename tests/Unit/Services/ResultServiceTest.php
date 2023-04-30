@@ -51,8 +51,8 @@ class ResultServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $apiServiceMock;
-    private $resultService;
+    private object $apiServiceMock;
+    private object $resultService;
 
     protected function setUp(): void
     {
