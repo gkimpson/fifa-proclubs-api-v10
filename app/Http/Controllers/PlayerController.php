@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helpers\PlayerAttributesHelper;
 use App\Models\PlayerAttribute;
-use Illuminate\Http\Request;
-
 class PlayerController extends Controller
 {
-    public function search(Request $request)
+    public function search()
     {
         $data = [
             'attributes' => PlayerAttributesHelper::getPlayerAttributeNames(),

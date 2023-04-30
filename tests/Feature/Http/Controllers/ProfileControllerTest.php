@@ -29,6 +29,7 @@ class ProfileControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @throws JsonException
      */
     public function profileInformationCanBeUpdated(): void
@@ -55,6 +56,7 @@ class ProfileControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @throws JsonException
      */
     public function emailVerificationStatusIsUnchangedWhenTheEmailAddressIsUnchanged(): void
@@ -77,6 +79,7 @@ class ProfileControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @throws JsonException
      */
     public function userCanDeleteTheirAccount(): void
