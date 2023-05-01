@@ -2,226 +2,95 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\MatchTypes;
-use App\Enums\Platforms;
 use App\Services\ChartService;
-use App\Services\ProclubsApiService;
+use App\Services\ClubService;
 use App\Services\ResultService;
-use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ClubController extends Controller
 {
-    public int $clubId;
-    public int $clubIds;
-    public string $platform;
-    public string $player1;
-    public string $player2;
+    protected ClubService $clubService;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, ClubService $clubService)
     {
-        $this->getRouteParams($request);
+        $this->clubService = $clubService;
+        $this->clubService->getRouteParams($request);
     }
 
-    /**
-     * @param int $clubId
-     */
-    public function setClubId(int $clubId): void
+    public function index(): JsonResponse
     {
-        $this->clubId = $clubId;
+        return $this->clubService->index();
     }
 
-    /**
-     * @param int $clubIds
-     */
-    public function setClubIds(int $clubIds): void
+    public function members(): JsonResponse
     {
-        $this->clubIds = $clubIds;
+        return $this->clubService->members();
     }
 
-    /**
-     * @return string
-     */
-    public function getPlatform(): string
+    public function career(): JsonResponse
     {
-        return $this->platform;
+        return $this->clubService->career();
     }
 
-    /**
-     * @param string $platform
-     */
-    public function setPlatform(string $platform): void
+    public function season(): JsonResponse
     {
-        $this->platform = $platform;
+        return $this->clubService->season();
     }
 
-    /**
-     * @param string $player1
-     */
-    public function setPlayer1(string $player1): void
+    public function settings(): JsonResponse
     {
-        $this->player1 = $player1;
+        return $this->clubService->settings();
     }
 
-    /**
-     * @param string $player2
-     */
-    public function setPlayer2(string $player2): void
+    public function search(): JsonResponse
     {
-        $this->player2 = $player2;
+        return $this->clubService->search();
     }
 
-    /**
-     * @throws Exception
-     */
-    public function index(int $clubId, string $platform): JsonResponse
+    public function league(): JsonResponse
     {
-        $data = json_decode(ProclubsApiService::clubsInfo(Platforms::getPlatform($platform), $clubId));
-
-        return response()->json($data);
+        return $this->clubService->league();
     }
 
-    /**
-     * @throws Exception
-     */
-    public function members(int $clubId, string $platform): JsonResponse
+    public function leaderboard(): JsonResponse
     {
-        $data = json_decode(ProclubsApiService::memberStats(Platforms::getPlatform($platform), $clubId));
-
-        return response()->json($data);
+        return $this->clubService->leaderboard();
     }
 
-    /**
-     * @throws Exception
-     */
-    public function career(int $clubId, string $platform): JsonResponse
+    public function cup(): JsonResponse
     {
-        $data = json_decode(ProclubsApiService::careerStats(Platforms::getPlatform($platform), $clubId));
-
-        return response()->json($data);
+        return $this->clubService->cup();
     }
 
-    /**
-     * @throws Exception
-     */
-    public function season(int $clubId, string $platform): JsonResponse
+    public function player(): JsonResponse
     {
-        $data = json_decode(ProclubsApiService::seasonStats(Platforms::getPlatform($platform), $clubId));
-
-        return response()->json($data);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function settings(string $clubName, string $platform): JsonResponse
-    {
-        $data = json_decode(ProclubsApiService::settings(Platforms::getPlatform($platform), $clubName));
-
-        return response()->json($data);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function search(string $clubName, string $platform): JsonResponse
-    {
-        $data = json_decode(ProclubsApiService::search(Platforms::getPlatform($platform), $clubName));
-
-        return response()->json($data);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function league(int $clubId, string $platform): JsonResponse
-    {
-        $data = json_decode(ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE));
-
-        return response()->json($data);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function leaderboard(string $platform, string $leaderboardType): JsonResponse
-    {
-        $data = json_decode(ProclubsApiService::leaderboard(Platforms::getPlatform($platform), $leaderboardType));
-
-        return response()->json($data);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function cup(int $clubId, string $platform): JsonResponse
-    {
-        $data = json_decode(ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP));
-
-        return response()->json($data);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function player(int $clubId, string $platform, string $playerName): JsonResponse
-    {
-        $data = ProclubsApiService::playerStats(Platforms::getPlatform($platform), $clubId, $playerName);
-
-        return response()->json($data);
+        return $this->clubService->player();
     }
 
     public function squad(ResultService $resultService): JsonResponse
     {
-        $data = $resultService->getCachedData($this->clubId, $this->platform, 'squad');
-
-        return response()->json($data);
+        return $this->clubService->squad($resultService);
     }
 
     public function compare(ResultService $resultService, ChartService $chartService): View
     {
-        $data = [
-            'playerData' => $resultService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2),
-            'chartData' => $chartService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2),
-        ];
-
-        return view('club.compare', compact('data'));
+        return $this->clubService->compare($resultService, $chartService);
     }
 
     public function compareAll(ChartService $chartService): View
     {
-        $data = [
-            'chartData' => $chartService->getClubComparisonData($this->clubId, $this->platform),
-        ];
-
-        return view('club.compareall', $data);
+        return $this->clubService->compareAll($chartService);
     }
 
     public function ranking(ResultService $resultService): JsonResponse
     {
-        $data = [
-            'rankings' => $resultService->getRankingData($this->clubId, $this->platform),
-            'perMatchRankings' => $resultService->getCustomRankingData($this->clubId, $this->platform),
-        ];
-
-        return response()->json($data);
+        return $this->clubService->ranking($resultService);
     }
 
     public function form(): JsonResponse
     {
-        $data = [];
-
-        return response()->json($data);
-    }
-
-    public function getRouteParams(Request $request): void
-    {
-        $this->setClubId($request->route('clubId') ?? 0);
-        $this->setClubIds($request->route('clubIds') ?? 0);
-        $this->setPlatform($request->route('platform') ?? '');
-        $this->setPlayer1($request->route('player1') ?? '');
-        $this->setPlayer2($request->route('player2') ?? '');
+        return $this->clubService->form();
     }
 }
