@@ -50,7 +50,10 @@ class PlayerAttributesHelperTest extends TestCase
         $this->assertEquals('gk_positioning', $attributeNames[33]);
     }
 
-    public function GetAttributeTailwindCssClasses(): void
+    /**
+     * @test
+     */
+    public function getAttributeTailwindCssClasses(): void
     {
         // Test very_poor rating
         $result = PlayerAttributesHelper::getAttributeTailwindCssClass('20');
