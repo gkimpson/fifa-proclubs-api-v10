@@ -56,7 +56,7 @@ Route::prefix('player')->group(function () {
 // some routes that don't necessarily fit into a grouping
 Route::get('platform/{platform}/leaderboard/{leaderboardType}/', [ClubController::class, 'leaderboard'])->name('club.leaderboard');
 Route::get('results', [ResultController::class, 'index'])->name('results.index');
-Route::get('debug', [ClubController::class, 'debug'])->name('club.debug');
+
 // playing around with Blueprint autogenerator
 Route::resource('video', App\Http\Controllers\VideoController::class)->only('index', 'show');
 

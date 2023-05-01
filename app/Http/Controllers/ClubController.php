@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
-use App\Models\Player;
-use App\Models\Result;
 use App\Services\ChartService;
 use App\Services\ProclubsApiService;
 use App\Services\ResultService;
@@ -30,6 +28,8 @@ class ClubController extends Controller
     {
         $this->getRouteParams($request);
     }
+
+
 
     /**
      * @throws Exception
@@ -172,20 +172,6 @@ class ClubController extends Controller
         $data = [];
 
         return response()->json($data);
-    }
-
-    public function debug(): void
-    {
-        $result = Result::first();
-        $clubId = 52003;
-        $platform = 'ps5';
-
-        $players = collect($result->properties['players'][$clubId]);
-
-        $players->each(fn (array $row, $eaPlayerId) => Player::updateOrCreate(
-            ['club_id' => $clubId, 'platform' => $platform, 'player_name' => $row['playername']],
-            ['ea_player_id' => $eaPlayerId, 'attributes' => $row['vproattr']]
-        ));
     }
 
     public function getRouteParams(Request $request): void
