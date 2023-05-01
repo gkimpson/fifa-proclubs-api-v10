@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionException;
 use stdClass;
+use function PHPUnit\Framework\assertSame;
 
 class ResultDataFormatterTest extends TestCase
 {
@@ -64,20 +65,6 @@ class ResultDataFormatterTest extends TestCase
         $this->assertSame(100, $playerStats['SCORE']);
         $this->assertSame(2, $playerStats['assists']);
         // ... (test other player properties here)
-    }
-
-    public function getClubStats(): void
-    {
-        $club = new stdClass;
-        $club->name = 'Test Club';
-        $club->teamId = 12345;
-        // ... (set other club properties here)
-
-        $clubStats = $this->invokeGetClubStats($club);
-
-        $this->assertSame('Test Club', $clubStats['name']);
-        $this->assertSame(12345, $clubStats['teamId']);
-        // ... (test other club properties here)
     }
 
     /**
@@ -227,10 +214,10 @@ class ResultDataFormatterTest extends TestCase
         return $method->invoke(null, $player);
     }
 
-    private function invokeGetClubStats(object $club): array
+    private function invokeGetClubsData(object $club): array
     {
         $reflectionClass = new ReflectionClass(ResultDataFormatter::class);
-        $method = $reflectionClass->getMethod('getClubStats');
+        $method = $reflectionClass->getMethod('getClubsData');
 
         return $method->invoke(null, $club);
     }
