@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Helpers;
+
 class PlayerAttributesHelper
 {
     public static function getPlayerAttributeNames()

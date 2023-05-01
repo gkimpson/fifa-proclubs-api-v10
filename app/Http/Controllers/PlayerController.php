@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\PlayerAttributesHelper;
 use App\Models\PlayerAttribute;
+
 class PlayerController extends Controller
 {
     public function search()

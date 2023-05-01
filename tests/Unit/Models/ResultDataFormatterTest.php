@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionException;
 use stdClass;
-use function PHPUnit\Framework\assertSame;
 
 class ResultDataFormatterTest extends TestCase
 {
@@ -194,6 +193,18 @@ class ResultDataFormatterTest extends TestCase
         $this->assertEquals($player2->assists, $result['club2'][0]['assists']);
     }
 
+    /**
+     * @test
+     */
+    public function formatJsonDataWithInvalidData()
+    {
+        $inputData = 'invalid_json_data';
+
+        $expectedOutput = [];
+        $actualOutput = ResultDataFormatter::formatJsonData($inputData);
+        $this->assertSame($expectedOutput, $actualOutput);
+    }
+
     private function invokeGetMatchOutcome(array $clubData): string
     {
         $reflection = new ReflectionClass(ResultDataFormatter::class);
@@ -220,14 +231,5 @@ class ResultDataFormatterTest extends TestCase
         $method = $reflectionClass->getMethod('getClubsData');
 
         return $method->invoke(null, $club);
-    }
-
-    public function testFormatJsonDataWithInvalidData()
-    {
-        $inputData = 'invalid_json_data';
-
-        $expectedOutput = [];
-        $actualOutput = ResultDataFormatter::formatJsonData($inputData);
-        $this->assertSame($expectedOutput, $actualOutput);
     }
 }

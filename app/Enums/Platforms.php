@@ -6,6 +6,7 @@ namespace App\Enums;
 
 use Exception;
 use Illuminate\Support\Str;
+
 enum Platforms
 {
     case PC;

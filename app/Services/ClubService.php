@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Enums\MatchTypes;
 use App\Enums\Platforms;
-use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,6 +17,7 @@ class ClubService
     public string $player2;
     public string $leaderboardType;
     public string $player;
+
     private $clubName;
 
     public function getRouteParams(Request $request): void
