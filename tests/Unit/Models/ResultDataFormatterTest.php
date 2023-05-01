@@ -66,6 +66,20 @@ class ResultDataFormatterTest extends TestCase
         // ... (test other player properties here)
     }
 
+    public function getClubStats(): void
+    {
+        $club = new stdClass;
+        $club->name = 'Test Club';
+        $club->teamId = 12345;
+        // ... (set other club properties here)
+
+        $clubStats = $this->invokeGetClubStats($club);
+
+        $this->assertSame('Test Club', $clubStats['name']);
+        $this->assertSame(12345, $clubStats['teamId']);
+        // ... (test other club properties here)
+    }
+
     /**
      * @test
      */
@@ -119,6 +133,7 @@ class ResultDataFormatterTest extends TestCase
         $player2->shots = 1;
         $player2->tackleattempts = 10;
         $player2->tacklesmade = 4;
+        // phpcs:disable Generic.Files.LineLength.TooLong
         $player2->vproattr = '090|077|085|077|077|085|079|089|070|089|060|099|079|093|072|093|096|085|078|070|082|054|095|092|055|048|087|076|091|010|010|010|010|010|';
         $player2->vprohackreason = 8;
         $player2->wins = 1;
@@ -210,5 +225,22 @@ class ResultDataFormatterTest extends TestCase
         $method = $reflectionClass->getMethod('getPlayerStats');
 
         return $method->invoke(null, $player);
+    }
+
+    private function invokeGetClubStats(object $club): array
+    {
+        $reflectionClass = new ReflectionClass(ResultDataFormatter::class);
+        $method = $reflectionClass->getMethod('getClubStats');
+
+        return $method->invoke(null, $club);
+    }
+
+    public function testFormatJsonDataWithInvalidData()
+    {
+        $inputData = 'invalid_json_data';
+
+        $expectedOutput = [];
+        $actualOutput = ResultDataFormatter::formatJsonData($inputData);
+        $this->assertSame($expectedOutput, $actualOutput);
     }
 }
