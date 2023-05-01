@@ -15,13 +15,9 @@ use Illuminate\Http\Request;
 class ClubController extends Controller
 {
     public int $clubId;
-
     public int $clubIds;
-
     public string $platform;
-
     public string $player1;
-
     public string $player2;
 
     public function __construct(Request $request)
@@ -29,7 +25,85 @@ class ClubController extends Controller
         $this->getRouteParams($request);
     }
 
+    /**
+     * @return int
+     */
+    public function getClubId(): int
+    {
+        return $this->clubId;
+    }
 
+    /**
+     * @param int $clubId
+     */
+    public function setClubId(int $clubId): void
+    {
+        $this->clubId = $clubId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getClubIds(): int
+    {
+        return $this->clubIds;
+    }
+
+    /**
+     * @param int $clubIds
+     */
+    public function setClubIds(int $clubIds): void
+    {
+        $this->clubIds = $clubIds;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlatform(): string
+    {
+        return $this->platform;
+    }
+
+    /**
+     * @param string $platform
+     */
+    public function setPlatform(string $platform): void
+    {
+        $this->platform = $platform;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlayer1(): string
+    {
+        return $this->player1;
+    }
+
+    /**
+     * @param string $player1
+     */
+    public function setPlayer1(string $player1): void
+    {
+        $this->player1 = $player1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlayer2(): string
+    {
+        return $this->player2;
+    }
+
+    /**
+     * @param string $player2
+     */
+    public function setPlayer2(string $player2): void
+    {
+        $this->player2 = $player2;
+    }
 
     /**
      * @throws Exception
@@ -176,10 +250,10 @@ class ClubController extends Controller
 
     public function getRouteParams(Request $request): void
     {
-        $this->clubId = $request->route('clubId') ?? 0;
-        $this->clubIds = $request->route('clubIds') ?? 0;
-        $this->platform = $request->route('platform') ?? '';
-        $this->player1 = $request->route('player1') ?? '';
-        $this->player2 = $request->route('player2') ?? '';
+        $this->setClubId($request->route('clubId') ?? 0);
+        $this->setClubIds($request->route('clubIds') ?? 0);
+        $this->setPlatform($request->route('platform') ?? '');
+        $this->setPlayer1($request->route('player1') ?? '');
+        $this->setPlayer2($request->route('player2') ?? '');
     }
 }
