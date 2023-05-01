@@ -26,27 +26,11 @@ class ClubController extends Controller
     }
 
     /**
-     * @return int
-     */
-    public function getClubId(): int
-    {
-        return $this->clubId;
-    }
-
-    /**
      * @param int $clubId
      */
     public function setClubId(int $clubId): void
     {
         $this->clubId = $clubId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getClubIds(): int
-    {
-        return $this->clubIds;
     }
 
     /**
@@ -74,27 +58,11 @@ class ClubController extends Controller
     }
 
     /**
-     * @return string
-     */
-    public function getPlayer1(): string
-    {
-        return $this->player1;
-    }
-
-    /**
      * @param string $player1
      */
     public function setPlayer1(string $player1): void
     {
         $this->player1 = $player1;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPlayer2(): string
-    {
-        return $this->player2;
     }
 
     /**
