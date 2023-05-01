@@ -10,6 +10,8 @@ use App\Services\ChartService;
 use App\Services\ProclubsApiService;
 use App\Services\ResultService;
 use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ClubController extends Controller
@@ -32,7 +34,7 @@ class ClubController extends Controller
     /**
      * @throws Exception
      */
-    public function index(int $clubId, string $platform): \Illuminate\Http\JsonResponse
+    public function index(int $clubId, string $platform): JsonResponse
     {
         $data = json_decode(ProclubsApiService::clubsInfo(Platforms::getPlatform($platform), $clubId));
 
@@ -42,7 +44,7 @@ class ClubController extends Controller
     /**
      * @throws Exception
      */
-    public function members(int $clubId, string $platform): \Illuminate\Http\JsonResponse
+    public function members(int $clubId, string $platform): JsonResponse
     {
         $data = json_decode(ProclubsApiService::memberStats(Platforms::getPlatform($platform), $clubId));
 
@@ -52,7 +54,7 @@ class ClubController extends Controller
     /**
      * @throws Exception
      */
-    public function career(int $clubId, string $platform): \Illuminate\Http\JsonResponse
+    public function career(int $clubId, string $platform): JsonResponse
     {
         $data = json_decode(ProclubsApiService::careerStats(Platforms::getPlatform($platform), $clubId));
 
@@ -62,7 +64,7 @@ class ClubController extends Controller
     /**
      * @throws Exception
      */
-    public function season(int $clubId, string $platform): \Illuminate\Http\JsonResponse
+    public function season(int $clubId, string $platform): JsonResponse
     {
         $data = json_decode(ProclubsApiService::seasonStats(Platforms::getPlatform($platform), $clubId));
 
@@ -72,7 +74,7 @@ class ClubController extends Controller
     /**
      * @throws Exception
      */
-    public function settings(string $clubName, string $platform): \Illuminate\Http\JsonResponse
+    public function settings(string $clubName, string $platform): JsonResponse
     {
         $data = json_decode(ProclubsApiService::settings(Platforms::getPlatform($platform), $clubName));
 
@@ -82,7 +84,7 @@ class ClubController extends Controller
     /**
      * @throws Exception
      */
-    public function search(string $clubName, string $platform): \Illuminate\Http\JsonResponse
+    public function search(string $clubName, string $platform): JsonResponse
     {
         $data = json_decode(ProclubsApiService::search(Platforms::getPlatform($platform), $clubName));
 
@@ -92,7 +94,7 @@ class ClubController extends Controller
     /**
      * @throws Exception
      */
-    public function league(int $clubId, string $platform): \Illuminate\Http\JsonResponse
+    public function league(int $clubId, string $platform): JsonResponse
     {
         $data = json_decode(ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE));
 
@@ -102,7 +104,7 @@ class ClubController extends Controller
     /**
      * @throws Exception
      */
-    public function leaderboard(string $platform, string $leaderboardType): \Illuminate\Http\JsonResponse
+    public function leaderboard(string $platform, string $leaderboardType): JsonResponse
     {
         $data = json_decode(ProclubsApiService::leaderboard(Platforms::getPlatform($platform), $leaderboardType));
 
@@ -112,7 +114,7 @@ class ClubController extends Controller
     /**
      * @throws Exception
      */
-    public function cup(int $clubId, string $platform): \Illuminate\Http\JsonResponse
+    public function cup(int $clubId, string $platform): JsonResponse
     {
         $data = json_decode(ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP));
 
@@ -122,21 +124,21 @@ class ClubController extends Controller
     /**
      * @throws Exception
      */
-    public function player(int $clubId, string $platform, string $playerName): \Illuminate\Http\JsonResponse
+    public function player(int $clubId, string $platform, string $playerName): JsonResponse
     {
         $data = ProclubsApiService::playerStats(Platforms::getPlatform($platform), $clubId, $playerName);
 
         return response()->json($data);
     }
 
-    public function squad(ResultService $resultService): \Illuminate\Http\JsonResponse
+    public function squad(ResultService $resultService): JsonResponse
     {
         $data = $resultService->getCachedData($this->clubId, $this->platform, 'squad');
 
         return response()->json($data);
     }
 
-    public function compare(ResultService $resultService, ChartService $chartService): \Illuminate\Contracts\View\View
+    public function compare(ResultService $resultService, ChartService $chartService): View
     {
         $data = [
             'playerData' => $resultService->getPlayerComparisonData($this->clubId, $this->platform, $this->player1, $this->player2),
@@ -146,7 +148,7 @@ class ClubController extends Controller
         return view('club.compare', compact('data'));
     }
 
-    public function compareAll(ChartService $chartService): \Illuminate\Contracts\View\View
+    public function compareAll(ChartService $chartService): View
     {
         $data = [
             'chartData' => $chartService->getClubComparisonData($this->clubId, $this->platform),
@@ -155,24 +157,7 @@ class ClubController extends Controller
         return view('club.compareall', $data);
     }
 
-    public function getAttributeClass(string $rating): string
-    {
-        if ($rating >= 90) {
-            return 'text-success';
-        }
-
-        if ($rating >= 80) {
-            return 'text-primary';
-        }
-
-        if ($rating >= 70) {
-            return 'text-warning';
-        }
-
-        return 'text-danger';
-    }
-
-    public function ranking(ResultService $resultService): \Illuminate\Http\JsonResponse
+    public function ranking(ResultService $resultService): JsonResponse
     {
         $data = [
             'rankings' => $resultService->getRankingData($this->clubId, $this->platform),
@@ -182,14 +167,14 @@ class ClubController extends Controller
         return response()->json($data);
     }
 
-    public function form(): \Illuminate\Http\JsonResponse
+    public function form(): JsonResponse
     {
         $data = [];
 
         return response()->json($data);
     }
 
-    public function debug()
+    public function debug(): void
     {
         $result = Result::first();
         $clubId = 52003;
