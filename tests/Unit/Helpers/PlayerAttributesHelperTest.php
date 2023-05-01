@@ -8,7 +8,7 @@ use Tests\TestCase;
 class PlayerAttributesHelperTest extends TestCase
 {
     /** @test */
-    public function it_returns_a_valid_array_of_attribute_names(): void
+    public function itReturnsAValidArrayOfAttributeNames(): void
     {
         $attributeNames = PlayerAttributesHelper::getPlayerAttributeNames();
 
