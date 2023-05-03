@@ -32,7 +32,7 @@ class ResultService
                     Result::create($data);
                     $inserted++;
                 } catch (Exception $e) {
-                    Log::error($e->getMessage());
+                    throw new Exception('Error inserting match data: ' . $e->getMessage());
                 }
             }
         }

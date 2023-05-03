@@ -354,7 +354,7 @@ class ResultServiceTest extends TestCase
     /**
      * @test
      */
-    public function insertMatches()
+    public function insertMatches(): void
     {
         $results = $this->getValidResultsData();
         $platform = 'ps5';
@@ -374,6 +374,15 @@ class ResultServiceTest extends TestCase
             'outcome' => 'awaywin',
             'platform' => 'ps5',
         ]);
+    }
+
+    public function testreturnExceptionIfMatchInsertFails(): void
+    {
+        $results = $this->getValidResultsData();
+        $platform = 'NA';
+
+        $inserted = ResultService::insertMatches($results, $platform);
+        $this->expectException(\Exception::class);
     }
 
     public function getValidResultsData(): array
