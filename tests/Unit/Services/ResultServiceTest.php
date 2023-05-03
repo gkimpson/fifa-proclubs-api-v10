@@ -4,6 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Services\ProclubsApiService;
 use App\Services\ResultService;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Mockery;
@@ -376,13 +377,13 @@ class ResultServiceTest extends TestCase
         ]);
     }
 
-    public function testreturnExceptionIfMatchInsertFails(): void
+    public function testreturnQueryExceptionIfMatchInsertFails(): void
     {
         $results = $this->getValidResultsData();
         $platform = 'NA';
 
-        $inserted = ResultService::insertMatches($results, $platform);
-        $this->expectException(\Exception::class);
+        $this->expectException(QueryException::class);
+        ResultService::insertMatches($results, $platform);
     }
 
     public function getValidResultsData(): array
