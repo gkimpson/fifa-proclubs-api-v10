@@ -6,7 +6,6 @@ use App\Enums\Platforms;
 use App\Models\Result;
 use App\Models\ResultDataFormatter;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 
 class ResultService
 {
@@ -50,7 +49,7 @@ class ResultService
     public function getPlayerComparisonData(int $clubId, string $platform, string $player1, string $player2): array
     {
         if ($player1 === $player2) {
-            abort(403, 'Cannot use the same player for comparison');
+            throw new Exception('Cannot use the same player for comparison');
         }
 
         $careerData = $this->getCachedData($clubId, $platform, 'career');

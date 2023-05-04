@@ -4,6 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Services\ProclubsApiService;
 use App\Services\ResultService;
+use Error;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
@@ -105,6 +106,20 @@ class ResultServiceTest extends TestCase
                 'members' => (object) ['name' => $player2, 'goals' => 15],
             ],
         ], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function getPlayerComparisonDataReturnExceptionOnSamePlayersProvided(): void
+    {
+        $clubId = 1;
+        $platform = 'ps5';
+        $player1 = 'player1';
+        $player2 = 'player1';
+
+        $this->expectException(Error::class);
+        $this->resultService->getPlayerComparisonData($clubId, $platform, $player1, $player2);
     }
 
     /**
@@ -377,6 +392,9 @@ class ResultServiceTest extends TestCase
         ]);
     }
 
+    /**
+     * @test
+     */
     public function testreturnQueryExceptionIfMatchInsertFails(): void
     {
         $results = $this->getValidResultsData();
@@ -595,5 +613,17 @@ class ResultServiceTest extends TestCase
         ];
 
         return $results;
+    }
+
+    /**
+     * @test
+     */
+    public function returnsQueryExceptionWheninsertMatchesFailed(): void
+    {
+        $results = $this->getValidResultsData();
+        $platform = 'fake-console';
+
+        $this->expectException(QueryException::class);
+        ResultService::insertMatches($results, $platform);
     }
 }
