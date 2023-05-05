@@ -122,11 +122,11 @@ class ResultDataFormatter
     private static function getMatchOutcome(array $clubData): string
     {
         switch (true) {
-            case $clubData['wins'] === '1':
+            case $clubData['wins'] == '1':
                 return Outcomes::HOMEWIN->name();
-            case $clubData['losses'] === '1':
+            case $clubData['losses'] == '1':
                 return Outcomes::AWAYWIN->name();
-            case $clubData['ties'] === '1':
+            case $clubData['ties'] == '1':
                 return Outcomes::DRAW->name();
             default:
                 throw new Exception('Invalid club data provided.');

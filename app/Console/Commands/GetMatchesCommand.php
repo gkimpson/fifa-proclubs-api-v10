@@ -53,7 +53,7 @@ class GetMatchesCommand extends Command
         }
     }
 
-    protected function fetchMatchResults(string $platform, int $clubId, bool $useLaravelHttp = false): array
+    public function fetchMatchResults(string $platform, int $clubId, bool $useLaravelHttp = false): array
     {
         $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE, $useLaravelHttp);
         $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP, $useLaravelHttp);
@@ -61,7 +61,7 @@ class GetMatchesCommand extends Command
         return array_merge(ResultDataFormatter::formatJsonData($leagueResults), ResultDataFormatter::formatJsonData($cupResults));
     }
 
-    protected function storeMatchResults(array $results, string $platform): void
+    public function storeMatchResults(array $results, string $platform): void
     {
         $count = count($results);
         $this->info("{$count} matches found");
