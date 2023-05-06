@@ -405,7 +405,8 @@ class ClubControllerTest extends TestCase
      */
     public function apiSearchRequestReturnsSuccessfully(): void
     {
-        $uri = $this->baseUri . '/search';
+        $clubName = 'banterbury';
+        $uri = $this->baseUri . '/search/' . $clubName;
 
         $response = $this->actingAs($this->user)->get($uri);
 

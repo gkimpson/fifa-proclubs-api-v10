@@ -70,7 +70,6 @@ class ClubService
     public function search(): JsonResponse
     {
         $data = json_decode(ProclubsApiService::search(Platforms::getPlatform($this->platform), $this->clubName));
-
         return response()->json($data);
     }
 

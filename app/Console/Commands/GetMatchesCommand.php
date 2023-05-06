@@ -40,7 +40,7 @@ class GetMatchesCommand extends Command
     {
         try {
             $this->info('Running...' . $this->description);
-            $useLaravelHttp = (bool) $this->argument('useLaravelHttp') ?? false;
+            $useLaravelHttp = $this->argument('useLaravelHttp') ?? false;
 
             $properties = $this->getDistinctClubIdAndPlatform();
             $this->processClubProperties($properties, $useLaravelHttp);
@@ -55,10 +55,15 @@ class GetMatchesCommand extends Command
 
     public function fetchMatchResults(string $platform, int $clubId, bool $useLaravelHttp = false): array
     {
-        $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE, $useLaravelHttp);
-        $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP, $useLaravelHttp);
+        $leagueResults = ProclubsApiService::
+            matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE, $useLaravelHttp);
+        $cupResults = ProclubsApiService::
+            matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP, $useLaravelHttp);
 
-        return array_merge(ResultDataFormatter::formatJsonData($leagueResults), ResultDataFormatter::formatJsonData($cupResults));
+        return array_merge(
+            ResultDataFormatter::formatJsonData($leagueResults),
+            ResultDataFormatter::formatJsonData($cupResults)
+        );
     }
 
     public function storeMatchResults(array $results, string $platform): void
@@ -76,7 +81,8 @@ class GetMatchesCommand extends Command
         $players = collect($latestResult->properties['players'][$clubId]);
 
         $players->each(function (array $row, $eaPlayerId) use ($clubId, $platform) {
-            Assertion::length($row['vproattr'], 136, 'Invalid vproattr length, 136 string length expected however "%s" given');
+            Assertion::length($row['vproattr'], 136,
+                'Invalid vproattr length, 136 string length expected however "%s" given');
 
             $player = $this->updateOrCreatePlayer($clubId, $platform, $row, $eaPlayerId);
             $attributes = $this->generatePlayerAttributes($row);
@@ -89,12 +95,12 @@ class GetMatchesCommand extends Command
         });
     }
 
-    private function getDistinctClubIdAndPlatform(): \Illuminate\Support\Collection
+    public function getDistinctClubIdAndPlatform(): \Illuminate\Support\Collection
     {
         return User::distinct()->pluck('platform', 'club_id');
     }
 
-    private function processClubProperties(object $properties, bool $useLaravelHttp = false): void
+    public function processClubProperties(object $properties, bool $useLaravelHttp = false): void
     {
         $properties->map(function ($platform, $clubId) use ($properties, $useLaravelHttp) {
             $this->info("Collecting matches data for - Platform: {$platform} | ClubId: {$clubId}");
@@ -109,7 +115,7 @@ class GetMatchesCommand extends Command
         });
     }
 
-    private function updateOrCreatePlayer(int $clubId, string $platform, array $row, int $eaPlayerId): Player
+    public function updateOrCreatePlayer(int $clubId, string $platform, array $row, int $eaPlayerId): Player
     {
         return Player::updateOrCreate(
             ['ea_player_id' => $eaPlayerId, 'platform' => $platform, 'player_name' => $row['playername']],
@@ -117,7 +123,7 @@ class GetMatchesCommand extends Command
         );
     }
 
-    private function generatePlayerAttributes(array $row): array
+    public function generatePlayerAttributes(array $row): array
     {
         $attributes = PlayerAttribute::generateAttributes($row['vproattr']);
         $favouritePosition = PlayerAttribute::generateFavouritePosition($row['pos']);
