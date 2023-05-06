@@ -483,35 +483,6 @@ class ClubControllerTest extends TestCase
     /**
      * @test
      */
-    public function apiClubSquadCompareRequestReturnsSuccessfully(): void
-    {
-        $player1 = 'zabius-uk';
-        $player2 = 'CarlosBlackson';
-        $uri = $this->apiVersion . $this->baseUri . '/squad/compare/' . $player1 . '/' . $player2;
-        $response = $this->actingAs($this->user)->get($uri);
-
-        $response->assertOk();
-        $response->assertJsonCount(2, 'player1');
-        $response->assertJsonCount(2, 'player2');
-        $response->assertJsonCount(8, 'player1.career');
-        $response->assertJsonCount(22, 'player1.members');
-        $response->assertJsonCount(8, 'player2.career');
-        $response->assertJsonCount(22, 'player2.members');
-        $response->assertJsonStructure([
-            'player1' => [
-                'career' => [],
-                'members' => [],
-            ],
-            'player2' => [
-                'career' => [],
-                'members' => [],
-            ],
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function apiClubSeasonalRequestReturnsSuccessfullyWithValidJsonStructure(): void
     {
         $uri = $this->baseUri . '/season';
