@@ -28,14 +28,14 @@ class GetMatchesCommandTest extends TestCase
                 'timestamp' => '2021-01-01T00:00:00Z',
                 'clubs' => [
                     [
-                        'id'  => 12345,
+                        'id' => 12345,
                         'goals' => 2,
                         'wins' => 1,
                         'ties' => 0,
                         'losses' => 0,
                     ],
                     [
-                        'id'  => 23456,
+                        'id' => 23456,
                         'goals' => 1,
                         'wins' => 0,
                         'ties' => 0,
@@ -53,8 +53,8 @@ class GetMatchesCommandTest extends TestCase
                 'aggregate' => [
                     12345 => [],
                     23456 => [],
-                ]
-            ]
+                ],
+            ],
         ];
 
         $count = count($results);
@@ -113,12 +113,12 @@ class GetMatchesCommandTest extends TestCase
     /** @test */
     public function testUniquePlayerIsCreated(): void
     {
-        $eaPlayerId  = 1234;
-        $platform    = 'ps5';
-        $clubId      = 12345;
-        $row         = [
+        $eaPlayerId = 1234;
+        $platform = 'ps5';
+        $clubId = 12345;
+        $row = [
             'playername' => 'JohnDoe',
-            'vproattr'   => '061|078|070|078|089|091|094|095|097|086|095|078|090|082|081|069|074|074|086|093|093|096|081|076|096|094|064|077|070|010|010|010|010|010|',
+            'vproattr' => '061|078|070|078|089|091|094|095|097|086|095|078|090|082|081|069|074|074|086|093|093|096|081|076|096|094|064|077|070|010|010|010|010|010|',
         ];
 
         $player = Player::updateOrCreate(
