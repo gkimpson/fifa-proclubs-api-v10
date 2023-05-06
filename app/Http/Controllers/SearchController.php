@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Platforms;
-use App\Http\Requests\SearchPostRequest;
+use App\Http\Requests\SearchClubRequest;
 use App\Services\ClubService;
 use Illuminate\Http\Request;
 
@@ -29,7 +29,7 @@ class SearchController extends Controller
         return view('search.index', $data);
     }
 
-    public function submit(SearchPostRequest $request)
+    public function submit(SearchClubRequest $request)
     {
         $request->validated();
 

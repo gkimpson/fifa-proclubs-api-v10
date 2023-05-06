@@ -91,24 +91,29 @@
 
                             </div>
                             <div class="flex space-x-10 text-gray-400">
+                                @if (isset($club->wins))
                                 <div>
                                     <p class="text-green-500 font-bold">{{ $club->wins }}</p>
                                     <p class="text-xs">Wins</p>
                                 </div>
+                                @endif
+                                @if (isset($club->losses))
                                 <div>
                                     <p class="text-red-400 font-bold">{{ $club->losses }}</p>
                                     <p class="text-xs">Losses</p>
                                 </div>
+                                @endif
+                                @if (isset($club->overallRankingPoints))
                                 <div>
                                     <p class="text-blue-400 font-bold">{{ $club->overallRankingPoints }}</p>
                                     <p class="text-xs">Ranking Points</p>
                                 </div>
+                                @endif
                             </div>
                             <div class="flex space-x-5 items-center">
                                 <button
                                     class="rounded-lg bg-red-400 text-red-50 text-sm p-2 px-6 transform hover:scale-105 duration-300"
                                 >
-                                    Follow
                                 </button>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
