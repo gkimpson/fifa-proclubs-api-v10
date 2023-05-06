@@ -16,7 +16,7 @@ class PlayerControllerTest extends TestCase
     /**
      * @test
      */
-    public function searchReturnsViewWithData():  void
+    public function searchReturnsViewWithData(): void
     {
         // Seed the database with some player attributes
         $player1 = Player::factory(1)->create();

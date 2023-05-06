@@ -24,12 +24,12 @@ class ClubService
     {
         $this->clubId = $request->route('clubId') ?? 0;
         $this->clubIds = $request->route('clubIds') ?? 0;
-        $this->platform = $request->route('platform') ?? '';
+        $this->platform = $request->route('platform') ?? $request->input('platform') ?? '';
         $this->player1 = $request->route('player1') ?? '';
         $this->player2 = $request->route('player2') ?? '';
         $this->leaderboardType = $request->route('leaderboardType') ?? '';
         $this->player = $request->route('player') ?? '';
-        $this->clubName = $request->route('clubName') ?? '';
+        $this->clubName = $request->route('clubName') ?? $request->input('clubName') ?? '';
     }
 
     public function index(): JsonResponse
@@ -70,6 +70,7 @@ class ClubService
     public function search(): JsonResponse
     {
         $data = json_decode(ProclubsApiService::search(Platforms::getPlatform($this->platform), $this->clubName));
+
         return response()->json($data);
     }
 

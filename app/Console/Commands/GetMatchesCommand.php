@@ -55,10 +55,8 @@ class GetMatchesCommand extends Command
 
     public function fetchMatchResults(string $platform, int $clubId, bool $useLaravelHttp = false): array
     {
-        $leagueResults = ProclubsApiService::
-            matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE, $useLaravelHttp);
-        $cupResults = ProclubsApiService::
-            matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP, $useLaravelHttp);
+        $leagueResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::LEAGUE, $useLaravelHttp);
+        $cupResults = ProclubsApiService::matchStats(Platforms::getPlatform($platform), $clubId, MatchTypes::CUP, $useLaravelHttp);
 
         return array_merge(
             ResultDataFormatter::formatJsonData($leagueResults),
@@ -73,26 +71,6 @@ class GetMatchesCommand extends Command
 
         $inserted = ResultService::insertMatches($results, $platform);
         $this->info("{$inserted} unique results into the database");
-    }
-
-    protected function updatePlayers(int $clubId, string $platform): void
-    {
-        $latestResult = Result::byTeam($clubId);
-        $players = collect($latestResult->properties['players'][$clubId]);
-
-        $players->each(function (array $row, $eaPlayerId) use ($clubId, $platform) {
-            Assertion::length($row['vproattr'], 136,
-                'Invalid vproattr length, 136 string length expected however "%s" given');
-
-            $player = $this->updateOrCreatePlayer($clubId, $platform, $row, $eaPlayerId);
-            $attributes = $this->generatePlayerAttributes($row);
-            PlayerAttribute::updateOrCreate(
-                ['player_id' => $player->id],
-                $attributes
-            );
-
-            $this->info('Player updated: ' . $player->player_name);
-        });
     }
 
     public function getDistinctClubIdAndPlatform(): \Illuminate\Support\Collection
@@ -132,5 +110,25 @@ class GetMatchesCommand extends Command
         }
 
         return $attributes;
+    }
+
+    protected function updatePlayers(int $clubId, string $platform): void
+    {
+        $latestResult = Result::byTeam($clubId);
+        $players = collect($latestResult->properties['players'][$clubId]);
+
+        $players->each(function (array $row, $eaPlayerId) use ($clubId, $platform) {
+            Assertion::length($row['vproattr'], 136,
+                'Invalid vproattr length, 136 string length expected however "%s" given');
+
+            $player = $this->updateOrCreatePlayer($clubId, $platform, $row, $eaPlayerId);
+            $attributes = $this->generatePlayerAttributes($row);
+            PlayerAttribute::updateOrCreate(
+                ['player_id' => $player->id],
+                $attributes
+            );
+
+            $this->info('Player updated: ' . $player->player_name);
+        });
     }
 }

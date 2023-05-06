@@ -11,6 +11,7 @@ class PlayerController extends Controller
 {
     public function search()
     {
+        // TODO add FormRequest validation
         $data = [
             'attributes' => PlayerAttributesHelper::getPlayerAttributeNames(),
             'players' => PlayerAttribute::with('player')->filter()->paginate(10)->sortBy('player.player_name'),

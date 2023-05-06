@@ -20,7 +20,6 @@ class ClubController extends Controller
         $this->clubService->getRouteParams($request);
     }
 
-
     public function index(): JsonResponse
     {
         return $this->clubService->index();
