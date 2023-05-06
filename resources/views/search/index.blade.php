@@ -31,7 +31,7 @@
             <x-input-error :messages="$errors->get('club_id')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex items-center justify-end mt-4 mb-4">
             <x-primary-button class="ml-4">
                 {{ __('Search') }}
             </x-primary-button>
@@ -41,11 +41,8 @@
         <!-- Search results -->
         @if (isset($clubs))
             @foreach ($clubs as $club)
-
-                <div
-                    class="bg-gray-100 py-1 flex flex-col justify-center sm:py-1"
-                >
-                    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+                <div class="bg-gray-100 py-1 flex flex-col justify-center sm:py-1">
+                    <div class="relative py-2 sm:max-w-xl sm:mx-auto">
                         <!-- widget -->
                         <div
                             class="rounded-2xl flex bg-white p-6 flex-col space-y-5"
@@ -91,19 +88,19 @@
 
                             </div>
                             <div class="flex space-x-10 text-gray-400">
-                                @if (isset($club->wins))
+                                @if(isset($club->wins))
                                 <div>
                                     <p class="text-green-500 font-bold">{{ $club->wins }}</p>
                                     <p class="text-xs">Wins</p>
                                 </div>
                                 @endif
-                                @if (isset($club->losses))
+                                @if(isset($club->losses))
                                 <div>
                                     <p class="text-red-400 font-bold">{{ $club->losses }}</p>
                                     <p class="text-xs">Losses</p>
                                 </div>
                                 @endif
-                                @if (isset($club->overallRankingPoints))
+                                @if(isset($club->overallRankingPoints))
                                 <div>
                                     <p class="text-blue-400 font-bold">{{ $club->overallRankingPoints }}</p>
                                     <p class="text-xs">Ranking Points</p>
@@ -114,6 +111,7 @@
                                 <button
                                     class="rounded-lg bg-red-400 text-red-50 text-sm p-2 px-6 transform hover:scale-105 duration-300"
                                 >
+                                    <a href="/club/{{ $club->clubInfo->clubId }}/platform/{{ app('request')->input('platform')}}">Follow</a>
                                 </button>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -186,8 +184,6 @@
                         </div>
                     </div>
                 </div>
-
-
             @endforeach
         @endif
     </form>
