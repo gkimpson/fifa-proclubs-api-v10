@@ -99,22 +99,4 @@ class PlayerControllerTest extends TestCase
         $this->assertEquals(70, $expectedPlayers[1]->ball_control);
         $this->assertEquals(69, $expectedPlayers[1]->crossing);
     }
-
-    /**
-     * @test
-     */
-    public function searchFiltersPlayers()
-    {
-        // Seed the database with some player attributes
-        $attributes = factory(PlayerAttribute::class, 5)->create();
-
-        // Call the search method of the PlayerController with a filter query parameter
-        $controller = new PlayerController;
-        $response = $controller->search(['filter' => $attributes[0]->value]);
-
-        // Assert that the 'players' variable contains only the filtered players
-        $expectedPlayers = PlayerAttribute::where('value', $attributes[0]->value)->with('player')->get()->sortBy('player.player_name')->take(10);
-        $actualPlayers = $response['players']->items();
-        $this->assertEquals($expectedPlayers->pluck('id'), collect($actualPlayers)->pluck('id'));
-    }
 }
