@@ -11,12 +11,12 @@ use Tests\TestCase;
 
 class PlayerControllerTest extends TestCase
 {
-    use RefreshDatabase; // Rollback transactions after each test
+    use RefreshDatabase;
 
     /**
      * @test
      */
-    public function searchReturnsViewWithData()
+    public function searchReturnsViewWithData():  void
     {
         // Seed the database with some player attributes
         $player1 = Player::factory(1)->create();
