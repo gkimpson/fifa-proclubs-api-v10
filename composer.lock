@@ -11824,16 +11824,16 @@
         },
         {
             "name": "tightenco/duster",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tighten/duster.git",
-                "reference": "ae429dbee9e8efad32488fd4ed34d591ecedeec1"
+                "reference": "7162b19e5b2e224f3528714134081bbfe767fb72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tighten/duster/zipball/ae429dbee9e8efad32488fd4ed34d591ecedeec1",
-                "reference": "ae429dbee9e8efad32488fd4ed34d591ecedeec1",
+                "url": "https://api.github.com/repos/tighten/duster/zipball/7162b19e5b2e224f3528714134081bbfe767fb72",
+                "reference": "7162b19e5b2e224f3528714134081bbfe767fb72",
                 "shasum": ""
             },
             "require": {
@@ -11890,7 +11890,7 @@
                 "issues": "https://github.com/tighten/duster/issues",
                 "source": "https://github.com/tighten/duster"
             },
-            "time": "2023-04-18T18:55:32+00:00"
+            "time": "2023-05-12T20:59:21+00:00"
         },
         {
             "name": "tomasvotruba/bladestan",
