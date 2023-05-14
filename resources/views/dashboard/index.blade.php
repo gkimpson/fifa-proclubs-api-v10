@@ -42,60 +42,44 @@
                                     </div>
                                     <div x-show="open">
                                         <div class="grid grid-cols-3 mx-auto border-b py-2">
-                                            @if(isset($result->properties['aggregate'][$result->home_team_id]['shots']) || isset($result->properties['aggregate'][$result->away_team_id]['shots']))
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['shots'] }}</div>
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['shots'] ?? 0 }}</div>
                                             <div class="text-center text-xs md:text-sm">Shots on Target</div>
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['shots'] }}</div>
-                                            @endif
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['shots'] ?? 0 }}</div>
                                         </div>
                                         <div class="grid grid-cols-3 mx-auto border-b py-2">
-                                            @if(isset($result->properties['aggregate'][$result->home_team_id]['saves']) || isset($result->properties['aggregate'][$result->away_team_id]['saves']))
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['saves'] }}</div>
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['saves'] ?? 0 }}</div>
                                             <div class="text-center text-xs md:text-sm">Saves (Human GK)</div>
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['saves'] }}</div>
-                                            @endif
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['saves'] ?? 0 }}</div>
                                         </div>
                                         <div class="grid grid-cols-3 mx-auto border-b py-2">
-                                            @if(isset($result->properties['aggregate'][$result->home_team_id]['redcards']) || isset($result->properties['aggregate'][$result->away_team_id]['redcards']))
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['redcards'] }}</div>
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['redcards'] ?? 0 }}</div>
                                             <div class="text-center text-xs md:text-sm">Red Cards</div>
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['redcards'] }}</div>
-                                            @endif
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['redcards'] ?? 0 }}</div>
                                         </div>
                                         <div class="grid grid-cols-3 mx-auto border-b py-2">
-                                            @if(isset($result->properties['aggregate'][$result->home_team_id]['tacklesmade']) || isset($result->properties['aggregate'][$result->away_team_id]['tacklesmade']))
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['tacklesmade'] }}</div>
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['tacklesmade'] ?? 0 }}</div>
                                             <div class="text-center text-xs md:text-sm">Tackles Made</div>
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['tacklesmade'] }}</div>
-                                            @endif
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['tacklesmade'] ?? 0 }}</div>
                                         </div>
                                         <div class="grid grid-cols-3 mx-auto border-b py-2">
-                                            @if(isset($result->properties['aggregate'][$result->home_team_id]['tackleattempts']) || isset($result->properties['aggregate'][$result->away_team_id]['tackleattempts']))
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['tackleattempts'] }}</div>
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['tackleattempts'] ?? 0 }}</div>
                                             <div class="text-center text-xs md:text-sm">Tackles Attempts</div>
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['tackleattempts'] }}</div>
-                                            @endif
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['tackleattempts'] ?? 0 }}</div>
                                         </div>
                                         <div class="grid grid-cols-3 mx-auto border-b py-2">
-                                            @if(isset($result->properties['aggregate'][$result->home_team_id]['assists']) || isset($result->properties['aggregate'][$result->away_team_id]['assists']))
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['assists'] }}</div>
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['assists'] ?? 0 }}</div>
                                             <div class="text-center text-xs md:text-sm">Assists</div>
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['assists'] }}</div>
-                                            @endif
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['assists'] ?? 0 }}</div>
                                         </div>
                                         <div class="grid grid-cols-3 mx-auto border-b py-2">
-                                            @if($result->properties['aggregate'][$result->home_team_id]['passesmade'] || $result->properties['aggregate'][$result->away_team_id]['passesmade'])
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['passesmade'] }}</div>
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['passesmade'] ?? 0 }}</div>
                                             <div class="text-center text-xs md:text-sm">Passes Made</div>
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['passesmade'] }}</div>
-                                            @endif
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['passesmade'] ?? 0 }}</div>
                                         </div>
                                         <div class="grid grid-cols-3 mx-auto border-b py-2">
-                                            @if(isset($result->properties['aggregate'][$result->home_team_id]['passattempts']) || isset($result->properties['aggregate'][$result->away_team_id]['passattempts']))
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['passattempts'] }}</div>
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->home_team_id]['passattempts'] ?? 0 }}</div>
                                             <div class="text-center text-xs md:text-sm">Pass Attempts</div>
-                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['passattempts'] }}</div>
-                                            @endif
+                                            <div class="text-center text-xs md:text-sm">{{ $result->properties['aggregate'][$result->away_team_id]['passattempts'] ?? 0 }}</div>
                                         </div>
                                     </div>
                                 </div>
