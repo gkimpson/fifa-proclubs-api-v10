@@ -26,7 +26,7 @@
                                 <div x-data="{ open: false }" class="text-center">
                                     <div class="flex flex-row">
                                         <div class="basis-1/3 items-center">
-                                            <img src="{{ $result->teamEmblem['home'] }}" class="mx-auto" alt="">
+                                            <img src="{{ $result->teamEmblem['home'] }}" width="100px" class="mx-auto" alt="">
                                         </div>
                                         <div class="basis-1/3 items-center">
                                             <button x-on:click="open = ! open">
@@ -37,8 +37,8 @@
                                             </button>
                                         </div>
                                         <div class="basis-1/3 items-center">
-                                            <img src="{{ $result->teamEmblem['away'] }}" class="mx-auto" alt="">
-                                        </div>s
+                                            <img src="{{ $result->teamEmblem['away'] }}" width="100px" class="mx-auto" alt="">
+                                        </div>
                                     </div>
                                     <div x-show="open">
                                         <div class="grid grid-cols-3 mx-auto border-b py-2">
