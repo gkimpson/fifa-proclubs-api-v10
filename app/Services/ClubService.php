@@ -17,8 +17,7 @@ class ClubService
     public string $player2;
     public string $leaderboardType;
     public string $player;
-
-    private $clubName;
+    private string $clubName;
 
     public function getRouteParams(Request $request): void
     {
