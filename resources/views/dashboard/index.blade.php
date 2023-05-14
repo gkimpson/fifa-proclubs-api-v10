@@ -25,10 +25,10 @@
                             @isset($result->properties['aggregate'])
                                 <div x-data="{ open: false }" class="text-center">
                                     <div class="flex flex-row">
-                                        <div class="basis-1/3 text-center">
-                                            <img src="{{ $result->teamEmblem['home'] }}" alt="">
+                                        <div class="basis-1/3 items-center">
+                                            <img src="{{ $result->teamEmblem['home'] }}" class="mx-auto" alt="">
                                         </div>
-                                        <div class="basis-1/3 text-center">
+                                        <div class="basis-1/3 items-center">
                                             <button x-on:click="open = ! open">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
@@ -36,9 +36,9 @@
                                                 </svg>
                                             </button>
                                         </div>
-                                        <div class="basis-1/3 text-center">
-                                            <img src="{{ $result->teamEmblem['away'] }}" alt="">
-                                        </div>
+                                        <div class="basis-1/3 items-center">
+                                            <img src="{{ $result->teamEmblem['away'] }}" class="mx-auto" alt="">
+                                        </div>s
                                     </div>
                                     <div x-show="open">
                                         <div class="grid grid-cols-3 mx-auto border-b py-2">

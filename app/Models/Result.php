@@ -107,13 +107,9 @@ class Result extends Model
         if (isset($this->attributes['properties'])) {
             $properties = json_decode($this->attributes['properties']);
             if (isset($properties) && isset($properties->clubs[0])) {
-                $homeEmblem = ($properties->clubs[0]->teamId) ? "https://fifa21.content.easports.com/fifa/fltOnlineAssets/05772199-716f-417d-9fe0-988fa9899c4d/2021/fifaweb/crests/256x256/l{$properties->clubs[0]->teamId}.png";
-                $homeEmblem = ($properties->clubs[0]->teamId) ? "https://fifa21.content.easports.com/fifa/fltOnlineAssets/05772199-716f-417d-9fe0-988fa9899c4d/2021/fifaweb/crests/256x256/l{$properties->clubs[0]->teamId}.png";
-
-                $homeEmblem = $this->getEAEmblemURL($properties->clubs[0]->teamId);
                 $teams = [
-                    'home' => "https://fifa21.content.easports.com/fifa/fltOnlineAssets/05772199-716f-417d-9fe0-988fa9899c4d/2021/fifaweb/crests/256x256/l{$properties->clubs[0]->teamId}.png",
-                    'away' => "https://fifa21.content.easports.com/fifa/fltOnlineAssets/05772199-716f-417d-9fe0-988fa9899c4d/2021/fifaweb/crests/256x256/l{$properties->clubs[1]->teamId}.png",
+                    'home' => $this->getEAEmblemURL($properties->clubs[0]->teamId),
+                    'away' => $this->getEAEmblemURL($properties->clubs[1]->teamId),
                 ];
             }
         }
@@ -121,9 +117,8 @@ class Result extends Model
         return $teams;
     }
 
-    public function getEAEmblemURL($club): string
+    public function getEAEmblemURL(int $teamId): string
     {
-        dd()
-        return "https://fifa21.content.easports.com/fifa/fltOnlineAssets/05772199-716f-417d-9fe0-988fa9899c4d/2021/fifaweb/crests/256x256/l{$properties->clubs[0]->teamId}.png";
+        return "https://fifa21.content.easports.com/fifa/fltOnlineAssets/05772199-716f-417d-9fe0-988fa9899c4d/2021/fifaweb/crests/256x256/l{$teamId}.png";
     }
 }
