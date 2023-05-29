@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 
 class ClubController extends Controller
 {
+    private ClubService $clubService;
+
     public function __construct(Request $request, ClubService $clubService)
     {
         $this->clubService = $clubService;

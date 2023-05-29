@@ -16,6 +16,7 @@ class PlayerAttributesHelper
         $attributeColour = config('proclubs.player_attributes.attribute_tailwind_css_classes');
         $ratings = config('proclubs.player_attributes.attribute_ratings');
 
+        $category = '';
         foreach ($ratings as $range => $category) {
             [$min, $max] = explode('-', $range);
             if ($rating >= $min && $rating <= $max) {
