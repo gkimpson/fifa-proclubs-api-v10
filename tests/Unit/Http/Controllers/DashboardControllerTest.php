@@ -36,7 +36,7 @@ class DashboardControllerTest extends TestCase
         $this->assertEquals(10, $response['results']->count());
 
         // Assert that the paginator contains the correct results
-        $expectedResults = $results->sortByDesc('created_at')->take(10);
+        $expectedResults = $results->sortByDesc('match_date')->take(10);
         $actualResults = $response['results']->items();
         $this->assertEquals($expectedResults->pluck('id'), collect($actualResults)->pluck('id'));
     }
