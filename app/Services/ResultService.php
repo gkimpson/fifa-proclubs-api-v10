@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\Platforms;
 use App\Models\Result;
 use App\Models\ResultDataFormatter;
+use Exception;
 use Illuminate\Support\Facades\Cache;
 
 class ResultService
@@ -12,6 +13,7 @@ class ResultService
     private const CACHE_TTL = 15;
 
     private ProclubsApiService $apiService;
+    private array $rankingTypes;
 
     public function __construct(ProclubsApiService $apiService)
     {
@@ -157,8 +159,12 @@ class ResultService
         });
     }
 
-    private function generatePlayerComparisonData(object $careerData, object $membersData, string $player1, string $player2): array
-    {
+    private function generatePlayerComparisonData(
+        object $careerData,
+        object $membersData,
+        string $player1,
+        string $player2
+    ): array {
         return [
             'player1' => $this->getPlayerData($careerData, $membersData, $player1),
             'player2' => $this->getPlayerData($careerData, $membersData, $player2),
